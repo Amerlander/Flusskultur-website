@@ -1,4 +1,4 @@
-// Gallery - Updated November 19, 2024
+// Featured Image Carousel - Updated November 19, 2024
 function noop() { }
 function run(fn) {
     return fn();
@@ -287,10 +287,35 @@ function set_data(text, data) {
         return;
     text.data = data;
 }
+function set_style(node, key, value, important) {
+    if (value == null) {
+        node.style.removeProperty(key);
+    }
+    else {
+        node.style.setProperty(key, value, important ? 'important' : '');
+    }
+}
 
 let current_component;
 function set_current_component(component) {
     current_component = component;
+}
+function get_current_component() {
+    if (!current_component)
+        throw new Error('Function called outside component initialization');
+    return current_component;
+}
+/**
+ * The `onMount` function schedules a callback to run as soon as the component has been mounted to the DOM.
+ * It must be called during the component's initialisation (but doesn't need to live *inside* the component;
+ * it can be called from an external module).
+ *
+ * `onMount` does not run inside a [server-side component](/docs#run-time-server-side-component-api).
+ *
+ * https://svelte.dev/docs#run-time-svelte-onmount
+ */
+function onMount(fn) {
+    get_current_component().$$.on_mount.push(fn);
 }
 
 const dirty_components = [];
@@ -544,26 +569,30 @@ class SvelteComponent {
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[5] = list[i];
-	child_ctx[7] = i;
+	child_ctx[6] = list[i].image;
+	child_ctx[8] = i;
 	return child_ctx;
 }
 
-// (88:4) {#each images as item, index}
+// (89:2) {#each images as { image }
 function create_each_block(ctx) {
-	let div;
+	let div1;
+	let feature;
+	let div0;
 	let img;
 	let img_src_value;
 	let img_alt_value;
 	let t0;
 	let p;
-	let t1_value = /*item*/ ctx[5].image.alt + "";
+	let t1_value = /*image*/ ctx[6].alt + "";
 	let t1;
-	let div_class_value;
+	let div1_class_value;
 
 	return {
 		c() {
-			div = element("div");
+			div1 = element("div");
+			feature = element("feature");
+			div0 = element("div");
 			img = element("img");
 			t0 = space();
 			p = element("p");
@@ -571,62 +600,70 @@ function create_each_block(ctx) {
 			this.h();
 		},
 		l(nodes) {
-			div = claim_element(nodes, "DIV", { class: true });
-			var div_nodes = children(div);
-			img = claim_element(div_nodes, "IMG", { src: true, alt: true, class: true });
-			t0 = claim_space(div_nodes);
-			p = claim_element(div_nodes, "P", { class: true });
+			div1 = claim_element(nodes, "DIV", { class: true });
+			var div1_nodes = children(div1);
+			feature = claim_element(div1_nodes, "FEATURE", { class: true });
+			var feature_nodes = children(feature);
+			div0 = claim_element(feature_nodes, "DIV", {});
+			var div0_nodes = children(div0);
+			img = claim_element(div0_nodes, "IMG", { class: true, src: true, alt: true });
+			t0 = claim_space(div0_nodes);
+			p = claim_element(div0_nodes, "P", {});
 			var p_nodes = children(p);
 			t1 = claim_text(p_nodes, t1_value);
 			p_nodes.forEach(detach);
-			div_nodes.forEach(detach);
+			div0_nodes.forEach(detach);
+			feature_nodes.forEach(detach);
+			div1_nodes.forEach(detach);
 			this.h();
 		},
 		h() {
-			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[5].image.url)) attr(img, "src", img_src_value);
-			attr(img, "alt", img_alt_value = /*item*/ ctx[5].image.alt);
-			attr(img, "class", "svelte-5wxedm");
-			attr(p, "class", "svelte-5wxedm");
+			attr(img, "class", "image svelte-14lwkxz");
+			if (!src_url_equal(img.src, img_src_value = /*image*/ ctx[6].url)) attr(img, "src", img_src_value);
+			attr(img, "alt", img_alt_value = /*image*/ ctx[6].alt);
+			attr(feature, "class", "svelte-14lwkxz");
 
-			attr(div, "class", div_class_value = "slide " + (/*index*/ ctx[7] === /*currentIndex*/ ctx[1]
+			attr(div1, "class", div1_class_value = "section-container " + (/*index*/ ctx[8] === /*currentIndex*/ ctx[1]
 			? 'active'
-			: '') + " svelte-5wxedm");
+			: '') + " svelte-14lwkxz");
 		},
 		m(target, anchor) {
-			insert_hydration(target, div, anchor);
-			append_hydration(div, img);
-			append_hydration(div, t0);
-			append_hydration(div, p);
+			insert_hydration(target, div1, anchor);
+			append_hydration(div1, feature);
+			append_hydration(feature, div0);
+			append_hydration(div0, img);
+			append_hydration(div0, t0);
+			append_hydration(div0, p);
 			append_hydration(p, t1);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*images*/ 1 && !src_url_equal(img.src, img_src_value = /*item*/ ctx[5].image.url)) {
+			if (dirty & /*images*/ 1 && !src_url_equal(img.src, img_src_value = /*image*/ ctx[6].url)) {
 				attr(img, "src", img_src_value);
 			}
 
-			if (dirty & /*images*/ 1 && img_alt_value !== (img_alt_value = /*item*/ ctx[5].image.alt)) {
+			if (dirty & /*images*/ 1 && img_alt_value !== (img_alt_value = /*image*/ ctx[6].alt)) {
 				attr(img, "alt", img_alt_value);
 			}
 
-			if (dirty & /*images*/ 1 && t1_value !== (t1_value = /*item*/ ctx[5].image.alt + "")) set_data(t1, t1_value);
+			if (dirty & /*images*/ 1 && t1_value !== (t1_value = /*image*/ ctx[6].alt + "")) set_data(t1, t1_value);
 
-			if (dirty & /*currentIndex*/ 2 && div_class_value !== (div_class_value = "slide " + (/*index*/ ctx[7] === /*currentIndex*/ ctx[1]
+			if (dirty & /*currentIndex*/ 2 && div1_class_value !== (div1_class_value = "section-container " + (/*index*/ ctx[8] === /*currentIndex*/ ctx[1]
 			? 'active'
-			: '') + " svelte-5wxedm")) {
-				attr(div, "class", div_class_value);
+			: '') + " svelte-14lwkxz")) {
+				attr(div1, "class", div1_class_value);
 			}
 		},
 		d(detaching) {
-			if (detaching) detach(div);
+			if (detaching) detach(div1);
 		}
 	};
 }
 
 function create_fragment(ctx) {
 	let div1;
+	let t0;
 	let div0;
 	let button0;
-	let t0;
 	let t1;
 	let t2;
 	let button1;
@@ -643,71 +680,72 @@ function create_fragment(ctx) {
 	return {
 		c() {
 			div1 = element("div");
-			div0 = element("div");
-			button0 = element("button");
-			t0 = text("❮");
-			t1 = space();
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
 
+			t0 = space();
+			div0 = element("div");
+			button0 = element("button");
+			t1 = text("<");
 			t2 = space();
 			button1 = element("button");
-			t3 = text("❯");
+			t3 = text(">");
 			this.h();
 		},
 		l(nodes) {
-			div1 = claim_element(nodes, "DIV", { class: true });
+			div1 = claim_element(nodes, "DIV", { class: true, style: true });
 			var div1_nodes = children(div1);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].l(div1_nodes);
+			}
+
+			t0 = claim_space(div1_nodes);
 			div0 = claim_element(div1_nodes, "DIV", { class: true });
 			var div0_nodes = children(div0);
 			button0 = claim_element(div0_nodes, "BUTTON", { class: true });
 			var button0_nodes = children(button0);
-			t0 = claim_text(button0_nodes, "❮");
+			t1 = claim_text(button0_nodes, "<");
 			button0_nodes.forEach(detach);
-			t1 = claim_space(div0_nodes);
-
-			for (let i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].l(div0_nodes);
-			}
-
 			t2 = claim_space(div0_nodes);
 			button1 = claim_element(div0_nodes, "BUTTON", { class: true });
 			var button1_nodes = children(button1);
-			t3 = claim_text(button1_nodes, "❯");
+			t3 = claim_text(button1_nodes, ">");
 			button1_nodes.forEach(detach);
 			div0_nodes.forEach(detach);
 			div1_nodes.forEach(detach);
 			this.h();
 		},
 		h() {
-			attr(button0, "class", "prev svelte-5wxedm");
-			attr(button1, "class", "next svelte-5wxedm");
-			attr(div0, "class", "gallery svelte-5wxedm");
-			attr(div1, "class", "section-container svelte-5wxedm");
+			attr(button0, "class", "button svelte-14lwkxz");
+			attr(button1, "class", "button svelte-14lwkxz");
+			attr(div0, "class", "controls svelte-14lwkxz");
+			attr(div1, "class", "slider svelte-14lwkxz");
+			set_style(div1, "height", /*imageHeight*/ ctx[2] + "px");
 		},
 		m(target, anchor) {
 			insert_hydration(target, div1, anchor);
-			append_hydration(div1, div0);
-			append_hydration(div0, button0);
-			append_hydration(button0, t0);
-			append_hydration(div0, t1);
 
 			for (let i = 0; i < each_blocks.length; i += 1) {
 				if (each_blocks[i]) {
-					each_blocks[i].m(div0, null);
+					each_blocks[i].m(div1, null);
 				}
 			}
 
+			append_hydration(div1, t0);
+			append_hydration(div1, div0);
+			append_hydration(div0, button0);
+			append_hydration(button0, t1);
 			append_hydration(div0, t2);
 			append_hydration(div0, button1);
 			append_hydration(button1, t3);
 
 			if (!mounted) {
 				dispose = [
-					listen(button0, "click", /*prevSlide*/ ctx[3]),
-					listen(button1, "click", /*nextSlide*/ ctx[2])
+					listen(button0, "click", /*prevSlide*/ ctx[4]),
+					listen(button1, "click", /*nextSlide*/ ctx[3])
 				];
 
 				mounted = true;
@@ -726,7 +764,7 @@ function create_fragment(ctx) {
 					} else {
 						each_blocks[i] = create_each_block(child_ctx);
 						each_blocks[i].c();
-						each_blocks[i].m(div0, t2);
+						each_blocks[i].m(div1, t0);
 					}
 				}
 
@@ -735,6 +773,10 @@ function create_fragment(ctx) {
 				}
 
 				each_blocks.length = each_value.length;
+			}
+
+			if (dirty & /*imageHeight*/ 4) {
+				set_style(div1, "height", /*imageHeight*/ ctx[2] + "px");
 			}
 		},
 		i: noop,
@@ -761,18 +803,32 @@ function instance($$self, $$props, $$invalidate) {
 		$$invalidate(1, currentIndex = (currentIndex - 1 + images.length) % images.length);
 	}
 
+	// To dynamically set the height of the slider based on image
+	let imageHeight = 0;
+
+	onMount(() => {
+		// Grab the height of the first image
+		const img = new Image();
+
+		img.src = images[0].image.url;
+
+		img.onload = () => {
+			$$invalidate(2, imageHeight = img.height);
+		};
+	});
+
 	$$self.$$set = $$props => {
-		if ('props' in $$props) $$invalidate(4, props = $$props.props);
+		if ('props' in $$props) $$invalidate(5, props = $$props.props);
 		if ('images' in $$props) $$invalidate(0, images = $$props.images);
 	};
 
-	return [images, currentIndex, nextSlide, prevSlide, props];
+	return [images, currentIndex, imageHeight, nextSlide, prevSlide, props];
 }
 
 class Component extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, { props: 4, images: 0 });
+		init(this, options, instance, create_fragment, safe_not_equal, { props: 5, images: 0 });
 	}
 }
 
