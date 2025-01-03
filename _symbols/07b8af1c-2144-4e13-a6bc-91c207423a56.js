@@ -2649,7 +2649,7 @@ function create_if_block$1(ctx) {
 	let if_block_anchor;
 
 	function select_block_type(ctx, dirty) {
-		if (/*data*/ ctx[0].svg) return create_if_block_1$1;
+		if (/*data*/ ctx[0].svg) return create_if_block_1;
 		return create_else_block;
 	}
 
@@ -2725,7 +2725,7 @@ function create_else_block(ctx) {
 }
 
 // (116:1) {#if data.svg}
-function create_if_block_1$1(ctx) {
+function create_if_block_1(ctx) {
 	let svg;
 	let raw_value = /*data*/ ctx[0].body + "";
 	let svg_levels = [/*data*/ ctx[0].attributes];
@@ -2902,121 +2902,7 @@ function get_each_context_1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (152:10) {#if tier.features.length}
-function create_if_block_1(ctx) {
-	let hr;
-	let t;
-	let ul;
-	let current;
-	let each_value_1 = /*tier*/ ctx[5].features;
-	let each_blocks = [];
-
-	for (let i = 0; i < each_value_1.length; i += 1) {
-		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-	}
-
-	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-		each_blocks[i] = null;
-	});
-
-	return {
-		c() {
-			hr = element("hr");
-			t = space();
-			ul = element("ul");
-
-			for (let i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].c();
-			}
-
-			this.h();
-		},
-		l(nodes) {
-			hr = claim_element(nodes, "HR", { class: true });
-			t = claim_space(nodes);
-			ul = claim_element(nodes, "UL", { class: true });
-			var ul_nodes = children(ul);
-
-			for (let i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].l(ul_nodes);
-			}
-
-			ul_nodes.forEach(detach);
-			this.h();
-		},
-		h() {
-			attr(hr, "class", "svelte-5edp3e");
-			attr(ul, "class", "features svelte-5edp3e");
-		},
-		m(target, anchor) {
-			insert_hydration(target, hr, anchor);
-			insert_hydration(target, t, anchor);
-			insert_hydration(target, ul, anchor);
-
-			for (let i = 0; i < each_blocks.length; i += 1) {
-				if (each_blocks[i]) {
-					each_blocks[i].m(ul, null);
-				}
-			}
-
-			current = true;
-		},
-		p(ctx, dirty) {
-			if (dirty & /*tiers*/ 1) {
-				each_value_1 = /*tier*/ ctx[5].features;
-				let i;
-
-				for (i = 0; i < each_value_1.length; i += 1) {
-					const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-					if (each_blocks[i]) {
-						each_blocks[i].p(child_ctx, dirty);
-						transition_in(each_blocks[i], 1);
-					} else {
-						each_blocks[i] = create_each_block_1(child_ctx);
-						each_blocks[i].c();
-						transition_in(each_blocks[i], 1);
-						each_blocks[i].m(ul, null);
-					}
-				}
-
-				group_outros();
-
-				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
-					out(i);
-				}
-
-				check_outros();
-			}
-		},
-		i(local) {
-			if (current) return;
-
-			for (let i = 0; i < each_value_1.length; i += 1) {
-				transition_in(each_blocks[i]);
-			}
-
-			current = true;
-		},
-		o(local) {
-			each_blocks = each_blocks.filter(Boolean);
-
-			for (let i = 0; i < each_blocks.length; i += 1) {
-				transition_out(each_blocks[i]);
-			}
-
-			current = false;
-		},
-		d(detaching) {
-			if (detaching) detach(hr);
-			if (detaching) detach(t);
-			if (detaching) detach(ul);
-			destroy_each(each_blocks, detaching);
-		}
-	};
-}
-
-// (155:14) {#each tier.features as { item, icon }}
+// (154:12) {#each tier.features as { item, icon }}
 function create_each_block_1(ctx) {
 	let li;
 	let span0;
@@ -3093,7 +2979,7 @@ function create_each_block_1(ctx) {
 	};
 }
 
-// (165:10) {#if tier.link.label}
+// (163:10) {#if tier.link.label}
 function create_if_block(ctx) {
 	let a;
 	let t_value = /*tier*/ ctx[5].link.label + "";
@@ -3154,11 +3040,24 @@ function create_each_block(ctx) {
 	let span2;
 	let raw_value = /*tier*/ ctx[5].description.html + "";
 	let t6;
+	let hr;
 	let t7;
+	let ul;
 	let t8;
+	let t9;
 	let current;
-	let if_block0 = /*tier*/ ctx[5].features.length && create_if_block_1(ctx);
-	let if_block1 = /*tier*/ ctx[5].link.label && create_if_block(ctx);
+	let each_value_1 = /*tier*/ ctx[5].features;
+	let each_blocks = [];
+
+	for (let i = 0; i < each_value_1.length; i += 1) {
+		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+	}
+
+	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+		each_blocks[i] = null;
+	});
+
+	let if_block = /*tier*/ ctx[5].link.label && create_if_block(ctx);
 
 	return {
 		c() {
@@ -3176,10 +3075,17 @@ function create_each_block(ctx) {
 			t5 = space();
 			span2 = element("span");
 			t6 = space();
-			if (if_block0) if_block0.c();
+			hr = element("hr");
 			t7 = space();
-			if (if_block1) if_block1.c();
+			ul = element("ul");
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+
 			t8 = space();
+			if (if_block) if_block.c();
+			t9 = space();
 			this.h();
 		},
 		l(nodes) {
@@ -3210,10 +3116,19 @@ function create_each_block(ctx) {
 			span2_nodes.forEach(detach);
 			header_nodes.forEach(detach);
 			t6 = claim_space(div1_nodes);
-			if (if_block0) if_block0.l(div1_nodes);
+			hr = claim_element(div1_nodes, "HR", { class: true });
 			t7 = claim_space(div1_nodes);
-			if (if_block1) if_block1.l(div1_nodes);
+			ul = claim_element(div1_nodes, "UL", { class: true });
+			var ul_nodes = children(ul);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].l(ul_nodes);
+			}
+
+			ul_nodes.forEach(detach);
 			t8 = claim_space(div1_nodes);
+			if (if_block) if_block.l(div1_nodes);
+			t9 = claim_space(div1_nodes);
 			div1_nodes.forEach(detach);
 			this.h();
 		},
@@ -3224,6 +3139,8 @@ function create_each_block(ctx) {
 			attr(h3, "class", "title svelte-5edp3e");
 			attr(span2, "class", "description svelte-5edp3e");
 			attr(header, "class", "svelte-5edp3e");
+			attr(hr, "class", "svelte-5edp3e");
+			attr(ul, "class", "features svelte-5edp3e");
 			attr(div1, "class", "tier svelte-5edp3e");
 		},
 		m(target, anchor) {
@@ -3242,10 +3159,19 @@ function create_each_block(ctx) {
 			append_hydration(header, span2);
 			span2.innerHTML = raw_value;
 			append_hydration(div1, t6);
-			if (if_block0) if_block0.m(div1, null);
+			append_hydration(div1, hr);
 			append_hydration(div1, t7);
-			if (if_block1) if_block1.m(div1, null);
+			append_hydration(div1, ul);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				if (each_blocks[i]) {
+					each_blocks[i].m(ul, null);
+				}
+			}
+
 			append_hydration(div1, t8);
+			if (if_block) if_block.m(div1, null);
+			append_hydration(div1, t9);
 			current = true;
 		},
 		p(ctx, dirty) {
@@ -3253,55 +3179,68 @@ function create_each_block(ctx) {
 			if ((!current || dirty & /*tiers*/ 1) && t2_value !== (t2_value = /*tier*/ ctx[5].price.denominator + "")) set_data(t2, t2_value);
 			if ((!current || dirty & /*tiers*/ 1) && t4_value !== (t4_value = /*tier*/ ctx[5].title + "")) set_data(t4, t4_value);
 			if ((!current || dirty & /*tiers*/ 1) && raw_value !== (raw_value = /*tier*/ ctx[5].description.html + "")) span2.innerHTML = raw_value;
-			if (/*tier*/ ctx[5].features.length) {
-				if (if_block0) {
-					if_block0.p(ctx, dirty);
+			if (dirty & /*tiers*/ 1) {
+				each_value_1 = /*tier*/ ctx[5].features;
+				let i;
 
-					if (dirty & /*tiers*/ 1) {
-						transition_in(if_block0, 1);
+				for (i = 0; i < each_value_1.length; i += 1) {
+					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(child_ctx, dirty);
+						transition_in(each_blocks[i], 1);
+					} else {
+						each_blocks[i] = create_each_block_1(child_ctx);
+						each_blocks[i].c();
+						transition_in(each_blocks[i], 1);
+						each_blocks[i].m(ul, null);
 					}
-				} else {
-					if_block0 = create_if_block_1(ctx);
-					if_block0.c();
-					transition_in(if_block0, 1);
-					if_block0.m(div1, t7);
 				}
-			} else if (if_block0) {
+
 				group_outros();
 
-				transition_out(if_block0, 1, 1, () => {
-					if_block0 = null;
-				});
+				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
+					out(i);
+				}
 
 				check_outros();
 			}
 
 			if (/*tier*/ ctx[5].link.label) {
-				if (if_block1) {
-					if_block1.p(ctx, dirty);
+				if (if_block) {
+					if_block.p(ctx, dirty);
 				} else {
-					if_block1 = create_if_block(ctx);
-					if_block1.c();
-					if_block1.m(div1, t8);
+					if_block = create_if_block(ctx);
+					if_block.c();
+					if_block.m(div1, t9);
 				}
-			} else if (if_block1) {
-				if_block1.d(1);
-				if_block1 = null;
+			} else if (if_block) {
+				if_block.d(1);
+				if_block = null;
 			}
 		},
 		i(local) {
 			if (current) return;
-			transition_in(if_block0);
+
+			for (let i = 0; i < each_value_1.length; i += 1) {
+				transition_in(each_blocks[i]);
+			}
+
 			current = true;
 		},
 		o(local) {
-			transition_out(if_block0);
+			each_blocks = each_blocks.filter(Boolean);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				transition_out(each_blocks[i]);
+			}
+
 			current = false;
 		},
 		d(detaching) {
 			if (detaching) detach(div1);
-			if (if_block0) if_block0.d();
-			if (if_block1) if_block1.d();
+			destroy_each(each_blocks, detaching);
+			if (if_block) if_block.d();
 		}
 	};
 }
