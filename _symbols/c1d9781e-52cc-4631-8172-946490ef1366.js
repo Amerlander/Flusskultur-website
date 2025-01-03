@@ -1,4 +1,4 @@
-// Featured People 1 - Updated November 21, 2024
+// Featured People 1 - Updated January 3, 2025
 function noop() { }
 function assign(tar, src) {
     // @ts-ignore
@@ -773,7 +773,9 @@ const validateIconName = (icon, allowSimpleName) => {
   if (!icon) {
     return false;
   }
-  return !!((icon.provider === "" || icon.provider.match(matchIconName)) && (allowSimpleName && icon.prefix === "" || icon.prefix.match(matchIconName)) && icon.name.match(matchIconName));
+  return !!// Check prefix: cannot be empty, unless allowSimpleName is enabled
+  // Check name: cannot be empty
+  ((allowSimpleName && icon.prefix === "" || !!icon.prefix) && !!icon.name);
 };
 
 const defaultIconDimensions = Object.freeze(
@@ -848,7 +850,7 @@ function getIconsTree(data, names) {
     }
     return resolved[name];
   }
-  (names || Object.keys(icons).concat(Object.keys(aliases))).forEach(resolve);
+  (Object.keys(icons).concat(Object.keys(aliases))).forEach(resolve);
   return resolved;
 }
 
@@ -917,10 +919,15 @@ function quicklyValidateIconSet(obj) {
   const icons = data.icons;
   for (const name in icons) {
     const icon = icons[name];
-    if (!name.match(matchIconName) || typeof icon.body !== "string" || !checkOptionalProps(
-      icon,
-      defaultExtendedIconProps
-    )) {
+    if (
+      // Name cannot be empty
+      !name || // Must have body
+      typeof icon.body !== "string" || // Check other props
+      !checkOptionalProps(
+        icon,
+        defaultExtendedIconProps
+      )
+    ) {
       return null;
     }
   }
@@ -928,10 +935,15 @@ function quicklyValidateIconSet(obj) {
   for (const name in aliases) {
     const icon = aliases[name];
     const parent = icon.parent;
-    if (!name.match(matchIconName) || typeof parent !== "string" || !icons[parent] && !aliases[parent] || !checkOptionalProps(
-      icon,
-      defaultExtendedIconProps
-    )) {
+    if (
+      // Name cannot be empty
+      !name || // Parent must be set and point to existing icon
+      typeof parent !== "string" || !icons[parent] && !aliases[parent] || // Check other props
+      !checkOptionalProps(
+        icon,
+        defaultExtendedIconProps
+      )
+    ) {
       return null;
     }
   }
@@ -995,7 +1007,12 @@ function addIcon(name, data) {
     return false;
   }
   const storage = getStorage(icon.provider, icon.prefix);
-  return addIconToStorage(storage, icon.name, data);
+  if (data) {
+    return addIconToStorage(storage, icon.name, data);
+  } else {
+    storage.missing.add(icon.name);
+    return true;
+  }
 }
 function addCollection(data, provider) {
   if (typeof data !== "object") {
@@ -1009,7 +1026,7 @@ function addCollection(data, provider) {
     if (quicklyValidateIconSet(data)) {
       data.prefix = "";
       parseIconSet(data, (name, icon) => {
-        if (icon && addIcon(name, icon)) {
+        if (addIcon(name, icon)) {
           added = true;
         }
       });
@@ -2052,6 +2069,57 @@ function loadedNewIcons(storage) {
     });
   }
 }
+function checkIconNamesForAPI(icons) {
+  const valid = [];
+  const invalid = [];
+  icons.forEach((name) => {
+    (name.match(matchIconName) ? valid : invalid).push(name);
+  });
+  return {
+    valid,
+    invalid
+  };
+}
+function parseLoaderResponse(storage, icons, data, isAPIResponse) {
+  function checkMissing() {
+    const pending = storage.pendingIcons;
+    icons.forEach((name) => {
+      if (pending) {
+        pending.delete(name);
+      }
+      if (!storage.icons[name]) {
+        storage.missing.add(name);
+      }
+    });
+  }
+  if (data && typeof data === "object") {
+    try {
+      const parsed = addIconSet(storage, data);
+      if (!parsed.length) {
+        checkMissing();
+        return;
+      }
+      if (isAPIResponse) {
+        storeInBrowserStorage(storage, data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  checkMissing();
+  loadedNewIcons(storage);
+}
+function parsePossiblyAsyncResponse(response, callback) {
+  if (response instanceof Promise) {
+    response.then((data) => {
+      callback(data);
+    }).catch(() => {
+      callback(null);
+    });
+  } else {
+    callback(response);
+  }
+}
 function loadNewIcons(storage, icons) {
   if (!storage.iconsToLoad) {
     storage.iconsToLoad = icons;
@@ -2065,38 +2133,50 @@ function loadNewIcons(storage, icons) {
       const { provider, prefix } = storage;
       const icons2 = storage.iconsToLoad;
       delete storage.iconsToLoad;
-      let api;
-      if (!icons2 || !(api = getAPIModule(provider))) {
+      if (!icons2 || !icons2.length) {
         return;
       }
-      const params = api.prepare(provider, prefix, icons2);
+      const customIconLoader = storage.loadIcon;
+      if (storage.loadIcons && (icons2.length > 1 || !customIconLoader)) {
+        parsePossiblyAsyncResponse(
+          storage.loadIcons(icons2, prefix, provider),
+          (data) => {
+            parseLoaderResponse(storage, icons2, data, false);
+          }
+        );
+        return;
+      }
+      if (customIconLoader) {
+        icons2.forEach((name) => {
+          const response = customIconLoader(name, prefix, provider);
+          parsePossiblyAsyncResponse(response, (data) => {
+            const iconSet = data ? {
+              prefix,
+              icons: {
+                [name]: data
+              }
+            } : null;
+            parseLoaderResponse(storage, [name], iconSet, false);
+          });
+        });
+        return;
+      }
+      const { valid, invalid } = checkIconNamesForAPI(icons2);
+      if (invalid.length) {
+        parseLoaderResponse(storage, invalid, null, false);
+      }
+      if (!valid.length) {
+        return;
+      }
+      const api = prefix.match(matchIconName) ? getAPIModule(provider) : null;
+      if (!api) {
+        parseLoaderResponse(storage, valid, null, false);
+        return;
+      }
+      const params = api.prepare(provider, prefix, valid);
       params.forEach((item) => {
         sendAPIQuery(provider, item, (data) => {
-          if (typeof data !== "object") {
-            item.icons.forEach((name) => {
-              storage.missing.add(name);
-            });
-          } else {
-            try {
-              const parsed = addIconSet(
-                storage,
-                data
-              );
-              if (!parsed.length) {
-                return;
-              }
-              const pending = storage.pendingIcons;
-              if (pending) {
-                parsed.forEach((name) => {
-                  pending.delete(name);
-                });
-              }
-              storeInBrowserStorage(storage, data);
-            } catch (err) {
-              console.error(err);
-            }
-          }
-          loadedNewIcons(storage);
+          parseLoaderResponse(storage, item.icons, data, true);
         });
       });
     });
@@ -2149,9 +2229,9 @@ const loadIcons = (icons, callback) => {
     }
   });
   sources.forEach((storage) => {
-    const { provider, prefix } = storage;
-    if (newIcons[provider][prefix].length) {
-      loadNewIcons(storage, newIcons[provider][prefix]);
+    const list = newIcons[storage.provider][storage.prefix];
+    if (list.length) {
+      loadNewIcons(storage, list);
     }
   });
   return callback ? storeCallback(callback, sortedIcons, sources) : emptyCallback;
@@ -2318,6 +2398,7 @@ props) {
             case 'style':
             case 'onLoad':
             case 'mode':
+            case 'ssr':
                 break;
             // Boolean attributes
             case 'inline':
@@ -2616,7 +2697,7 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (115:1) {:else}
+// (120:1) {:else}
 function create_else_block(ctx) {
 	let span;
 	let span_levels = [/*data*/ ctx[0].attributes];
@@ -2651,7 +2732,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (111:1) {#if data.svg}
+// (116:1) {#if data.svg}
 function create_if_block_1(ctx) {
 	let svg;
 	let raw_value = /*data*/ ctx[0].body + "";
@@ -2786,7 +2867,8 @@ function instance$1($$self, $$props, $$invalidate) {
 
 	$$self.$$.update = () => {
 		{
-			const iconData = checkIconState($$props.icon, state, mounted, loaded, onLoad);
+			const isMounted = !!$$props.ssr || mounted;
+			const iconData = checkIconState($$props.icon, state, isMounted, loaded, onLoad);
 			$$invalidate(0, data = iconData ? generateIcon(iconData.data, $$props) : null);
 
 			if (data && iconData.classes) {
