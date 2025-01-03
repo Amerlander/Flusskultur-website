@@ -3065,7 +3065,7 @@ function create_fragment(ctx) {
 
 	function select_block_type(ctx, dirty) {
 		if (/*email*/ ctx[3]) return create_if_block;
-		if (/*encoded*/ ctx[2]) return create_if_block_1;
+		if (/*encoded*/ ctx[1]) return create_if_block_1;
 	}
 
 	let current_block_type = select_block_type(ctx);
@@ -3086,7 +3086,7 @@ function create_fragment(ctx) {
 			section = element("section");
 			div = element("div");
 			h2 = element("h2");
-			t0 = text(/*heading*/ ctx[1]);
+			t0 = text(/*heading*/ ctx[2]);
 			t1 = space();
 			if (if_block) if_block.c();
 			t2 = space();
@@ -3105,7 +3105,7 @@ function create_fragment(ctx) {
 			var div_nodes = children(div);
 			h2 = claim_element(div_nodes, "H2", { class: true });
 			var h2_nodes = children(h2);
-			t0 = claim_text(h2_nodes, /*heading*/ ctx[1]);
+			t0 = claim_text(h2_nodes, /*heading*/ ctx[2]);
 			h2_nodes.forEach(detach);
 			t1 = claim_space(div_nodes);
 			if (if_block) if_block.l(div_nodes);
@@ -3147,7 +3147,7 @@ function create_fragment(ctx) {
 			current = true;
 		},
 		p(ctx, [dirty]) {
-			if (!current || dirty & /*heading*/ 2) set_data(t0, /*heading*/ ctx[1]);
+			if (!current || dirty & /*heading*/ 4) set_data(t0, /*heading*/ ctx[2]);
 
 			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
 				if_block.p(ctx, dirty);
@@ -3225,8 +3225,8 @@ function decode(str) {
 function instance($$self, $$props, $$invalidate) {
 	let { props } = $$props;
 	let { social } = $$props;
-	let { heading } = $$props;
 	let { encoded } = $$props;
+	let { heading } = $$props;
 
 	// export let encoded = ""; // ROT13 + Base64 von "mail@flusskultur.art"
 	let email;
@@ -3242,11 +3242,11 @@ function instance($$self, $$props, $$invalidate) {
 	$$self.$$set = $$props => {
 		if ('props' in $$props) $$invalidate(6, props = $$props.props);
 		if ('social' in $$props) $$invalidate(0, social = $$props.social);
-		if ('heading' in $$props) $$invalidate(1, heading = $$props.heading);
-		if ('encoded' in $$props) $$invalidate(2, encoded = $$props.encoded);
+		if ('encoded' in $$props) $$invalidate(1, encoded = $$props.encoded);
+		if ('heading' in $$props) $$invalidate(2, heading = $$props.heading);
 	};
 
-	return [social, heading, encoded, email, revealEmail, link, props];
+	return [social, encoded, heading, email, revealEmail, link, props];
 }
 
 class Component extends SvelteComponent {
@@ -3256,8 +3256,8 @@ class Component extends SvelteComponent {
 		init(this, options, instance, create_fragment, safe_not_equal, {
 			props: 6,
 			social: 0,
-			heading: 1,
-			encoded: 2
+			encoded: 1,
+			heading: 2
 		});
 	}
 }
