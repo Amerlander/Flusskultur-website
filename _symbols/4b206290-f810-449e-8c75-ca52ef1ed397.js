@@ -2054,201 +2054,6 @@ function sendAPIQuery(target, query, callback) {
   return redundancy.query(query, send, callback)().abort;
 }
 
-const browserCacheVersion = "iconify2";
-const browserCachePrefix = "iconify";
-const browserCacheCountKey = browserCachePrefix + "-count";
-const browserCacheVersionKey = browserCachePrefix + "-version";
-const browserStorageHour = 36e5;
-const browserStorageCacheExpiration = 168;
-const browserStorageLimit = 50;
-
-function getStoredItem(func, key) {
-  try {
-    return func.getItem(key);
-  } catch (err) {
-  }
-}
-function setStoredItem(func, key, value) {
-  try {
-    func.setItem(key, value);
-    return true;
-  } catch (err) {
-  }
-}
-function removeStoredItem(func, key) {
-  try {
-    func.removeItem(key);
-  } catch (err) {
-  }
-}
-
-function setBrowserStorageItemsCount(storage, value) {
-  return setStoredItem(storage, browserCacheCountKey, value.toString());
-}
-function getBrowserStorageItemsCount(storage) {
-  return parseInt(getStoredItem(storage, browserCacheCountKey)) || 0;
-}
-
-const browserStorageConfig = {
-  local: true,
-  session: true
-};
-const browserStorageEmptyItems = {
-  local: /* @__PURE__ */ new Set(),
-  session: /* @__PURE__ */ new Set()
-};
-let browserStorageStatus = false;
-function setBrowserStorageStatus(status) {
-  browserStorageStatus = status;
-}
-
-let _window = typeof window === "undefined" ? {} : window;
-function getBrowserStorage(key) {
-  const attr = key + "Storage";
-  try {
-    if (_window && _window[attr] && typeof _window[attr].length === "number") {
-      return _window[attr];
-    }
-  } catch (err) {
-  }
-  browserStorageConfig[key] = false;
-}
-
-function iterateBrowserStorage(key, callback) {
-  const func = getBrowserStorage(key);
-  if (!func) {
-    return;
-  }
-  const version = getStoredItem(func, browserCacheVersionKey);
-  if (version !== browserCacheVersion) {
-    if (version) {
-      const total2 = getBrowserStorageItemsCount(func);
-      for (let i = 0; i < total2; i++) {
-        removeStoredItem(func, browserCachePrefix + i.toString());
-      }
-    }
-    setStoredItem(func, browserCacheVersionKey, browserCacheVersion);
-    setBrowserStorageItemsCount(func, 0);
-    return;
-  }
-  const minTime = Math.floor(Date.now() / browserStorageHour) - browserStorageCacheExpiration;
-  const parseItem = (index) => {
-    const name = browserCachePrefix + index.toString();
-    const item = getStoredItem(func, name);
-    if (typeof item !== "string") {
-      return;
-    }
-    try {
-      const data = JSON.parse(item);
-      if (typeof data === "object" && typeof data.cached === "number" && data.cached > minTime && typeof data.provider === "string" && typeof data.data === "object" && typeof data.data.prefix === "string" && // Valid item: run callback
-      callback(data, index)) {
-        return true;
-      }
-    } catch (err) {
-    }
-    removeStoredItem(func, name);
-  };
-  let total = getBrowserStorageItemsCount(func);
-  for (let i = total - 1; i >= 0; i--) {
-    if (!parseItem(i)) {
-      if (i === total - 1) {
-        total--;
-        setBrowserStorageItemsCount(func, total);
-      } else {
-        browserStorageEmptyItems[key].add(i);
-      }
-    }
-  }
-}
-
-function initBrowserStorage() {
-  if (browserStorageStatus) {
-    return;
-  }
-  setBrowserStorageStatus(true);
-  for (const key in browserStorageConfig) {
-    iterateBrowserStorage(key, (item) => {
-      const iconSet = item.data;
-      const provider = item.provider;
-      const prefix = iconSet.prefix;
-      const storage = getStorage(
-        provider,
-        prefix
-      );
-      if (!addIconSet(storage, iconSet).length) {
-        return false;
-      }
-      const lastModified = iconSet.lastModified || -1;
-      storage.lastModifiedCached = storage.lastModifiedCached ? Math.min(storage.lastModifiedCached, lastModified) : lastModified;
-      return true;
-    });
-  }
-}
-
-function updateLastModified(storage, lastModified) {
-  const lastValue = storage.lastModifiedCached;
-  if (
-    // Matches or newer
-    lastValue && lastValue >= lastModified
-  ) {
-    return lastValue === lastModified;
-  }
-  storage.lastModifiedCached = lastModified;
-  if (lastValue) {
-    for (const key in browserStorageConfig) {
-      iterateBrowserStorage(key, (item) => {
-        const iconSet = item.data;
-        return item.provider !== storage.provider || iconSet.prefix !== storage.prefix || iconSet.lastModified === lastModified;
-      });
-    }
-  }
-  return true;
-}
-function storeInBrowserStorage(storage, data) {
-  if (!browserStorageStatus) {
-    initBrowserStorage();
-  }
-  function store(key) {
-    let func;
-    if (!browserStorageConfig[key] || !(func = getBrowserStorage(key))) {
-      return;
-    }
-    const set = browserStorageEmptyItems[key];
-    let index;
-    if (set.size) {
-      set.delete(index = Array.from(set).shift());
-    } else {
-      index = getBrowserStorageItemsCount(func);
-      if (index >= browserStorageLimit || !setBrowserStorageItemsCount(func, index + 1)) {
-        return;
-      }
-    }
-    const item = {
-      cached: Math.floor(Date.now() / browserStorageHour),
-      provider: storage.provider,
-      data
-    };
-    return setStoredItem(
-      func,
-      browserCachePrefix + index.toString(),
-      JSON.stringify(item)
-    );
-  }
-  if (data.lastModified && !updateLastModified(storage, data.lastModified)) {
-    return;
-  }
-  if (!Object.keys(data.icons).length) {
-    return;
-  }
-  if (data.not_found) {
-    data = Object.assign({}, data);
-    delete data.not_found;
-  }
-  if (!store("local")) {
-    store("session");
-  }
-}
-
 function emptyCallback() {
 }
 function loadedNewIcons(storage) {
@@ -2271,7 +2076,7 @@ function checkIconNamesForAPI(icons) {
     invalid
   };
 }
-function parseLoaderResponse(storage, icons, data, isAPIResponse) {
+function parseLoaderResponse(storage, icons, data) {
   function checkMissing() {
     const pending = storage.pendingIcons;
     icons.forEach((name) => {
@@ -2289,9 +2094,6 @@ function parseLoaderResponse(storage, icons, data, isAPIResponse) {
       if (!parsed.length) {
         checkMissing();
         return;
-      }
-      if (isAPIResponse) {
-        storeInBrowserStorage(storage, data);
       }
     } catch (err) {
       console.error(err);
@@ -2332,7 +2134,7 @@ function loadNewIcons(storage, icons) {
         parsePossiblyAsyncResponse(
           storage.loadIcons(icons2, prefix, provider),
           (data) => {
-            parseLoaderResponse(storage, icons2, data, false);
+            parseLoaderResponse(storage, icons2, data);
           }
         );
         return;
@@ -2347,27 +2149,27 @@ function loadNewIcons(storage, icons) {
                 [name]: data
               }
             } : null;
-            parseLoaderResponse(storage, [name], iconSet, false);
+            parseLoaderResponse(storage, [name], iconSet);
           });
         });
         return;
       }
       const { valid, invalid } = checkIconNamesForAPI(icons2);
       if (invalid.length) {
-        parseLoaderResponse(storage, invalid, null, false);
+        parseLoaderResponse(storage, invalid, null);
       }
       if (!valid.length) {
         return;
       }
       const api = prefix.match(matchIconName) ? getAPIModule(provider) : null;
       if (!api) {
-        parseLoaderResponse(storage, valid, null, false);
+        parseLoaderResponse(storage, valid, null);
         return;
       }
       const params = api.prepare(provider, prefix, valid);
       params.forEach((item) => {
         sendAPIQuery(provider, item, (data) => {
-          parseLoaderResponse(storage, item.icons, data, true);
+          parseLoaderResponse(storage, item.icons, data);
         });
       });
     });
@@ -2716,8 +2518,6 @@ setAPIModule('', fetchAPIModule);
  * Browser stuff
  */
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
-    // Set cache and load existing cache
-    initBrowserStorage();
     const _window = window;
     // Load icons from global "IconifyPreload"
     if (_window.IconifyPreload !== void 0) {
