@@ -1,4 +1,4 @@
-// Gallery - Updated January 4, 2025
+// Calendar - Updated January 4, 2025
 function noop() { }
 function run(fn) {
     return fn();
@@ -14,14 +14,6 @@ function is_function(thing) {
 }
 function safe_not_equal(a, b) {
     return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
-}
-let src_url_equal_anchor;
-function src_url_equal(element_src, url) {
-    if (!src_url_equal_anchor) {
-        src_url_equal_anchor = document.createElement('a');
-    }
-    src_url_equal_anchor.href = url;
-    return element_src === src_url_equal_anchor.href;
 }
 function is_empty(obj) {
     return Object.keys(obj).length === 0;
@@ -180,6 +172,9 @@ function text(data) {
 function space() {
     return text(' ');
 }
+function empty() {
+    return text('');
+}
 function listen(node, event, handler, options) {
     node.addEventListener(event, handler, options);
     return () => node.removeEventListener(event, handler, options);
@@ -287,10 +282,35 @@ function set_data(text, data) {
         return;
     text.data = data;
 }
+function set_style(node, key, value, important) {
+    if (value == null) {
+        node.style.removeProperty(key);
+    }
+    else {
+        node.style.setProperty(key, value, important ? 'important' : '');
+    }
+}
 
 let current_component;
 function set_current_component(component) {
     current_component = component;
+}
+function get_current_component() {
+    if (!current_component)
+        throw new Error('Function called outside component initialization');
+    return current_component;
+}
+/**
+ * The `onMount` function schedules a callback to run as soon as the component has been mounted to the DOM.
+ * It must be called during the component's initialisation (but doesn't need to live *inside* the component;
+ * it can be called from an external module).
+ *
+ * `onMount` does not run inside a [server-side component](/docs#run-time-server-side-component-api).
+ *
+ * https://svelte.dev/docs#run-time-svelte-onmount
+ */
+function onMount(fn) {
+    get_current_component().$$.on_mount.push(fn);
 }
 
 const dirty_components = [];
@@ -544,76 +564,197 @@ class SvelteComponent {
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[5] = list[i];
-	child_ctx[7] = i;
+	child_ctx[6] = list[i];
+	child_ctx[9] = i;
+	const constants_0 = /*getEventsForDay*/ child_ctx[2](/*currentDate*/ child_ctx[1].getFullYear(), /*currentDate*/ child_ctx[1].getMonth(), /*day*/ child_ctx[9] + 1);
+	child_ctx[7] = constants_0;
 	return child_ctx;
 }
 
-// (88:4) {#each images as item, index}
-function create_each_block(ctx) {
+function get_each_context_1(ctx, list, i) {
+	const child_ctx = ctx.slice();
+	child_ctx[10] = list[i];
+	return child_ctx;
+}
+
+function get_each_context_2(ctx, list, i) {
+	const child_ctx = ctx.slice();
+	child_ctx[6] = list[i];
+	return child_ctx;
+}
+
+function get_each_context_3(ctx, list, i) {
+	const child_ctx = ctx.slice();
+	child_ctx[9] = list[i];
+	return child_ctx;
+}
+
+// (97:2) {#each ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] as day}
+function create_each_block_3(ctx) {
 	let div;
-	let img;
-	let img_src_value;
-	let img_alt_value;
-	let t0;
-	let p;
-	let t1_value = /*item*/ ctx[5].image.alt + "";
-	let t1;
-	let div_class_value;
+	let strong;
+	let t;
 
 	return {
 		c() {
 			div = element("div");
-			img = element("img");
-			t0 = space();
-			p = element("p");
-			t1 = text(t1_value);
+			strong = element("strong");
+			t = text(/*day*/ ctx[9]);
 			this.h();
 		},
 		l(nodes) {
 			div = claim_element(nodes, "DIV", { class: true });
 			var div_nodes = children(div);
-			img = claim_element(div_nodes, "IMG", { src: true, alt: true, class: true });
-			t0 = claim_space(div_nodes);
-			p = claim_element(div_nodes, "P", { class: true });
-			var p_nodes = children(p);
-			t1 = claim_text(p_nodes, t1_value);
-			p_nodes.forEach(detach);
+			strong = claim_element(div_nodes, "STRONG", {});
+			var strong_nodes = children(strong);
+			t = claim_text(strong_nodes, /*day*/ ctx[9]);
+			strong_nodes.forEach(detach);
 			div_nodes.forEach(detach);
 			this.h();
 		},
 		h() {
-			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[5].image.url)) attr(img, "src", img_src_value);
-			attr(img, "alt", img_alt_value = /*item*/ ctx[5].image.alt);
-			attr(img, "class", "svelte-5wxedm");
-			attr(p, "class", "svelte-5wxedm");
-
-			attr(div, "class", div_class_value = "slide " + (/*index*/ ctx[7] === /*currentIndex*/ ctx[1]
-			? 'active'
-			: '') + " svelte-5wxedm");
+			attr(div, "class", "day svelte-o5illp");
 		},
 		m(target, anchor) {
 			insert_hydration(target, div, anchor);
-			append_hydration(div, img);
-			append_hydration(div, t0);
-			append_hydration(div, p);
-			append_hydration(p, t1);
+			append_hydration(div, strong);
+			append_hydration(strong, t);
+		},
+		p: noop,
+		d(detaching) {
+			if (detaching) detach(div);
+		}
+	};
+}
+
+// (102:2) {#each Array(getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth()) || 7 - 1) as _}
+function create_each_block_2(ctx) {
+	let div;
+
+	return {
+		c() {
+			div = element("div");
+		},
+		l(nodes) {
+			div = claim_element(nodes, "DIV", {});
+			children(div).forEach(detach);
+		},
+		m(target, anchor) {
+			insert_hydration(target, div, anchor);
+		},
+		p: noop,
+		d(detaching) {
+			if (detaching) detach(div);
+		}
+	};
+}
+
+// (112:6) {#if dateEvents.length > 0}
+function create_if_block(ctx) {
+	let div;
+	let each_value_1 = /*dateEvents*/ ctx[7];
+	let each_blocks = [];
+
+	for (let i = 0; i < each_value_1.length; i += 1) {
+		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+	}
+
+	return {
+		c() {
+			div = element("div");
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+
+			this.h();
+		},
+		l(nodes) {
+			div = claim_element(nodes, "DIV", { class: true });
+			var div_nodes = children(div);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].l(div_nodes);
+			}
+
+			div_nodes.forEach(detach);
+			this.h();
+		},
+		h() {
+			attr(div, "class", "tooltip svelte-o5illp");
+		},
+		m(target, anchor) {
+			insert_hydration(target, div, anchor);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				if (each_blocks[i]) {
+					each_blocks[i].m(div, null);
+				}
+			}
 		},
 		p(ctx, dirty) {
-			if (dirty & /*images*/ 1 && !src_url_equal(img.src, img_src_value = /*item*/ ctx[5].image.url)) {
-				attr(img, "src", img_src_value);
+			if (dirty & /*getEventsForDay, currentDate*/ 6) {
+				each_value_1 = /*dateEvents*/ ctx[7];
+				let i;
+
+				for (i = 0; i < each_value_1.length; i += 1) {
+					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(child_ctx, dirty);
+					} else {
+						each_blocks[i] = create_each_block_1(child_ctx);
+						each_blocks[i].c();
+						each_blocks[i].m(div, null);
+					}
+				}
+
+				for (; i < each_blocks.length; i += 1) {
+					each_blocks[i].d(1);
+				}
+
+				each_blocks.length = each_value_1.length;
 			}
+		},
+		d(detaching) {
+			if (detaching) detach(div);
+			destroy_each(each_blocks, detaching);
+		}
+	};
+}
 
-			if (dirty & /*images*/ 1 && img_alt_value !== (img_alt_value = /*item*/ ctx[5].image.alt)) {
-				attr(img, "alt", img_alt_value);
-			}
+// (114:10) {#each dateEvents as event}
+function create_each_block_1(ctx) {
+	let div;
+	let t_value = /*event*/ ctx[10].title + "";
+	let t;
 
-			if (dirty & /*images*/ 1 && t1_value !== (t1_value = /*item*/ ctx[5].image.alt + "")) set_data(t1, t1_value);
+	return {
+		c() {
+			div = element("div");
+			t = text(t_value);
+			this.h();
+		},
+		l(nodes) {
+			div = claim_element(nodes, "DIV", { style: true });
+			var div_nodes = children(div);
+			t = claim_text(div_nodes, t_value);
+			div_nodes.forEach(detach);
+			this.h();
+		},
+		h() {
+			set_style(div, "color", /*event*/ ctx[10].calendar_color);
+			set_style(div, "font-weight", "bold");
+		},
+		m(target, anchor) {
+			insert_hydration(target, div, anchor);
+			append_hydration(div, t);
+		},
+		p(ctx, dirty) {
+			if (dirty & /*currentDate*/ 2 && t_value !== (t_value = /*event*/ ctx[10].title + "")) set_data(t, t_value);
 
-			if (dirty & /*currentIndex*/ 2 && div_class_value !== (div_class_value = "slide " + (/*index*/ ctx[7] === /*currentIndex*/ ctx[1]
-			? 'active'
-			: '') + " svelte-5wxedm")) {
-				attr(div, "class", div_class_value);
+			if (dirty & /*currentDate*/ 2) {
+				set_style(div, "color", /*event*/ ctx[10].calendar_color);
 			}
 		},
 		d(detaching) {
@@ -622,18 +763,74 @@ function create_each_block(ctx) {
 	};
 }
 
-function create_fragment(ctx) {
-	let div1;
-	let div0;
-	let button0;
+// (108:2) {#each Array(getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth())) as _, day}
+function create_each_block(ctx) {
+	let div;
+	let t0_value = /*day*/ ctx[9] + 1 + "";
 	let t0;
 	let t1;
 	let t2;
-	let button1;
-	let t3;
-	let mounted;
-	let dispose;
-	let each_value = /*images*/ ctx[0];
+	let div_class_value;
+	let if_block = /*dateEvents*/ ctx[7].length > 0 && create_if_block(ctx);
+
+	return {
+		c() {
+			div = element("div");
+			t0 = text(t0_value);
+			t1 = space();
+			if (if_block) if_block.c();
+			t2 = space();
+			this.h();
+		},
+		l(nodes) {
+			div = claim_element(nodes, "DIV", { class: true });
+			var div_nodes = children(div);
+			t0 = claim_text(div_nodes, t0_value);
+			t1 = claim_space(div_nodes);
+			if (if_block) if_block.l(div_nodes);
+			t2 = claim_space(div_nodes);
+			div_nodes.forEach(detach);
+			this.h();
+		},
+		h() {
+			attr(div, "class", div_class_value = "day " + (/*dateEvents*/ ctx[7].length > 0 ? 'event-day' : '') + " svelte-o5illp");
+		},
+		m(target, anchor) {
+			insert_hydration(target, div, anchor);
+			append_hydration(div, t0);
+			append_hydration(div, t1);
+			if (if_block) if_block.m(div, null);
+			append_hydration(div, t2);
+		},
+		p(ctx, dirty) {
+			if (/*dateEvents*/ ctx[7].length > 0) {
+				if (if_block) {
+					if_block.p(ctx, dirty);
+				} else {
+					if_block = create_if_block(ctx);
+					if_block.c();
+					if_block.m(div, t2);
+				}
+			} else if (if_block) {
+				if_block.d(1);
+				if_block = null;
+			}
+
+			if (dirty & /*currentDate*/ 2 && div_class_value !== (div_class_value = "day " + (/*dateEvents*/ ctx[7].length > 0 ? 'event-day' : '') + " svelte-o5illp")) {
+				attr(div, "class", div_class_value);
+			}
+		},
+		d(detaching) {
+			if (detaching) detach(div);
+			if (if_block) if_block.d();
+		}
+	};
+}
+
+// (107:2) {#key events}
+function create_key_block(ctx) {
+	let each_1_anchor;
+	let each_value = Array(getDaysInMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()));
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -642,80 +839,31 @@ function create_fragment(ctx) {
 
 	return {
 		c() {
-			div1 = element("div");
-			div0 = element("div");
-			button0 = element("button");
-			t0 = text("❮");
-			t1 = space();
-
 			for (let i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
 
-			t2 = space();
-			button1 = element("button");
-			t3 = text("❯");
-			this.h();
+			each_1_anchor = empty();
 		},
 		l(nodes) {
-			div1 = claim_element(nodes, "DIV", { class: true });
-			var div1_nodes = children(div1);
-			div0 = claim_element(div1_nodes, "DIV", { class: true });
-			var div0_nodes = children(div0);
-			button0 = claim_element(div0_nodes, "BUTTON", { class: true });
-			var button0_nodes = children(button0);
-			t0 = claim_text(button0_nodes, "❮");
-			button0_nodes.forEach(detach);
-			t1 = claim_space(div0_nodes);
-
 			for (let i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].l(div0_nodes);
+				each_blocks[i].l(nodes);
 			}
 
-			t2 = claim_space(div0_nodes);
-			button1 = claim_element(div0_nodes, "BUTTON", { class: true });
-			var button1_nodes = children(button1);
-			t3 = claim_text(button1_nodes, "❯");
-			button1_nodes.forEach(detach);
-			div0_nodes.forEach(detach);
-			div1_nodes.forEach(detach);
-			this.h();
-		},
-		h() {
-			attr(button0, "class", "prev svelte-5wxedm");
-			attr(button1, "class", "next svelte-5wxedm");
-			attr(div0, "class", "gallery svelte-5wxedm");
-			attr(div1, "class", "section-container svelte-5wxedm");
+			each_1_anchor = empty();
 		},
 		m(target, anchor) {
-			insert_hydration(target, div1, anchor);
-			append_hydration(div1, div0);
-			append_hydration(div0, button0);
-			append_hydration(button0, t0);
-			append_hydration(div0, t1);
-
 			for (let i = 0; i < each_blocks.length; i += 1) {
 				if (each_blocks[i]) {
-					each_blocks[i].m(div0, null);
+					each_blocks[i].m(target, anchor);
 				}
 			}
 
-			append_hydration(div0, t2);
-			append_hydration(div0, button1);
-			append_hydration(button1, t3);
-
-			if (!mounted) {
-				dispose = [
-					listen(button0, "click", /*prevSlide*/ ctx[3]),
-					listen(button1, "click", /*nextSlide*/ ctx[2])
-				];
-
-				mounted = true;
-			}
+			insert_hydration(target, each_1_anchor, anchor);
 		},
-		p(ctx, [dirty]) {
-			if (dirty & /*currentIndex, images*/ 3) {
-				each_value = /*images*/ ctx[0];
+		p(ctx, dirty) {
+			if (dirty & /*getEventsForDay, currentDate*/ 6) {
+				each_value = Array(getDaysInMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()));
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -726,7 +874,7 @@ function create_fragment(ctx) {
 					} else {
 						each_blocks[i] = create_each_block(child_ctx);
 						each_blocks[i].c();
-						each_blocks[i].m(div0, t2);
+						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
 					}
 				}
 
@@ -737,42 +885,262 @@ function create_fragment(ctx) {
 				each_blocks.length = each_value.length;
 			}
 		},
+		d(detaching) {
+			destroy_each(each_blocks, detaching);
+			if (detaching) detach(each_1_anchor);
+		}
+	};
+}
+
+function create_fragment(ctx) {
+	let div0;
+	let button0;
+	let t0;
+	let t1;
+	let h3;
+	let t2_value = /*currentDate*/ ctx[1].toLocaleDateString("de-DE", { month: "long", year: "numeric" }) + "";
+	let t2;
+	let t3;
+	let button1;
+	let t4;
+	let t5;
+	let div1;
+	let t6;
+	let t7;
+	let previous_key = /*events*/ ctx[0];
+	let mounted;
+	let dispose;
+	let each_value_3 = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+	let each_blocks_1 = [];
+
+	for (let i = 0; i < 7; i += 1) {
+		each_blocks_1[i] = create_each_block_3(get_each_context_3(ctx, each_value_3, i));
+	}
+
+	let each_value_2 = Array(getFirstDayOfMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()) || 7 - 1);
+	let each_blocks = [];
+
+	for (let i = 0; i < each_value_2.length; i += 1) {
+		each_blocks[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
+	}
+
+	let key_block = create_key_block(ctx);
+
+	return {
+		c() {
+			div0 = element("div");
+			button0 = element("button");
+			t0 = text("«");
+			t1 = space();
+			h3 = element("h3");
+			t2 = text(t2_value);
+			t3 = space();
+			button1 = element("button");
+			t4 = text("»");
+			t5 = space();
+			div1 = element("div");
+
+			for (let i = 0; i < 7; i += 1) {
+				each_blocks_1[i].c();
+			}
+
+			t6 = space();
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+
+			t7 = space();
+			key_block.c();
+			this.h();
+		},
+		l(nodes) {
+			div0 = claim_element(nodes, "DIV", { class: true });
+			var div0_nodes = children(div0);
+			button0 = claim_element(div0_nodes, "BUTTON", {});
+			var button0_nodes = children(button0);
+			t0 = claim_text(button0_nodes, "«");
+			button0_nodes.forEach(detach);
+			t1 = claim_space(div0_nodes);
+			h3 = claim_element(div0_nodes, "H3", {});
+			var h3_nodes = children(h3);
+			t2 = claim_text(h3_nodes, t2_value);
+			h3_nodes.forEach(detach);
+			t3 = claim_space(div0_nodes);
+			button1 = claim_element(div0_nodes, "BUTTON", {});
+			var button1_nodes = children(button1);
+			t4 = claim_text(button1_nodes, "»");
+			button1_nodes.forEach(detach);
+			div0_nodes.forEach(detach);
+			t5 = claim_space(nodes);
+			div1 = claim_element(nodes, "DIV", { class: true });
+			var div1_nodes = children(div1);
+
+			for (let i = 0; i < 7; i += 1) {
+				each_blocks_1[i].l(div1_nodes);
+			}
+
+			t6 = claim_space(div1_nodes);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].l(div1_nodes);
+			}
+
+			t7 = claim_space(div1_nodes);
+			key_block.l(div1_nodes);
+			div1_nodes.forEach(detach);
+			this.h();
+		},
+		h() {
+			attr(div0, "class", "nav svelte-o5illp");
+			attr(div1, "class", "calendar svelte-o5illp");
+		},
+		m(target, anchor) {
+			insert_hydration(target, div0, anchor);
+			append_hydration(div0, button0);
+			append_hydration(button0, t0);
+			append_hydration(div0, t1);
+			append_hydration(div0, h3);
+			append_hydration(h3, t2);
+			append_hydration(div0, t3);
+			append_hydration(div0, button1);
+			append_hydration(button1, t4);
+			insert_hydration(target, t5, anchor);
+			insert_hydration(target, div1, anchor);
+
+			for (let i = 0; i < 7; i += 1) {
+				if (each_blocks_1[i]) {
+					each_blocks_1[i].m(div1, null);
+				}
+			}
+
+			append_hydration(div1, t6);
+
+			for (let i = 0; i < each_blocks.length; i += 1) {
+				if (each_blocks[i]) {
+					each_blocks[i].m(div1, null);
+				}
+			}
+
+			append_hydration(div1, t7);
+			key_block.m(div1, null);
+
+			if (!mounted) {
+				dispose = [
+					listen(button0, "click", /*prevMonth*/ ctx[3]),
+					listen(button1, "click", /*nextMonth*/ ctx[4])
+				];
+
+				mounted = true;
+			}
+		},
+		p(ctx, [dirty]) {
+			if (dirty & /*currentDate*/ 2 && t2_value !== (t2_value = /*currentDate*/ ctx[1].toLocaleDateString("de-DE", { month: "long", year: "numeric" }) + "")) set_data(t2, t2_value);
+
+			if (dirty & /*currentDate*/ 2) {
+				each_value_2 = Array(getFirstDayOfMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()) || 7 - 1);
+				let i;
+
+				for (i = 0; i < each_value_2.length; i += 1) {
+					const child_ctx = get_each_context_2(ctx, each_value_2, i);
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(child_ctx, dirty);
+					} else {
+						each_blocks[i] = create_each_block_2();
+						each_blocks[i].c();
+						each_blocks[i].m(div1, t7);
+					}
+				}
+
+				for (; i < each_blocks.length; i += 1) {
+					each_blocks[i].d(1);
+				}
+
+				each_blocks.length = each_value_2.length;
+			}
+
+			if (dirty & /*events*/ 1 && safe_not_equal(previous_key, previous_key = /*events*/ ctx[0])) {
+				key_block.d(1);
+				key_block = create_key_block(ctx);
+				key_block.c();
+				key_block.m(div1, null);
+			} else {
+				key_block.p(ctx, dirty);
+			}
+		},
 		i: noop,
 		o: noop,
 		d(detaching) {
+			if (detaching) detach(div0);
+			if (detaching) detach(t5);
 			if (detaching) detach(div1);
+			destroy_each(each_blocks_1, detaching);
 			destroy_each(each_blocks, detaching);
+			key_block.d(detaching);
 			mounted = false;
 			run_all(dispose);
 		}
 	};
 }
 
+function getDaysInMonth(year, month) {
+	return new Date(year, month + 1, 0).getDate();
+}
+
+function getFirstDayOfMonth(year, month) {
+	return new Date(year, month, 1).getDay();
+}
+
+function formatDate(timestamp) {
+	return new Date(timestamp * 1000).toISOString().split("T")[0]; // YYYY-MM-DD
+}
+
 function instance($$self, $$props, $$invalidate) {
 	let { props } = $$props;
-	let { images } = $$props;
-	let currentIndex = 0;
+	let events = [];
+	let currentDate = new Date();
 
-	function nextSlide() {
-		$$invalidate(1, currentIndex = (currentIndex + 1) % images.length);
+	onMount(async () => {
+		const response = await fetch("https://tmp.j7n.de/calendar");
+		$$invalidate(0, events = await response.json());
+	});
+
+	function getEventsForDay(year, month, day) {
+		const dateStr = new Date(year, month, day).toISOString().split("T")[0];
+
+		return events.filter(event => {
+			const startDate = formatDate(event.start);
+			const endDate = formatDate(event.end);
+
+			// Full-day events should be considered for the entire day
+			const isAllDay = event.start === event.end && event.start % 86400 === 0;
+
+			return dateStr >= startDate && dateStr <= endDate || isAllDay && (dateStr === startDate || dateStr === endDate);
+		});
 	}
 
-	function prevSlide() {
-		$$invalidate(1, currentIndex = (currentIndex - 1 + images.length) % images.length);
+	function prevMonth() {
+		currentDate.setMonth(currentDate.getMonth() - 1);
+		$$invalidate(1, currentDate = new Date(currentDate));
+	}
+
+	function nextMonth() {
+		currentDate.setMonth(currentDate.getMonth() + 1);
+		$$invalidate(1, currentDate = new Date(currentDate));
 	}
 
 	$$self.$$set = $$props => {
-		if ('props' in $$props) $$invalidate(4, props = $$props.props);
-		if ('images' in $$props) $$invalidate(0, images = $$props.images);
+		if ('props' in $$props) $$invalidate(5, props = $$props.props);
 	};
 
-	return [images, currentIndex, nextSlide, prevSlide, props];
+	return [events, currentDate, getEventsForDay, prevMonth, nextMonth, props];
 }
 
 class Component extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, { props: 4, images: 0 });
+		init(this, options, instance, create_fragment, safe_not_equal, { props: 5 });
 	}
 }
 

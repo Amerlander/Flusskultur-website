@@ -1,4 +1,4 @@
-// Calendar - Updated January 3, 2025
+// Calendar - Updated January 4, 2025
 function noop() { }
 function run(fn) {
     return fn();
@@ -641,7 +641,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (464:2) {:else}
+// (77:2) {:else}
 function create_else_block(ctx) {
 	let each_blocks = [];
 	let each_1_lookup = new Map();
@@ -680,7 +680,7 @@ function create_else_block(ctx) {
 			insert_hydration(target, each_1_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*events, Date*/ 1) {
+			if (dirty & /*events, formatDateRange*/ 1) {
 				each_value = /*events*/ ctx[0];
 				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, each_1_anchor.parentNode, destroy_block, create_each_block, each_1_anchor, get_each_context);
 			}
@@ -695,7 +695,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (462:2) {#if events.length === 0}
+// (75:2) {#if events.length === 0}
 function create_if_block(ctx) {
 	let p;
 	let t;
@@ -722,7 +722,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (472:8) {#if event.location}
+// (83:8) {#if event.location}
 function create_if_block_2(ctx) {
 	let div;
 	let t_value = /*event*/ ctx[2].location + "";
@@ -742,7 +742,7 @@ function create_if_block_2(ctx) {
 			this.h();
 		},
 		h() {
-			attr(div, "class", "event-location svelte-mr53e8");
+			attr(div, "class", "event-location svelte-1mm9klk");
 		},
 		m(target, anchor) {
 			insert_hydration(target, div, anchor);
@@ -757,7 +757,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (475:8) {#if event.description}
+// (86:8) {#if event.description}
 function create_if_block_1(ctx) {
 	let div;
 	let t_value = /*event*/ ctx[2].description + "";
@@ -787,7 +787,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (465:4) {#each events as event (event.id)}
+// (78:4) {#each events as event (event.id)}
 function create_each_block(key_1, ctx) {
 	let div3;
 	let div0;
@@ -799,14 +799,11 @@ function create_each_block(key_1, ctx) {
 	let t2;
 	let t3;
 	let div2;
-	let t4_value = new Date(/*event*/ ctx[2].start * 1000).toLocaleString() + "";
+	let t4_value = formatDateRange(/*event*/ ctx[2].start, /*event*/ ctx[2].end) + "";
 	let t4;
 	let t5;
-	let t6_value = new Date(/*event*/ ctx[2].end * 1000).toLocaleString() + "";
 	let t6;
 	let t7;
-	let t8;
-	let t9;
 	let if_block0 = /*event*/ ctx[2].location && create_if_block_2(ctx);
 	let if_block1 = /*event*/ ctx[2].description && create_if_block_1(ctx);
 
@@ -823,13 +820,11 @@ function create_each_block(key_1, ctx) {
 			t3 = space();
 			div2 = element("div");
 			t4 = text(t4_value);
-			t5 = text(" - ");
-			t6 = text(t6_value);
-			t7 = space();
+			t5 = space();
 			if (if_block0) if_block0.c();
-			t8 = space();
+			t6 = space();
 			if (if_block1) if_block1.c();
-			t9 = space();
+			t7 = space();
 			this.h();
 		},
 		l(nodes) {
@@ -848,22 +843,20 @@ function create_each_block(key_1, ctx) {
 			div2 = claim_element(div3_nodes, "DIV", { class: true });
 			var div2_nodes = children(div2);
 			t4 = claim_text(div2_nodes, t4_value);
-			t5 = claim_text(div2_nodes, " - ");
-			t6 = claim_text(div2_nodes, t6_value);
 			div2_nodes.forEach(detach);
-			t7 = claim_space(div3_nodes);
+			t5 = claim_space(div3_nodes);
 			if (if_block0) if_block0.l(div3_nodes);
-			t8 = claim_space(div3_nodes);
+			t6 = claim_space(div3_nodes);
 			if (if_block1) if_block1.l(div3_nodes);
-			t9 = claim_space(div3_nodes);
+			t7 = claim_space(div3_nodes);
 			div3_nodes.forEach(detach);
 			this.h();
 		},
 		h() {
-			attr(div0, "class", "calendar-name svelte-mr53e8");
-			attr(div1, "class", "event-title svelte-mr53e8");
-			attr(div2, "class", "event-time svelte-mr53e8");
-			attr(div3, "class", "event svelte-mr53e8");
+			attr(div0, "class", "calendar-name svelte-1mm9klk");
+			attr(div1, "class", "event-title svelte-1mm9klk");
+			attr(div2, "class", "event-time svelte-1mm9klk");
+			attr(div3, "class", "event svelte-1mm9klk");
 			set_style(div3, "border-color", /*event*/ ctx[2].calendar_color);
 			this.first = div3;
 		},
@@ -877,20 +870,17 @@ function create_each_block(key_1, ctx) {
 			append_hydration(div3, t3);
 			append_hydration(div3, div2);
 			append_hydration(div2, t4);
-			append_hydration(div2, t5);
-			append_hydration(div2, t6);
-			append_hydration(div3, t7);
+			append_hydration(div3, t5);
 			if (if_block0) if_block0.m(div3, null);
-			append_hydration(div3, t8);
+			append_hydration(div3, t6);
 			if (if_block1) if_block1.m(div3, null);
-			append_hydration(div3, t9);
+			append_hydration(div3, t7);
 		},
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
 			if (dirty & /*events*/ 1 && t0_value !== (t0_value = /*event*/ ctx[2].calendar_name + "")) set_data(t0, t0_value);
 			if (dirty & /*events*/ 1 && t2_value !== (t2_value = /*event*/ ctx[2].title + "")) set_data(t2, t2_value);
-			if (dirty & /*events*/ 1 && t4_value !== (t4_value = new Date(/*event*/ ctx[2].start * 1000).toLocaleString() + "")) set_data(t4, t4_value);
-			if (dirty & /*events*/ 1 && t6_value !== (t6_value = new Date(/*event*/ ctx[2].end * 1000).toLocaleString() + "")) set_data(t6, t6_value);
+			if (dirty & /*events*/ 1 && t4_value !== (t4_value = formatDateRange(/*event*/ ctx[2].start, /*event*/ ctx[2].end) + "")) set_data(t4, t4_value);
 
 			if (/*event*/ ctx[2].location) {
 				if (if_block0) {
@@ -898,7 +888,7 @@ function create_each_block(key_1, ctx) {
 				} else {
 					if_block0 = create_if_block_2(ctx);
 					if_block0.c();
-					if_block0.m(div3, t8);
+					if_block0.m(div3, t6);
 				}
 			} else if (if_block0) {
 				if_block0.d(1);
@@ -911,7 +901,7 @@ function create_each_block(key_1, ctx) {
 				} else {
 					if_block1 = create_if_block_1(ctx);
 					if_block1.c();
-					if_block1.m(div3, t9);
+					if_block1.m(div3, t7);
 				}
 			} else if (if_block1) {
 				if_block1.d(1);
@@ -931,6 +921,7 @@ function create_each_block(key_1, ctx) {
 }
 
 function create_fragment(ctx) {
+	let section;
 	let div;
 
 	function select_block_type(ctx, dirty) {
@@ -943,17 +934,27 @@ function create_fragment(ctx) {
 
 	return {
 		c() {
+			section = element("section");
 			div = element("div");
 			if_block.c();
+			this.h();
 		},
 		l(nodes) {
-			div = claim_element(nodes, "DIV", {});
+			section = claim_element(nodes, "SECTION", { class: true });
+			var section_nodes = children(section);
+			div = claim_element(section_nodes, "DIV", {});
 			var div_nodes = children(div);
 			if_block.l(div_nodes);
 			div_nodes.forEach(detach);
+			section_nodes.forEach(detach);
+			this.h();
+		},
+		h() {
+			attr(section, "class", "section-container svelte-1mm9klk");
 		},
 		m(target, anchor) {
-			insert_hydration(target, div, anchor);
+			insert_hydration(target, section, anchor);
+			append_hydration(section, div);
 			if_block.m(div, null);
 		},
 		p(ctx, [dirty]) {
@@ -972,10 +973,34 @@ function create_fragment(ctx) {
 		i: noop,
 		o: noop,
 		d(detaching) {
-			if (detaching) detach(div);
+			if (detaching) detach(section);
 			if_block.d();
 		}
 	};
+}
+
+function formatDateRange(start, end) {
+	const startDate = new Date(start * 1000);
+	const endDate = new Date(end * 1000);
+	const sameDay = startDate.toDateString() === endDate.toDateString();
+	const isAllDay = startDate.getHours() === 0 && startDate.getMinutes() === 0 && endDate.getHours() === 0 && endDate.getMinutes() === 0;
+
+	const optionsDate = {
+		weekday: "short",
+		day: "2-digit",
+		month: "2-digit",
+		year: "numeric"
+	};
+
+	const optionsTime = { hour: "2-digit", minute: "2-digit" };
+
+	if (isAllDay) {
+		return startDate.toLocaleDateString("de-DE", optionsDate); // Nur das Startdatum anzeigen
+	} else if (sameDay) {
+		return `${startDate.toLocaleDateString("de-DE", optionsDate)} ${startDate.toLocaleTimeString("de-DE", optionsTime)} - ${endDate.toLocaleTimeString("de-DE", optionsTime)}`;
+	} else {
+		return `${startDate.toLocaleDateString("de-DE", optionsDate)} ${startDate.toLocaleTimeString("de-DE", optionsTime)} - ${endDate.toLocaleDateString("de-DE", optionsDate)} ${endDate.toLocaleTimeString("de-DE", optionsTime)}`;
+	}
 }
 
 function instance($$self, $$props, $$invalidate) {
@@ -984,430 +1009,8 @@ function instance($$self, $$props, $$invalidate) {
 
 	// Fetch the events on component mount
 	onMount(async () => {
-		//const response = await fetch("https://tmp.j7n.de/calendar/all.json");
-		// events = await response.json();
-		$$invalidate(0, events = [
-			{
-				"id": "ab2a63af-7863-4730-b947-5d2b488cedfd",
-				"start": 1720522800,
-				"end": 1720540800,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "ab2a63af-7863-4730-b947-5d2b488cedfd",
-				"start": 1720522800,
-				"end": 1720540800,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "2df7c966-afba-4358-97c4-97a2c8aa07e8",
-				"start": 1720609200,
-				"end": 1720627200,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "2df7c966-afba-4358-97c4-97a2c8aa07e8",
-				"start": 1720609200,
-				"end": 1720627200,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "40da66d0-e333-497f-b1b7-8f3dd6740d22",
-				"start": 1720735200,
-				"end": 1720994400,
-				"title": "PPH: kulturFABRIKfest EIN STÜCK VOM GLÜCK",
-				"description": "Theater / Musik / Zirkus / filmosophie / Kunstraum Turbnine / Workshops",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "40da66d0-e333-497f-b1b7-8f3dd6740d22",
-				"start": 1720735200,
-				"end": 1720994400,
-				"title": "PPH: kulturFABRIKfest EIN STÜCK VOM GLÜCK",
-				"description": "Theater / Musik / Zirkus / filmosophie / Kunstraum Turbnine / Workshops",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "0a4a90a0-207e-4ef8-bbd2-5f30107fabab",
-				"start": 1721127600,
-				"end": 1721145600,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "0a4a90a0-207e-4ef8-bbd2-5f30107fabab",
-				"start": 1721127600,
-				"end": 1721145600,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "8943a6ed-1bed-44ad-ac56-2dfa480735a7",
-				"start": 1721214000,
-				"end": 1721232000,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "8943a6ed-1bed-44ad-ac56-2dfa480735a7",
-				"start": 1721214000,
-				"end": 1721232000,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "f8d4aaee-007b-4bbf-ba66-596e18eb7b5c",
-				"start": 1722031200,
-				"end": 1722117600,
-				"title": "PPH: Gastspiel Theaterkollektiv Tarantula: »Einsommernachtrstraum?«",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "f8d4aaee-007b-4bbf-ba66-596e18eb7b5c",
-				"start": 1722031200,
-				"end": 1722117600,
-				"title": "PPH: Gastspiel Theaterkollektiv Tarantula: »Einsommernachtrstraum?«",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "c3583996-9dc0-4363-a901-6ca67e949f2c",
-				"start": 1722204000,
-				"end": 1722636000,
-				"title": "PPH: Wir sind Welt(en)-Gestalter*innen",
-				"description": "Kreativ-Workshop-Woche",
-				"location": "Papierfabrik Hohenfoen",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "c3583996-9dc0-4363-a901-6ca67e949f2c",
-				"start": 1722204000,
-				"end": 1722636000,
-				"title": "PPH: Wir sind Welt(en)-Gestalter*innen",
-				"description": "Kreativ-Workshop-Woche",
-				"location": "Papierfabrik Hohenfoen",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "161a4a6a-651b-4f8a-abc5-da130a229769",
-				"start": 1722337200,
-				"end": 1722355200,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "161a4a6a-651b-4f8a-abc5-da130a229769",
-				"start": 1722337200,
-				"end": 1722355200,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "a1d3cf3f-9ef6-4863-a8bc-e735b2599361",
-				"start": 1722423600,
-				"end": 1722441600,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "a1d3cf3f-9ef6-4863-a8bc-e735b2599361",
-				"start": 1722423600,
-				"end": 1722441600,
-				"title": "Offenes Atelier Roddahn",
-				"location": "Roddahn",
-				"description": "kiri.li/studio",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "6e2672d3-b006-4a7f-9b62-aacb0f1937c6",
-				"start": 1722549600,
-				"end": 1722636000,
-				"title": "PPH: filmosophie",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "6e2672d3-b006-4a7f-9b62-aacb0f1937c6",
-				"start": 1722549600,
-				"end": 1722636000,
-				"title": "PPH: filmosophie",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "7aa4866b-d43c-46a1-b91c-03f65842f81f",
-				"start": 1722636000,
-				"end": 1722722400,
-				"title": "PPH: Vernissage Kunstraum Turbine",
-				"description": "Gastspiel Laura Heinecke & Company: »HERTZ. Die Welt ist Schwingung«",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "7aa4866b-d43c-46a1-b91c-03f65842f81f",
-				"start": 1722636000,
-				"end": 1722722400,
-				"title": "PPH: Vernissage Kunstraum Turbine",
-				"description": "Gastspiel Laura Heinecke & Company: »HERTZ. Die Welt ist Schwingung«",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "fcd2efd9-522d-4b03-b5f3-1738beb6b0df",
-				"start": 1723154400,
-				"end": 1723413600,
-				"title": "Festival Babe",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "fcd2efd9-522d-4b03-b5f3-1738beb6b0df",
-				"start": 1723154400,
-				"end": 1723413600,
-				"title": "Festival Babe",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "f6e74558-4222-4c04-8780-4a339c9e01b1",
-				"start": 1724277600,
-				"end": 1724623200,
-				"title": "Neiphos Festival",
-				"location": "Damelack",
-				"description": "https://neiphos.com",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "f6e74558-4222-4c04-8780-4a339c9e01b1",
-				"start": 1724277600,
-				"end": 1724623200,
-				"title": "Neiphos Festival",
-				"location": "Damelack",
-				"description": "https://neiphos.com",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "d82c65bf-1a4f-4ee4-9dd8-cb27356c4aa2",
-				"start": 1724623200,
-				"end": 1725055200,
-				"title": "PPH: Wir sind Welt(en)-Gestalter*innen",
-				"description": "Zirkus-Workshop-Woche",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "d82c65bf-1a4f-4ee4-9dd8-cb27356c4aa2",
-				"start": 1724623200,
-				"end": 1725055200,
-				"title": "PPH: Wir sind Welt(en)-Gestalter*innen",
-				"description": "Zirkus-Workshop-Woche",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "297ff7b8-05ad-414a-95af-d1c3213ed223",
-				"start": 1724968800,
-				"end": 1725228000,
-				"title": "PPH: ZIRKUS(S)machmitFESTIVAL",
-				"description": "Zirkus / Feuershow / Musik / Theater / filmosophie / Kunstraum Turbine / Workshops",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "297ff7b8-05ad-414a-95af-d1c3213ed223",
-				"start": 1724968800,
-				"end": 1725228000,
-				"title": "PPH: ZIRKUS(S)machmitFESTIVAL",
-				"description": "Zirkus / Feuershow / Musik / Theater / filmosophie / Kunstraum Turbine / Workshops",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "a64e3fdf-21c0-4017-a1b9-2757bada9a86",
-				"start": 1725573600,
-				"end": 1725919200,
-				"title": "Septre Festival",
-				"location": "Damelack",
-				"description": "www.septre.de",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "a64e3fdf-21c0-4017-a1b9-2757bada9a86",
-				"start": 1725573600,
-				"end": 1725919200,
-				"title": "Septre Festival",
-				"location": "Damelack",
-				"description": "www.septre.de",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "ba3ac8db-799f-4b96-9fe1-8ff98daab208",
-				"start": 1726783200,
-				"end": 1727042400,
-				"title": "Stüdyhaus Hoffest",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "ba3ac8db-799f-4b96-9fe1-8ff98daab208",
-				"start": 1726783200,
-				"end": 1727042400,
-				"title": "Stüdyhaus Hoffest",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "65fb7ded-0932-42aa-84f9-ba4eb5b117aa",
-				"start": 1726869600,
-				"end": 1726956000,
-				"title": "PPH: Vernissage Kunstraum Turbine",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "65fb7ded-0932-42aa-84f9-ba4eb5b117aa",
-				"start": 1726869600,
-				"end": 1726956000,
-				"title": "PPH: Vernissage Kunstraum Turbine",
-				"location": "Papierfabrik Hohenofen",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "c5e35f03-ad24-456a-ae87-1fb5be2fa678",
-				"start": 1726956000,
-				"end": 1727042400,
-				"title": "PPH: Gastspiel Figurentheater Wilde & Vogel: »überALL unterALL«",
-				"location": "Papierfabrik Hohenofen",
-				"description": "Wir sind Welt(en)-Gestalter*innen Kreativ-Workshop",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "c5e35f03-ad24-456a-ae87-1fb5be2fa678",
-				"start": 1726956000,
-				"end": 1727042400,
-				"title": "PPH: Gastspiel Figurentheater Wilde & Vogel: »überALL unterALL«",
-				"location": "Papierfabrik Hohenofen",
-				"description": "Wir sind Welt(en)-Gestalter*innen Kreativ-Workshop",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "68af32d1-8fe5-4f29-8814-dfc6d4de16c8",
-				"start": 1728684000,
-				"end": 1728770400,
-				"title": "PPH: nebenanFABRIK",
-				"location": "Papierfabrik Hohenofen",
-				"description": "Kulturprogramm / Begegenung",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "68af32d1-8fe5-4f29-8814-dfc6d4de16c8",
-				"start": 1728684000,
-				"end": 1728770400,
-				"title": "PPH: nebenanFABRIK",
-				"location": "Papierfabrik Hohenofen",
-				"description": "Kulturprogramm / Begegenung",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "8d219874-0681-48c1-b4c5-116a4d5a3ab2",
-				"start": 1733007600,
-				"end": 1733094000,
-				"title": "PPH: lichtFabrik",
-				"location": "Papierfabrik Hohenofen",
-				"description": "Kulturprogramm / Adventsmarkt",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "8d219874-0681-48c1-b4c5-116a4d5a3ab2",
-				"start": 1733007600,
-				"end": 1733094000,
-				"title": "PPH: lichtFabrik",
-				"location": "Papierfabrik Hohenofen",
-				"description": "Kulturprogramm / Adventsmarkt",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			},
-			{
-				"id": "6f111fd9-ee44-4b8c-99f4-3cd74422a5d6",
-				"start": 1735945200,
-				"end": 1736031600,
-				"title": "Test",
-				"calendar_name": "Calendar 1",
-				"calendar_color": "#FF5733"
-			},
-			{
-				"id": "6f111fd9-ee44-4b8c-99f4-3cd74422a5d6",
-				"start": 1735945200,
-				"end": 1736031600,
-				"title": "Test",
-				"calendar_name": "Calendar 2",
-				"calendar_color": "#33FF57"
-			}
-		]);
+		const response = await fetch("https://tmp.j7n.de/calendar");
+		$$invalidate(0, events = await response.json());
 	});
 
 	$$self.$$set = $$props => {
