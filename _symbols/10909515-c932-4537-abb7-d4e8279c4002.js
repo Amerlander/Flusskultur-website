@@ -1,4 +1,4 @@
-// Calendar - Updated January 23, 2025
+// Calendar - Updated January 27, 2025
 function noop() { }
 function run(fn) {
     return fn();
@@ -649,7 +649,7 @@ function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
 	child_ctx[8] = list[i];
 	child_ctx[11] = i;
-	const constants_0 = /*getEventsForDay*/ child_ctx[3](/*currentDate*/ child_ctx[1].getFullYear(), /*currentDate*/ child_ctx[1].getMonth(), /*day*/ child_ctx[11] + 2);
+	const constants_0 = /*getEventsForDay*/ child_ctx[3](/*currentDate*/ child_ctx[1].getFullYear(), /*currentDate*/ child_ctx[1].getMonth(), /*day*/ child_ctx[11] + 1);
 	child_ctx[9] = constants_0;
 	return child_ctx;
 }
@@ -672,7 +672,7 @@ function get_each_context_3(ctx, list, i) {
 	return child_ctx;
 }
 
-// (165:2) {#each ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] as day}
+// (166:2) {#each ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] as day}
 function create_each_block_3(ctx) {
 	let div;
 	let strong;
@@ -710,7 +710,7 @@ function create_each_block_3(ctx) {
 	};
 }
 
-// (170:2) {#each Array(getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth()) || 7 - 1) as _}
+// (171:2) {#each Array(getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth()) || 7 - 1) as _}
 function create_each_block_2(ctx) {
 	let div;
 
@@ -732,7 +732,7 @@ function create_each_block_2(ctx) {
 	};
 }
 
-// (180:6) {#if dateEvents.length > 0}
+// (181:6) {#if dateEvents.length > 0}
 function create_if_block(ctx) {
 	let div;
 	let each_blocks = [];
@@ -795,7 +795,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (192:14) {#if event.location}
+// (193:14) {#if event.location}
 function create_if_block_2(ctx) {
 	let div;
 	let t_value = /*event*/ ctx[12].location + "";
@@ -830,7 +830,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (195:14) {#if event.description}
+// (196:14) {#if event.description}
 function create_if_block_1(ctx) {
 	let div;
 	let t_value = /*event*/ ctx[12].description + "";
@@ -860,7 +860,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (187:10) {#each dateEvents as event (event.id)}
+// (188:10) {#each dateEvents as event (event.id)}
 function create_each_block_1(key_1, ctx) {
 	let div3;
 	let div0;
@@ -993,7 +993,7 @@ function create_each_block_1(key_1, ctx) {
 	};
 }
 
-// (176:2) {#each Array(getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth())) as _, day}
+// (177:2) {#each Array(getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth())) as _, day}
 function create_each_block(ctx) {
 	let button;
 	let t0_value = /*day*/ ctx[11] + 1 + "";
@@ -1072,7 +1072,7 @@ function create_each_block(ctx) {
 	};
 }
 
-// (175:2) {#key events}
+// (176:2) {#key events}
 function create_key_block(ctx) {
 	let each_1_anchor;
 	let each_value = Array(getDaysInMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()));
@@ -1339,7 +1339,8 @@ function getDaysInMonth(year, month) {
 }
 
 function getFirstDayOfMonth(year, month) {
-	return new Date(year, month, 1).getDay();
+	const firstDay = new Date(year, month, 1).getDay(); // Gibt den Tag als 0-6 (Sonntag bis Samstag)
+	return (firstDay + 6) % 7; // Montag als erster Tag (0 = Montag, 6 = Sonntag)
 }
 
 function formatDateRange(start, end) {
