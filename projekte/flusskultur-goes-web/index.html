@@ -2,7 +2,7 @@
   <html lang="en">
     <head>
       <meta name="generator" content="Primo" />
-      <title>Article</title><!-- HEAD_svelte-us8lr5_START --><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><link rel="preconnect" href="https://fonts.bunny.net"><link href="https://fonts.bunny.net/css?family=inter:100,200,300,400,500,600,700,800,900" rel="stylesheet"><link href="https://fonts.bunny.net/css?family=alegreya-sans:300,300i,400,400i,700,700i,900,900i" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/themes/light.css"><script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/shoelace-autoloader.js"></script><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><meta name="description" content="This is an article discussing the merits of something or another."><meta property="og:image" content="https://images.unsplash.com/photo-1577717707588-58e49821e851?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2370&amp;q=80">
+      <title>Article</title><!-- HEAD_svelte-1d8tfin_START --><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><link rel="preconnect" href="https://fonts.bunny.net"><link href="https://fonts.bunny.net/css?family=inter:100,200,300,400,500,600,700,800,900" rel="stylesheet"><link href="https://fonts.bunny.net/css?family=alegreya-sans:300,300i,400,400i,700,700i,900,900i" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/themes/light.css"><script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/shoelace-autoloader.js"></script><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><meta name="description" content="This is an article discussing the merits of something or another."><meta property="og:image" content="https://images.unsplash.com/photo-1577717707588-58e49821e851?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2370&amp;q=80">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1577717707588-58e49821e851?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2370&amp;q=80"><style>/* Reset & standardize default styles */
 @import url("https://unpkg.com/@primo-app/primo@1.3.64/reset.css") layer;
 
@@ -81,13 +81,89 @@ a.link:hover {
     color: var(--color-accent, rebeccapurple);
   }
 
-</style><!-- HEAD_svelte-us8lr5_END -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+    /* Add these styles to your global stylesheet, which is used across all site pages. You only need to do this once. All elements in the library derive their variables and base styles from this central sheet, simplifying site-wide edits. For instance, if you want to modify how your h2's appear across the site, you just update it once in the global styles, and the changes apply everywhere. */
+    --primary: #ff6a3e;
+    --primaryLight: #ffba43;
+    --secondary: #ffba43;
+    --secondaryLight: #ffba43;
+    --headerColor: #1a1a1a;
+    --bodyTextColor: #4e4b66;
+    --bodyTextColorWhite: #fafbfc;
+    /* 13px - 16px */
+    --topperFontSize: clamp(0.8125rem, 1.6vw, 1rem);
+    /* 31px - 49px */
+    --headerFontSize: clamp(1.9375rem, 3.9vw, 3.0625rem);
+    --bodyFontSize: 1rem;
+    /* 60px - 100px top and bottom */
+    --sectionPadding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+*, *:before, *:after {
+    /* prevents padding from affecting height and width */
+    box-sizing: border-box;
+}
+.cs-topper {
+    font-size: var(--topperFontSize);
+    line-height: 1.2em;
+    text-transform: uppercase;
+    text-align: inherit;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.cs-title {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: inherit;
+    max-width: 43.75rem;
+    margin: 0 0 1rem 0;
+    color: var(--headerColor);
+    position: relative;
+}
+
+.cs-text {
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    text-align: inherit;
+    width: 100%;
+    max-width: 40.625rem;
+    margin: 0;
+    color: var(--bodyTextColor);
+}
+                            
+</style><!-- HEAD_svelte-1d8tfin_END -->
       <style>.section-container.svelte-14x0trs.svelte-14x0trs{display:flex;justify-content:space-between;align-items:center;padding-block:2rem}.logo.svelte-14x0trs.svelte-14x0trs{font-size:1.5rem;font-weight:600;line-height:1.2;display:flex}.logo.svelte-14x0trs img.svelte-14x0trs{max-height:90px}.desktop-nav.svelte-14x0trs.svelte-14x0trs{display:none;align-items:center;justify-content:space-between;width:100%}.desktop-nav.svelte-14x0trs nav.svelte-14x0trs{display:flex;gap:1.75rem}.desktop-nav.svelte-14x0trs nav a.link.svelte-14x0trs{border-color:transparent;transition:border-color 0.1s;font-size:0.95rem;font-weight:500}.desktop-nav.svelte-14x0trs nav a.link.svelte-14x0trs:hover,.desktop-nav.svelte-14x0trs nav a.link .active.svelte-14x0trs{border-color:initial}@media(min-width: 800px){.desktop-nav.svelte-14x0trs.svelte-14x0trs{display:flex
 }}.mobile-nav.svelte-14x0trs.svelte-14x0trs{display:flex;align-items:center;justify-content:space-between;width:100%;font-weight:500}@media(min-width: 800px){.mobile-nav.svelte-14x0trs.svelte-14x0trs{display:none
 }}#popup.svelte-14x0trs.svelte-14x0trs{font-size:1.25rem;display:grid;gap:1rem;position:absolute;text-align:center;background-color:var(--background-color, white);box-shadow:var(--box-shadow, 0px 4px 30px rgba(0, 0, 0, 0.1));border-radius:var(--border-radius);inset:0.5rem;bottom:initial;padding:2rem;z-index:1}#popup.svelte-14x0trs button#close.svelte-14x0trs{position:absolute;right:1rem;top:1rem}
 .section-container.svelte-1b2zbzi{display:grid;place-items:center;padding:2rem 2rem 1rem 2rem}.superhead.svelte-1b2zbzi{font-size:1rem;color:var(--color-accent2);font-weight:500;margin-bottom:0.5rem}.heading.svelte-1b2zbzi{margin-bottom:2rem}@media(min-width:700px){img.svelte-1b2zbzi{max-width:750px}}
 .section-container.svelte-17uonwm{max-width:var(--inner-max-width,800px);padding:4rem 2rem}.content.svelte-17uonwm img{width:100%;margin:2rem 0;box-shadow:var(--box-shadow);border-radius:var(--border-radius)}.content.svelte-17uonwm p{padding:0.25rem 0;line-height:1.5;font-family:var(--body-font);font-weight:400;margin-bottom:1rem;color:#024150}.content.svelte-17uonwm a{text-decoration:underline}.content.svelte-17uonwm h1{font-size:clamp(1.75rem, 10vw, 2.25rem);font-weight:600;letter-spacing:-0.08rem;margin-bottom:1rem;line-height:1.1}.content.svelte-17uonwm h2{font-size:clamp(1.5rem, 10vw, 2.125rem);font-weight:600;margin-bottom:1rem;letter-spacing:-0.06rem;line-height:1.1}.content.svelte-17uonwm h3{font-size:clamp(1.25rem, 10vw, 1.75rem);font-weight:600;margin-bottom:0.5rem;letter-spacing:-0.05rem;line-height:1.1}.content.svelte-17uonwm ul{list-style:disc;padding:0.25rem 0;padding-left:1.25rem}.content.svelte-17uonwm ol{list-style:decimal;padding-left:1.25rem;margin-bottom:2rem}.content.svelte-17uonwm blockquote{padding:2rem;box-shadow:var(--box-shadow);border-radius:var(--border-radius)}
-.section-container.svelte-1excgdw.svelte-1excgdw{padding:2rem 2rem 1rem 2rem}hr.svelte-1excgdw.svelte-1excgdw{border-color:#F2F2F2}.footer.svelte-1excgdw.svelte-1excgdw{display:flex;justify-content:space-between;flex-direction:start column;gap:1rem;padding-top:1rem;padding-bottom:1rem}.copyright.svelte-1excgdw.svelte-1excgdw{font-size:0.75rem;color:var(--color-text-secondary, #2D3339)}.primo.svelte-1excgdw.svelte-1excgdw{font-weight:600;font-size:0.75rem}ul.svelte-1excgdw.svelte-1excgdw{display:flex;gap:1.5rem;font-size:1.5rem;list-style:none}ul.svelte-1excgdw a.svelte-1excgdw{transition:var(--transition)}ul.svelte-1excgdw a.svelte-1excgdw:hover{color:var(--color-accent)}@media(min-width: 600px){ul.svelte-1excgdw.svelte-1excgdw{font-size:1.25rem}}</style>
+.section-container.svelte-zb2kqc.svelte-zb2kqc{padding:2rem 2rem 1rem 2rem}hr.svelte-zb2kqc.svelte-zb2kqc{border-color:#F2F2F2}.footer.svelte-zb2kqc.svelte-zb2kqc{display:flex;justify-content:space-between;flex-direction:start column;gap:1rem;padding-top:1rem;padding-bottom:1rem;align-items:center}.copyright.svelte-zb2kqc.svelte-zb2kqc{font-size:0.75rem;color:var(--color-text-secondary, #2D3339)}.primo.svelte-zb2kqc.svelte-zb2kqc{font-weight:600;font-size:0.75rem}ul.svelte-zb2kqc.svelte-zb2kqc{display:flex;gap:1.5rem;font-size:1.5rem;list-style:none;align-items:center}ul.svelte-zb2kqc a.svelte-zb2kqc{transition:var(--transition)}ul.svelte-zb2kqc a.svelte-zb2kqc:hover{color:var(--color-accent)}@media(min-width: 600px){ul.svelte-zb2kqc.svelte-zb2kqc{font-size:1.25rem}}</style>
     </head>
     <body id="page">
        
@@ -100,11 +176,13 @@ a.link:hover {
   <h1 class="heading svelte-1b2zbzi">Flusskultur Goes web</h1>
   <img src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1737041032703IMG_20250103_120644%20(Mittel).jpg" alt="" class="svelte-1b2zbzi"></header></div> 
 <div class="section" id="section-c59d17b2"><div class="section"><div class="section-container content svelte-17uonwm"><!-- HTML_TAG_START --><h1>Sichtbarkeit</h1><p>Jetzt können wir durch die Förderung der <strong>Deutschen Stiftung für Engagement und</strong> Ehrenamt zeigen, was wir machen und wer wir sind und was wir noch vorhaben. Unsere Webseite teilt sich in Verein | Projekte | Kontakt | Fördern &amp; Veranstaltungen.</p><h2>Nutzerfreundlichkeit</h2><p>Die Bearbeitung ist im Frontend möglich und bedarf nur einer Anmeldung. Ins Backend, in die Programmierung, müssen wir nicht. Das war uns sehr wichtig, so können alle Mitglieder ganz einfach selber ihre Projekte beschreiben und dokumentieren. Der Programmierer Juri Wolf hat uns nicht nur auf dem Weg der Webseitenstrukturierung beraten und begleitet, sondern auch mit viel Geduld und Einfühlungsvermögen bei der Handhabe geschult.</p><h2>Projekte </h2><p>Wir sind sehr stolz auf unsere Arbeit uns unserer Projekte. Jetzt können wir diese auch zeigen und beschrieben. Es ist wie eine Projekt-Dokumentation für unserer Förderer und Kooperationspartner*innen.</p><p></p><h2>Veranstaltungen teilen</h2><p>Nicht nur unsere Veranstaltungen werden sichtbar, sondern auch die unserer Partner*innen. Denn der Kalender kann durch die Anbindung zu unserer Nextcloud auch von anderen Kulturakteuren gepflegt werden. Wir hoffen sehr, dass dieses Angebot auch gut angenommen wird.</p><p></p><p></p><h2></h2><!-- HTML_TAG_END --></div></div></div> 
-<div class="section" id="section-272ac0da"><footer><div class="section-container svelte-1excgdw"><hr class="svelte-1excgdw">
-    <div class="footer svelte-1excgdw"><span class="copyright svelte-1excgdw">Copyright 2025</span>
-      <span class="primo svelte-1excgdw">Flusskultur e. V. </span>
-      <ul class="svelte-1excgdw"><li><a href="https://www.facebook.com/people/Flusskultur-eV/61560299469856/" aria-label="mdi:facebook" class="svelte-1excgdw"></a>
-        </li><li><a href="https://t.me/+kAuT640tfMYyYjg6" aria-label="mdi:telegram" class="svelte-1excgdw"></a>
+<div class="section" id="section-272ac0da"><footer><div class="section-container svelte-zb2kqc"><hr class="svelte-zb2kqc">
+    <div class="footer svelte-zb2kqc"><span class="copyright svelte-zb2kqc">Copyright 2025</span>
+      <span class="primo svelte-zb2kqc">Flusskultur e. V. </span>
+      <ul class="svelte-zb2kqc"><li><a href="https://www.facebook.com/people/Flusskultur-eV/61560299469856/" aria-label="mdi:facebook" class="svelte-zb2kqc"></a>
+        </li><li><a href="https://t.me/+kAuT640tfMYyYjg6" aria-label="mdi:telegram" class="svelte-zb2kqc"></a>
+        </li><li><a href="/" aria-label="" class="svelte-zb2kqc">Datenschutzerklärung</a>
+        </li><li><a href="/" aria-label="" class="svelte-zb2kqc">Impressum</a>
         </li></ul></div></div></footer></div> 
 
       <script type="module">
@@ -127,7 +205,7 @@ a.link:hover {
             new App({
               target: document.querySelector('#section-272ac0da'),
               hydrate: true,
-              props: {"heading":"","email":"","social_links":[{"icon":"mdi:facebook","link":{"url":"https://www.facebook.com/people/Flusskultur-eV/61560299469856/","label":"Facebook","active":false}},{"icon":"mdi:telegram","link":{"url":"https://t.me/+kAuT640tfMYyYjg6","label":"Telegram","active":false}}]}
+              props: {"heading":"","email":"","social_links":[{"icon":"mdi:facebook","link":{"url":"https://www.facebook.com/people/Flusskultur-eV/61560299469856/","label":"Facebook","active":false}},{"icon":"mdi:telegram","link":{"url":"https://t.me/+kAuT640tfMYyYjg6","label":"Telegram","active":false}},{"icon":"","link":{"url":"/","label":"Datenschutzerklärung","active":false}},{"icon":"","link":{"url":"/","label":"Impressum","active":false}}]}
             })
           
       })

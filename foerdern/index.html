@@ -2,7 +2,7 @@
   <html lang="en">
     <head>
       <meta name="generator" content="Primo" />
-      <title>Flusskultur e. V.</title><!-- HEAD_svelte-us8lr5_START --><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><link rel="preconnect" href="https://fonts.bunny.net"><link href="https://fonts.bunny.net/css?family=inter:100,200,300,400,500,600,700,800,900" rel="stylesheet"><link href="https://fonts.bunny.net/css?family=alegreya-sans:300,300i,400,400i,700,700i,900,900i" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/themes/light.css"><script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/shoelace-autoloader.js"></script><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><meta name="description" content=""><meta property="og:image" content="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg">
+      <title>Flusskultur e. V.</title><!-- HEAD_svelte-1d8tfin_START --><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><link rel="preconnect" href="https://fonts.bunny.net"><link href="https://fonts.bunny.net/css?family=inter:100,200,300,400,500,600,700,800,900" rel="stylesheet"><link href="https://fonts.bunny.net/css?family=alegreya-sans:300,300i,400,400i,700,700i,900,900i" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/themes/light.css"><script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/shoelace-autoloader.js"></script><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><meta name="description" content=""><meta property="og:image" content="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg">
   <meta name="twitter:image" content="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><style>/* Reset & standardize default styles */
 @import url("https://unpkg.com/@primo-app/primo@1.3.64/reset.css") layer;
 
@@ -81,7 +81,83 @@ a.link:hover {
     color: var(--color-accent, rebeccapurple);
   }
 
-</style><!-- HEAD_svelte-us8lr5_END -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+    /* Add these styles to your global stylesheet, which is used across all site pages. You only need to do this once. All elements in the library derive their variables and base styles from this central sheet, simplifying site-wide edits. For instance, if you want to modify how your h2's appear across the site, you just update it once in the global styles, and the changes apply everywhere. */
+    --primary: #ff6a3e;
+    --primaryLight: #ffba43;
+    --secondary: #ffba43;
+    --secondaryLight: #ffba43;
+    --headerColor: #1a1a1a;
+    --bodyTextColor: #4e4b66;
+    --bodyTextColorWhite: #fafbfc;
+    /* 13px - 16px */
+    --topperFontSize: clamp(0.8125rem, 1.6vw, 1rem);
+    /* 31px - 49px */
+    --headerFontSize: clamp(1.9375rem, 3.9vw, 3.0625rem);
+    --bodyFontSize: 1rem;
+    /* 60px - 100px top and bottom */
+    --sectionPadding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+*, *:before, *:after {
+    /* prevents padding from affecting height and width */
+    box-sizing: border-box;
+}
+.cs-topper {
+    font-size: var(--topperFontSize);
+    line-height: 1.2em;
+    text-transform: uppercase;
+    text-align: inherit;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.cs-title {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: inherit;
+    max-width: 43.75rem;
+    margin: 0 0 1rem 0;
+    color: var(--headerColor);
+    position: relative;
+}
+
+.cs-text {
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    text-align: inherit;
+    width: 100%;
+    max-width: 40.625rem;
+    margin: 0;
+    color: var(--bodyTextColor);
+}
+                            
+</style><!-- HEAD_svelte-1d8tfin_END -->
       <style>.section-container.svelte-14x0trs.svelte-14x0trs{display:flex;justify-content:space-between;align-items:center;padding-block:2rem}.logo.svelte-14x0trs.svelte-14x0trs{font-size:1.5rem;font-weight:600;line-height:1.2;display:flex}.logo.svelte-14x0trs img.svelte-14x0trs{max-height:90px}.desktop-nav.svelte-14x0trs.svelte-14x0trs{display:none;align-items:center;justify-content:space-between;width:100%}.desktop-nav.svelte-14x0trs nav.svelte-14x0trs{display:flex;gap:1.75rem}.desktop-nav.svelte-14x0trs nav a.link.svelte-14x0trs{border-color:transparent;transition:border-color 0.1s;font-size:0.95rem;font-weight:500}.desktop-nav.svelte-14x0trs nav a.link.svelte-14x0trs:hover,.desktop-nav.svelte-14x0trs nav a.link .active.svelte-14x0trs{border-color:initial}@media(min-width: 800px){.desktop-nav.svelte-14x0trs.svelte-14x0trs{display:flex
 }}.mobile-nav.svelte-14x0trs.svelte-14x0trs{display:flex;align-items:center;justify-content:space-between;width:100%;font-weight:500}@media(min-width: 800px){.mobile-nav.svelte-14x0trs.svelte-14x0trs{display:none
 }}#popup.svelte-14x0trs.svelte-14x0trs{font-size:1.25rem;display:grid;gap:1rem;position:absolute;text-align:center;background-color:var(--background-color, white);box-shadow:var(--box-shadow, 0px 4px 30px rgba(0, 0, 0, 0.1));border-radius:var(--border-radius);inset:0.5rem;bottom:initial;padding:2rem;z-index:1}#popup.svelte-14x0trs button#close.svelte-14x0trs{position:absolute;right:1rem;top:1rem}
@@ -93,7 +169,7 @@ header.svelte-k4wskr.svelte-k4wskr{color:var(--color-white, white);position:rela
 }}header.svelte-qz2vy1.svelte-qz2vy1{display:flex;flex-direction:column;place-items:start start;gap:1.5rem}header.svelte-qz2vy1 .heading.svelte-qz2vy1{line-height:1.1;margin-bottom:1rem;margin-left:0}.content.svelte-qz2vy1.svelte-qz2vy1{padding:0;line-height:1.75}
 header.svelte-k4wskr.svelte-k4wskr{color:var(--color-white, white);position:relative;overflow:hidden;background:var(--color-background)}img.svelte-k4wskr.svelte-k4wskr{position:absolute;inset:0;height:100%;width:100%;-o-object-fit:cover;object-fit:cover;z-index:0}.heading-group.svelte-k4wskr.svelte-k4wskr{background:#12121260;display:grid;place-items:center;padding-top:12rem;padding-bottom:12rem;position:relative;gap:1rem}.heading-group.svelte-k4wskr .heading.svelte-k4wskr{font-size:clamp(2rem, 10vw, 3.5rem);color:var(--color-white, white)}.heading-group.svelte-k4wskr .subheading.svelte-k4wskr{place-self:center;font-size:1.125rem;line-height:1.3;color:var(--color-inverted)}.buttons.svelte-k4wskr.svelte-k4wskr{margin-top:1rem;display:flex;justify-content:center;gap:1rem}.buttons.svelte-k4wskr .button.svelte-k4wskr{background:transparent;color:var(--color-inverted);border:1.5px solid white}
 section.svelte-jrfwgd.svelte-jrfwgd{--icon-size:30px}ul.cards.svelte-jrfwgd.svelte-jrfwgd{display:grid;grid-template-columns:repeat(auto-fit, minmax(15rem, 1fr));gap:4rem}ul.cards.svelte-jrfwgd li.svelte-jrfwgd{display:grid;place-items:start;gap:1.5rem}ul.cards.svelte-jrfwgd li .body.svelte-jrfwgd{display:grid;place-items:start;gap:1rem}ul.cards.svelte-jrfwgd li .body .title.svelte-jrfwgd{display:grid;align-items:center;gap:1.5rem;font-size:1.25rem;line-height:1.4;font-weight:600}ul.cards.svelte-jrfwgd li .body .content.svelte-jrfwgd{font-weight:400;line-height:1.6}
-.section-container.svelte-1excgdw.svelte-1excgdw{padding:2rem 2rem 1rem 2rem}hr.svelte-1excgdw.svelte-1excgdw{border-color:#F2F2F2}.footer.svelte-1excgdw.svelte-1excgdw{display:flex;justify-content:space-between;flex-direction:start column;gap:1rem;padding-top:1rem;padding-bottom:1rem}.copyright.svelte-1excgdw.svelte-1excgdw{font-size:0.75rem;color:var(--color-text-secondary, #2D3339)}.primo.svelte-1excgdw.svelte-1excgdw{font-weight:600;font-size:0.75rem}ul.svelte-1excgdw.svelte-1excgdw{display:flex;gap:1.5rem;font-size:1.5rem;list-style:none}ul.svelte-1excgdw a.svelte-1excgdw{transition:var(--transition)}ul.svelte-1excgdw a.svelte-1excgdw:hover{color:var(--color-accent)}@media(min-width: 600px){ul.svelte-1excgdw.svelte-1excgdw{font-size:1.25rem}}</style>
+.section-container.svelte-zb2kqc.svelte-zb2kqc{padding:2rem 2rem 1rem 2rem}hr.svelte-zb2kqc.svelte-zb2kqc{border-color:#F2F2F2}.footer.svelte-zb2kqc.svelte-zb2kqc{display:flex;justify-content:space-between;flex-direction:start column;gap:1rem;padding-top:1rem;padding-bottom:1rem;align-items:center}.copyright.svelte-zb2kqc.svelte-zb2kqc{font-size:0.75rem;color:var(--color-text-secondary, #2D3339)}.primo.svelte-zb2kqc.svelte-zb2kqc{font-weight:600;font-size:0.75rem}ul.svelte-zb2kqc.svelte-zb2kqc{display:flex;gap:1.5rem;font-size:1.5rem;list-style:none;align-items:center}ul.svelte-zb2kqc a.svelte-zb2kqc{transition:var(--transition)}ul.svelte-zb2kqc a.svelte-zb2kqc:hover{color:var(--color-accent)}@media(min-width: 600px){ul.svelte-zb2kqc.svelte-zb2kqc{font-size:1.25rem}}</style>
     </head>
     <body id="page">
        
@@ -158,11 +234,13 @@ section.svelte-jrfwgd.svelte-jrfwgd{--icon-size:30px}ul.cards.svelte-jrfwgd.svel
           <div class="content svelte-jrfwgd"><!-- HTML_TAG_START --><p>Wir stärken das Image mit unserer künstlerischen und sozialen Arbeit, sodass mehr Menschen in die Region ziehen und von unserem Netzwerk profitieren. Wir sehen unsere Kunst als wirtschaftliche Kraft, die in Zukunft mehr Interessierte anziehen wird.</p><!-- HTML_TAG_END --></div>
           </div>
       </li></ul></section></div> 
-<div class="section" id="section-3b44c8a3"><footer><div class="section-container svelte-1excgdw"><hr class="svelte-1excgdw">
-    <div class="footer svelte-1excgdw"><span class="copyright svelte-1excgdw">Copyright 2025</span>
-      <span class="primo svelte-1excgdw">Flusskultur e. V. </span>
-      <ul class="svelte-1excgdw"><li><a href="https://www.facebook.com/people/Flusskultur-eV/61560299469856/" aria-label="mdi:facebook" class="svelte-1excgdw"></a>
-        </li><li><a href="https://t.me/+kAuT640tfMYyYjg6" aria-label="mdi:telegram" class="svelte-1excgdw"></a>
+<div class="section" id="section-3b44c8a3"><footer><div class="section-container svelte-zb2kqc"><hr class="svelte-zb2kqc">
+    <div class="footer svelte-zb2kqc"><span class="copyright svelte-zb2kqc">Copyright 2025</span>
+      <span class="primo svelte-zb2kqc">Flusskultur e. V. </span>
+      <ul class="svelte-zb2kqc"><li><a href="https://www.facebook.com/people/Flusskultur-eV/61560299469856/" aria-label="mdi:facebook" class="svelte-zb2kqc"></a>
+        </li><li><a href="https://t.me/+kAuT640tfMYyYjg6" aria-label="mdi:telegram" class="svelte-zb2kqc"></a>
+        </li><li><a href="/" aria-label="" class="svelte-zb2kqc">Datenschutzerklärung</a>
+        </li><li><a href="/" aria-label="" class="svelte-zb2kqc">Impressum</a>
         </li></ul></div></div></footer></div> 
 
       <script type="module">
@@ -211,7 +289,7 @@ section.svelte-jrfwgd.svelte-jrfwgd{--icon-size:30px}ul.cards.svelte-jrfwgd.svel
             new App({
               target: document.querySelector('#section-3b44c8a3'),
               hydrate: true,
-              props: {"heading":"","email":"","social_links":[{"icon":"mdi:facebook","link":{"url":"https://www.facebook.com/people/Flusskultur-eV/61560299469856/","label":"Facebook","active":false}},{"icon":"mdi:telegram","link":{"url":"https://t.me/+kAuT640tfMYyYjg6","label":"Telegram","active":false}}]}
+              props: {"heading":"","email":"","social_links":[{"icon":"mdi:facebook","link":{"url":"https://www.facebook.com/people/Flusskultur-eV/61560299469856/","label":"Facebook","active":false}},{"icon":"mdi:telegram","link":{"url":"https://t.me/+kAuT640tfMYyYjg6","label":"Telegram","active":false}},{"icon":"","link":{"url":"/","label":"Datenschutzerklärung","active":false}},{"icon":"","link":{"url":"/","label":"Impressum","active":false}}]}
             })
           
       })
