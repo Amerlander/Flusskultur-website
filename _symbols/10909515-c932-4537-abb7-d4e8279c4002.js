@@ -1,4 +1,4 @@
-// Calendar - Updated January 31, 2025
+// Calendar - Updated February 17, 2025
 function noop() { }
 function run(fn) {
     return fn();
@@ -710,7 +710,7 @@ function create_each_block_3(ctx) {
 	};
 }
 
-// (171:2) {#each Array(getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth()) || 7 - 1) as _}
+// (171:0) {#each Array(getFirstDayOfMonth(currentDate.getFullYear(), currentDate.getMonth())) as _}
 function create_each_block_2(ctx) {
 	let div;
 
@@ -1163,7 +1163,7 @@ function create_fragment(ctx) {
 		each_blocks_1[i] = create_each_block_3(get_each_context_3(ctx, each_value_3, i));
 	}
 
-	let each_value_2 = Array(getFirstDayOfMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()) || 7 - 1);
+	let each_value_2 = Array(getFirstDayOfMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()));
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value_2.length; i += 1) {
@@ -1290,7 +1290,7 @@ function create_fragment(ctx) {
 			if (dirty & /*currentDate*/ 2 && t2_value !== (t2_value = /*currentDate*/ ctx[1].toLocaleDateString("de-DE", { month: "long", year: "numeric" }) + "")) set_data(t2, t2_value);
 
 			if (dirty & /*currentDate*/ 2) {
-				each_value_2 = Array(getFirstDayOfMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()) || 7 - 1);
+				each_value_2 = Array(getFirstDayOfMonth(/*currentDate*/ ctx[1].getFullYear(), /*currentDate*/ ctx[1].getMonth()));
 				let i;
 
 				for (i = 0; i < each_value_2.length; i += 1) {
@@ -1339,8 +1339,8 @@ function getDaysInMonth(year, month) {
 }
 
 function getFirstDayOfMonth(year, month) {
-	const firstDay = new Date(year, month, 1).getDay(); // Gibt den Tag als 0-6 (Sonntag bis Samstag)
-	return (firstDay + 6) % 7; // Montag als erster Tag (0 = Montag, 6 = Sonntag)
+	const firstDay = new Date(year, month, 1).getDay(); // Returns 0 (Sunday) to 6 (Saturday)
+	return (firstDay + 6) % 7; // Converts to 0 (Monday) to 6 (Sunday)
 }
 
 function formatDateRange(start, end) {
