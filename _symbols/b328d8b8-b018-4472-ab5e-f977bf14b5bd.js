@@ -1,4 +1,4 @@
-// Featured Image Carousel - Updated February 17, 2025
+// Featured Image Carousel - Updated February 18, 2025
 function noop() { }
 function run(fn) {
     return fn();
