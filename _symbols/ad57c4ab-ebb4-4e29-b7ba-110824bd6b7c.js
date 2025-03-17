@@ -1,4 +1,4 @@
-// Gallery (copy) - Updated February 25, 2025
+// Gallery (copy) - Updated March 17, 2025
 function noop() { }
 function run(fn) {
     return fn();
@@ -571,7 +571,7 @@ const subscriber_queue = [];
 /**
  * Create a `Writable` store that allows both updating and reading by subscription.
  * @param {*=}value initial value
- * @param {StartStopNotifier=} start
+ * @param {StartStopNotifier=}start start and stop notifications for subscriptions
  */
 function writable(value, start = noop) {
     let stop;
@@ -606,7 +606,7 @@ function writable(value, start = noop) {
         run(value);
         return () => {
             subscribers.delete(subscriber);
-            if (subscribers.size === 0 && stop) {
+            if (subscribers.size === 0) {
                 stop();
                 stop = null;
             }
