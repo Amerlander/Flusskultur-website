@@ -1,4 +1,4 @@
-// Social Links EMAIL Geschützt - Updated March 17, 2025
+// Social Links EMAIL Geschützt - Updated April 12, 2025
 function noop() { }
 function assign(tar, src) {
     // @ts-ignore
@@ -3028,7 +3028,7 @@ function instance($$self, $$props, $$invalidate) {
 	let { encoded } = $$props;
 	let { heading } = $$props;
 
-	// export let encoded = ""; // ROT13 + Base64 von "mail@flusskultur.art"
+	// export let encoded = ""; // ROT13 + Base64 von "mail@adresse.de"
 	let email;
 
 	let link;
