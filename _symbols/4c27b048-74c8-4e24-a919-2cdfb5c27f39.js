@@ -1,4 +1,4 @@
-// Testimonials - Updated April 26, 2025
+// Testimonials - Updated November 6, 2025
 function noop() { }
 function assign(tar, src) {
     // @ts-ignore
@@ -200,35 +200,6 @@ function attr(node, attribute, value) {
         node.removeAttribute(attribute);
     else if (node.getAttribute(attribute) !== value)
         node.setAttribute(attribute, value);
-}
-/**
- * List of attributes that should always be set through the attr method,
- * because updating them through the property setter doesn't work reliably.
- * In the example of `width`/`height`, the problem is that the setter only
- * accepts numeric values, but the attribute can also be set to a string like `50%`.
- * If this list becomes too big, rethink this approach.
- */
-const always_set_through_set_attribute = ['width', 'height'];
-function set_attributes(node, attributes) {
-    // @ts-ignore
-    const descriptors = Object.getOwnPropertyDescriptors(node.__proto__);
-    for (const key in attributes) {
-        if (attributes[key] == null) {
-            node.removeAttribute(key);
-        }
-        else if (key === 'style') {
-            node.style.cssText = attributes[key];
-        }
-        else if (key === '__value') {
-            node.value = node[key] = attributes[key];
-        }
-        else if (descriptors[key] && descriptors[key].set && always_set_through_set_attribute.indexOf(key) === -1) {
-            node[key] = attributes[key];
-        }
-        else {
-            attr(node, key, attributes[key]);
-        }
-    }
 }
 function set_svg_attributes(node, attributes) {
     for (const key in attributes) {
@@ -729,15 +700,31 @@ class SvelteComponent {
     }
 }
 
-const exports = {}; const module = { exports };
+const exports$1 = {}; const module = { exports: exports$1 };
 
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("Siema",[],t):"object"==typeof exports?exports.Siema=t():e.Siema=t();}("undefined"!=typeof self?self:undefined,function(){return function(e){function t(r){if(i[r])return i[r].exports;var n=i[r]={i:r,l:!1,exports:{}};return e[r].call(n.exports,n,n.exports,t),n.l=!0,n.exports}var i={};return t.m=e,t.c=i,t.d=function(e,i,r){t.o(e,i)||Object.defineProperty(e,i,{configurable:!1,enumerable:!0,get:r});},t.n=function(e){var i=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(i,"a",i),i},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,i){function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(t,"__esModule",{value:!0});var n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},s=function(){function e(e,t){for(var i=0;i<t.length;i++){var r=t[i];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}return function(t,i,r){return i&&e(t.prototype,i),r&&e(t,r),t}}(),l=function(){function e(t){var i=this;if(r(this,e),this.config=e.mergeSettings(t),this.selector="string"==typeof this.config.selector?document.querySelector(this.config.selector):this.config.selector,null===this.selector)throw new Error("Something wrong with your selector 😭");this.resolveSlidesNumber(),this.selectorWidth=this.selector.offsetWidth,this.innerElements=[].slice.call(this.selector.children),this.currentSlide=this.config.loop?this.config.startIndex%this.innerElements.length:Math.max(0,Math.min(this.config.startIndex,this.innerElements.length-this.perPage)),this.transformProperty=e.webkitOrNot(),["resizeHandler","touchstartHandler","touchendHandler","touchmoveHandler","mousedownHandler","mouseupHandler","mouseleaveHandler","mousemoveHandler","clickHandler"].forEach(function(e){i[e]=i[e].bind(i);}),this.init();}return s(e,[{key:"attachEvents",value:function(){window.addEventListener("resize",this.resizeHandler),this.config.draggable&&(this.pointerDown=!1,this.drag={startX:0,endX:0,startY:0,letItGo:null,preventClick:!1},this.selector.addEventListener("touchstart",this.touchstartHandler),this.selector.addEventListener("touchend",this.touchendHandler),this.selector.addEventListener("touchmove",this.touchmoveHandler),this.selector.addEventListener("mousedown",this.mousedownHandler),this.selector.addEventListener("mouseup",this.mouseupHandler),this.selector.addEventListener("mouseleave",this.mouseleaveHandler),this.selector.addEventListener("mousemove",this.mousemoveHandler),this.selector.addEventListener("click",this.clickHandler));}},{key:"detachEvents",value:function(){window.removeEventListener("resize",this.resizeHandler),this.selector.removeEventListener("touchstart",this.touchstartHandler),this.selector.removeEventListener("touchend",this.touchendHandler),this.selector.removeEventListener("touchmove",this.touchmoveHandler),this.selector.removeEventListener("mousedown",this.mousedownHandler),this.selector.removeEventListener("mouseup",this.mouseupHandler),this.selector.removeEventListener("mouseleave",this.mouseleaveHandler),this.selector.removeEventListener("mousemove",this.mousemoveHandler),this.selector.removeEventListener("click",this.clickHandler);}},{key:"init",value:function(){this.attachEvents(),this.selector.style.overflow="hidden",this.selector.style.direction=this.config.rtl?"rtl":"ltr",this.buildSliderFrame(),this.config.onInit.call(this);}},{key:"buildSliderFrame",value:function(){var e=this.selectorWidth/this.perPage,t=this.config.loop?this.innerElements.length+2*this.perPage:this.innerElements.length;this.sliderFrame=document.createElement("div"),this.sliderFrame.style.width=e*t+"px",this.enableTransition(),this.config.draggable&&(this.selector.style.cursor="-webkit-grab");var i=document.createDocumentFragment();if(this.config.loop)for(var r=this.innerElements.length-this.perPage;r<this.innerElements.length;r++){var n=this.buildSliderFrameItem(this.innerElements[r].cloneNode(!0));i.appendChild(n);}for(var s=0;s<this.innerElements.length;s++){var l=this.buildSliderFrameItem(this.innerElements[s]);i.appendChild(l);}if(this.config.loop)for(var o=0;o<this.perPage;o++){var a=this.buildSliderFrameItem(this.innerElements[o].cloneNode(!0));i.appendChild(a);}this.sliderFrame.appendChild(i),this.selector.innerHTML="",this.selector.appendChild(this.sliderFrame),this.slideToCurrent();}},{key:"buildSliderFrameItem",value:function(e){var t=document.createElement("div");return t.style.cssFloat=this.config.rtl?"right":"left",t.style.float=this.config.rtl?"right":"left",t.style.width=(this.config.loop?100/(this.innerElements.length+2*this.perPage):100/this.innerElements.length)+"%",t.appendChild(e),t}},{key:"resolveSlidesNumber",value:function(){if("number"==typeof this.config.perPage)this.perPage=this.config.perPage;else if("object"===n(this.config.perPage)){this.perPage=1;for(var e in this.config.perPage)window.innerWidth>=e&&(this.perPage=this.config.perPage[e]);}}},{key:"prev",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,t=arguments[1];if(!(this.innerElements.length<=this.perPage)){var i=this.currentSlide;if(this.config.loop){if(this.currentSlide-e<0){this.disableTransition();var r=this.currentSlide+this.innerElements.length,n=this.perPage,s=r+n,l=(this.config.rtl?1:-1)*s*(this.selectorWidth/this.perPage),o=this.config.draggable?this.drag.endX-this.drag.startX:0;this.sliderFrame.style[this.transformProperty]="translate3d("+(l+o)+"px, 0, 0)",this.currentSlide=r-e;}else this.currentSlide=this.currentSlide-e;}else this.currentSlide=Math.max(this.currentSlide-e,0);i!==this.currentSlide&&(this.slideToCurrent(this.config.loop),this.config.onChange.call(this),t&&t.call(this));}}},{key:"next",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,t=arguments[1];if(!(this.innerElements.length<=this.perPage)){var i=this.currentSlide;if(this.config.loop){if(this.currentSlide+e>this.innerElements.length-this.perPage){this.disableTransition();var r=this.currentSlide-this.innerElements.length,n=this.perPage,s=r+n,l=(this.config.rtl?1:-1)*s*(this.selectorWidth/this.perPage),o=this.config.draggable?this.drag.endX-this.drag.startX:0;this.sliderFrame.style[this.transformProperty]="translate3d("+(l+o)+"px, 0, 0)",this.currentSlide=r+e;}else this.currentSlide=this.currentSlide+e;}else this.currentSlide=Math.min(this.currentSlide+e,this.innerElements.length-this.perPage);i!==this.currentSlide&&(this.slideToCurrent(this.config.loop),this.config.onChange.call(this),t&&t.call(this));}}},{key:"disableTransition",value:function(){this.sliderFrame.style.webkitTransition="all 0ms "+this.config.easing,this.sliderFrame.style.transition="all 0ms "+this.config.easing;}},{key:"enableTransition",value:function(){this.sliderFrame.style.webkitTransition="all "+this.config.duration+"ms "+this.config.easing,this.sliderFrame.style.transition="all "+this.config.duration+"ms "+this.config.easing;}},{key:"goTo",value:function(e,t){if(!(this.innerElements.length<=this.perPage)){var i=this.currentSlide;this.currentSlide=this.config.loop?e%this.innerElements.length:Math.min(Math.max(e,0),this.innerElements.length-this.perPage),i!==this.currentSlide&&(this.slideToCurrent(),this.config.onChange.call(this),t&&t.call(this));}}},{key:"slideToCurrent",value:function(e){var t=this,i=this.config.loop?this.currentSlide+this.perPage:this.currentSlide,r=(this.config.rtl?1:-1)*i*(this.selectorWidth/this.perPage);e?requestAnimationFrame(function(){requestAnimationFrame(function(){t.enableTransition(),t.sliderFrame.style[t.transformProperty]="translate3d("+r+"px, 0, 0)";});}):this.sliderFrame.style[this.transformProperty]="translate3d("+r+"px, 0, 0)";}},{key:"updateAfterDrag",value:function(){var e=(this.config.rtl?-1:1)*(this.drag.endX-this.drag.startX),t=Math.abs(e),i=this.config.multipleDrag?Math.ceil(t/(this.selectorWidth/this.perPage)):1,r=e>0&&this.currentSlide-i<0,n=e<0&&this.currentSlide+i>this.innerElements.length-this.perPage;e>0&&t>this.config.threshold&&this.innerElements.length>this.perPage?this.prev(i):e<0&&t>this.config.threshold&&this.innerElements.length>this.perPage&&this.next(i),this.slideToCurrent(r||n);}},{key:"resizeHandler",value:function(){this.resolveSlidesNumber(),this.currentSlide+this.perPage>this.innerElements.length&&(this.currentSlide=this.innerElements.length<=this.perPage?0:this.innerElements.length-this.perPage),this.selectorWidth=this.selector.offsetWidth,this.buildSliderFrame();}},{key:"clearDrag",value:function(){this.drag={startX:0,endX:0,startY:0,letItGo:null,preventClick:this.drag.preventClick};}},{key:"touchstartHandler",value:function(e){-1!==["TEXTAREA","OPTION","INPUT","SELECT"].indexOf(e.target.nodeName)||(e.stopPropagation(),this.pointerDown=!0,this.drag.startX=e.touches[0].pageX,this.drag.startY=e.touches[0].pageY);}},{key:"touchendHandler",value:function(e){e.stopPropagation(),this.pointerDown=!1,this.enableTransition(),this.drag.endX&&this.updateAfterDrag(),this.clearDrag();}},{key:"touchmoveHandler",value:function(e){if(e.stopPropagation(),null===this.drag.letItGo&&(this.drag.letItGo=Math.abs(this.drag.startY-e.touches[0].pageY)<Math.abs(this.drag.startX-e.touches[0].pageX)),this.pointerDown&&this.drag.letItGo){e.preventDefault(),this.drag.endX=e.touches[0].pageX,this.sliderFrame.style.webkitTransition="all 0ms "+this.config.easing,this.sliderFrame.style.transition="all 0ms "+this.config.easing;var t=this.config.loop?this.currentSlide+this.perPage:this.currentSlide,i=t*(this.selectorWidth/this.perPage),r=this.drag.endX-this.drag.startX,n=this.config.rtl?i+r:i-r;this.sliderFrame.style[this.transformProperty]="translate3d("+(this.config.rtl?1:-1)*n+"px, 0, 0)";}}},{key:"mousedownHandler",value:function(e){-1!==["TEXTAREA","OPTION","INPUT","SELECT"].indexOf(e.target.nodeName)||(e.preventDefault(),e.stopPropagation(),this.pointerDown=!0,this.drag.startX=e.pageX);}},{key:"mouseupHandler",value:function(e){e.stopPropagation(),this.pointerDown=!1,this.selector.style.cursor="-webkit-grab",this.enableTransition(),this.drag.endX&&this.updateAfterDrag(),this.clearDrag();}},{key:"mousemoveHandler",value:function(e){if(e.preventDefault(),this.pointerDown){"A"===e.target.nodeName&&(this.drag.preventClick=!0),this.drag.endX=e.pageX,this.selector.style.cursor="-webkit-grabbing",this.sliderFrame.style.webkitTransition="all 0ms "+this.config.easing,this.sliderFrame.style.transition="all 0ms "+this.config.easing;var t=this.config.loop?this.currentSlide+this.perPage:this.currentSlide,i=t*(this.selectorWidth/this.perPage),r=this.drag.endX-this.drag.startX,n=this.config.rtl?i+r:i-r;this.sliderFrame.style[this.transformProperty]="translate3d("+(this.config.rtl?1:-1)*n+"px, 0, 0)";}}},{key:"mouseleaveHandler",value:function(e){this.pointerDown&&(this.pointerDown=!1,this.selector.style.cursor="-webkit-grab",this.drag.endX=e.pageX,this.drag.preventClick=!1,this.enableTransition(),this.updateAfterDrag(),this.clearDrag());}},{key:"clickHandler",value:function(e){this.drag.preventClick&&e.preventDefault(),this.drag.preventClick=!1;}},{key:"remove",value:function(e,t){if(e<0||e>=this.innerElements.length)throw new Error("Item to remove doesn't exist 😭");var i=e<this.currentSlide,r=this.currentSlide+this.perPage-1===e;(i||r)&&this.currentSlide--,this.innerElements.splice(e,1),this.buildSliderFrame(),t&&t.call(this);}},{key:"insert",value:function(e,t,i){if(t<0||t>this.innerElements.length+1)throw new Error("Unable to inset it at this index 😭");if(-1!==this.innerElements.indexOf(e))throw new Error("The same item in a carousel? Really? Nope 😭");var r=t<=this.currentSlide>0&&this.innerElements.length;this.currentSlide=r?this.currentSlide+1:this.currentSlide,this.innerElements.splice(t,0,e),this.buildSliderFrame(),i&&i.call(this);}},{key:"prepend",value:function(e,t){this.insert(e,0),t&&t.call(this);}},{key:"append",value:function(e,t){this.insert(e,this.innerElements.length+1),t&&t.call(this);}},{key:"destroy",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=arguments[1];if(this.detachEvents(),this.selector.style.cursor="auto",e){for(var i=document.createDocumentFragment(),r=0;r<this.innerElements.length;r++)i.appendChild(this.innerElements[r]);this.selector.innerHTML="",this.selector.appendChild(i),this.selector.removeAttribute("style");}t&&t.call(this);}}],[{key:"mergeSettings",value:function(e){var t={selector:".siema",duration:200,easing:"ease-out",perPage:1,startIndex:0,draggable:!0,multipleDrag:!0,threshold:20,loop:!1,rtl:!1,onInit:function(){},onChange:function(){}},i=e;for(var r in i)t[r]=i[r];return t}},{key:"webkitOrNot",value:function(){return "string"==typeof document.documentElement.style.transform?"transform":"WebkitTransform"}}]),e}();t.default=l,e.exports=t.default;}])});
+!function(e,t){"object"==typeof exports$1&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define("Siema",[],t):"object"==typeof exports$1?exports$1.Siema=t():e.Siema=t();}("undefined"!=typeof self?self:undefined,function(){return function(e){function t(r){if(i[r])return i[r].exports;var n=i[r]={i:r,l:!1,exports:{}};return e[r].call(n.exports,n,n.exports,t),n.l=!0,n.exports}var i={};return t.m=e,t.c=i,t.d=function(e,i,r){t.o(e,i)||Object.defineProperty(e,i,{configurable:!1,enumerable:!0,get:r});},t.n=function(e){var i=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(i,"a",i),i},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,i){function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(t,"__esModule",{value:!0});var n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},s=function(){function e(e,t){for(var i=0;i<t.length;i++){var r=t[i];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}return function(t,i,r){return i&&e(t.prototype,i),r&&e(t,r),t}}(),l=function(){function e(t){var i=this;if(r(this,e),this.config=e.mergeSettings(t),this.selector="string"==typeof this.config.selector?document.querySelector(this.config.selector):this.config.selector,null===this.selector)throw new Error("Something wrong with your selector 😭");this.resolveSlidesNumber(),this.selectorWidth=this.selector.offsetWidth,this.innerElements=[].slice.call(this.selector.children),this.currentSlide=this.config.loop?this.config.startIndex%this.innerElements.length:Math.max(0,Math.min(this.config.startIndex,this.innerElements.length-this.perPage)),this.transformProperty=e.webkitOrNot(),["resizeHandler","touchstartHandler","touchendHandler","touchmoveHandler","mousedownHandler","mouseupHandler","mouseleaveHandler","mousemoveHandler","clickHandler"].forEach(function(e){i[e]=i[e].bind(i);}),this.init();}return s(e,[{key:"attachEvents",value:function(){window.addEventListener("resize",this.resizeHandler),this.config.draggable&&(this.pointerDown=!1,this.drag={startX:0,endX:0,startY:0,letItGo:null,preventClick:!1},this.selector.addEventListener("touchstart",this.touchstartHandler),this.selector.addEventListener("touchend",this.touchendHandler),this.selector.addEventListener("touchmove",this.touchmoveHandler),this.selector.addEventListener("mousedown",this.mousedownHandler),this.selector.addEventListener("mouseup",this.mouseupHandler),this.selector.addEventListener("mouseleave",this.mouseleaveHandler),this.selector.addEventListener("mousemove",this.mousemoveHandler),this.selector.addEventListener("click",this.clickHandler));}},{key:"detachEvents",value:function(){window.removeEventListener("resize",this.resizeHandler),this.selector.removeEventListener("touchstart",this.touchstartHandler),this.selector.removeEventListener("touchend",this.touchendHandler),this.selector.removeEventListener("touchmove",this.touchmoveHandler),this.selector.removeEventListener("mousedown",this.mousedownHandler),this.selector.removeEventListener("mouseup",this.mouseupHandler),this.selector.removeEventListener("mouseleave",this.mouseleaveHandler),this.selector.removeEventListener("mousemove",this.mousemoveHandler),this.selector.removeEventListener("click",this.clickHandler);}},{key:"init",value:function(){this.attachEvents(),this.selector.style.overflow="hidden",this.selector.style.direction=this.config.rtl?"rtl":"ltr",this.buildSliderFrame(),this.config.onInit.call(this);}},{key:"buildSliderFrame",value:function(){var e=this.selectorWidth/this.perPage,t=this.config.loop?this.innerElements.length+2*this.perPage:this.innerElements.length;this.sliderFrame=document.createElement("div"),this.sliderFrame.style.width=e*t+"px",this.enableTransition(),this.config.draggable&&(this.selector.style.cursor="-webkit-grab");var i=document.createDocumentFragment();if(this.config.loop)for(var r=this.innerElements.length-this.perPage;r<this.innerElements.length;r++){var n=this.buildSliderFrameItem(this.innerElements[r].cloneNode(!0));i.appendChild(n);}for(var s=0;s<this.innerElements.length;s++){var l=this.buildSliderFrameItem(this.innerElements[s]);i.appendChild(l);}if(this.config.loop)for(var o=0;o<this.perPage;o++){var a=this.buildSliderFrameItem(this.innerElements[o].cloneNode(!0));i.appendChild(a);}this.sliderFrame.appendChild(i),this.selector.innerHTML="",this.selector.appendChild(this.sliderFrame),this.slideToCurrent();}},{key:"buildSliderFrameItem",value:function(e){var t=document.createElement("div");return t.style.cssFloat=this.config.rtl?"right":"left",t.style.float=this.config.rtl?"right":"left",t.style.width=(this.config.loop?100/(this.innerElements.length+2*this.perPage):100/this.innerElements.length)+"%",t.appendChild(e),t}},{key:"resolveSlidesNumber",value:function(){if("number"==typeof this.config.perPage)this.perPage=this.config.perPage;else if("object"===n(this.config.perPage)){this.perPage=1;for(var e in this.config.perPage)window.innerWidth>=e&&(this.perPage=this.config.perPage[e]);}}},{key:"prev",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,t=arguments[1];if(!(this.innerElements.length<=this.perPage)){var i=this.currentSlide;if(this.config.loop){if(this.currentSlide-e<0){this.disableTransition();var r=this.currentSlide+this.innerElements.length,n=this.perPage,s=r+n,l=(this.config.rtl?1:-1)*s*(this.selectorWidth/this.perPage),o=this.config.draggable?this.drag.endX-this.drag.startX:0;this.sliderFrame.style[this.transformProperty]="translate3d("+(l+o)+"px, 0, 0)",this.currentSlide=r-e;}else this.currentSlide=this.currentSlide-e;}else this.currentSlide=Math.max(this.currentSlide-e,0);i!==this.currentSlide&&(this.slideToCurrent(this.config.loop),this.config.onChange.call(this),t&&t.call(this));}}},{key:"next",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,t=arguments[1];if(!(this.innerElements.length<=this.perPage)){var i=this.currentSlide;if(this.config.loop){if(this.currentSlide+e>this.innerElements.length-this.perPage){this.disableTransition();var r=this.currentSlide-this.innerElements.length,n=this.perPage,s=r+n,l=(this.config.rtl?1:-1)*s*(this.selectorWidth/this.perPage),o=this.config.draggable?this.drag.endX-this.drag.startX:0;this.sliderFrame.style[this.transformProperty]="translate3d("+(l+o)+"px, 0, 0)",this.currentSlide=r+e;}else this.currentSlide=this.currentSlide+e;}else this.currentSlide=Math.min(this.currentSlide+e,this.innerElements.length-this.perPage);i!==this.currentSlide&&(this.slideToCurrent(this.config.loop),this.config.onChange.call(this),t&&t.call(this));}}},{key:"disableTransition",value:function(){this.sliderFrame.style.webkitTransition="all 0ms "+this.config.easing,this.sliderFrame.style.transition="all 0ms "+this.config.easing;}},{key:"enableTransition",value:function(){this.sliderFrame.style.webkitTransition="all "+this.config.duration+"ms "+this.config.easing,this.sliderFrame.style.transition="all "+this.config.duration+"ms "+this.config.easing;}},{key:"goTo",value:function(e,t){if(!(this.innerElements.length<=this.perPage)){var i=this.currentSlide;this.currentSlide=this.config.loop?e%this.innerElements.length:Math.min(Math.max(e,0),this.innerElements.length-this.perPage),i!==this.currentSlide&&(this.slideToCurrent(),this.config.onChange.call(this),t&&t.call(this));}}},{key:"slideToCurrent",value:function(e){var t=this,i=this.config.loop?this.currentSlide+this.perPage:this.currentSlide,r=(this.config.rtl?1:-1)*i*(this.selectorWidth/this.perPage);e?requestAnimationFrame(function(){requestAnimationFrame(function(){t.enableTransition(),t.sliderFrame.style[t.transformProperty]="translate3d("+r+"px, 0, 0)";});}):this.sliderFrame.style[this.transformProperty]="translate3d("+r+"px, 0, 0)";}},{key:"updateAfterDrag",value:function(){var e=(this.config.rtl?-1:1)*(this.drag.endX-this.drag.startX),t=Math.abs(e),i=this.config.multipleDrag?Math.ceil(t/(this.selectorWidth/this.perPage)):1,r=e>0&&this.currentSlide-i<0,n=e<0&&this.currentSlide+i>this.innerElements.length-this.perPage;e>0&&t>this.config.threshold&&this.innerElements.length>this.perPage?this.prev(i):e<0&&t>this.config.threshold&&this.innerElements.length>this.perPage&&this.next(i),this.slideToCurrent(r||n);}},{key:"resizeHandler",value:function(){this.resolveSlidesNumber(),this.currentSlide+this.perPage>this.innerElements.length&&(this.currentSlide=this.innerElements.length<=this.perPage?0:this.innerElements.length-this.perPage),this.selectorWidth=this.selector.offsetWidth,this.buildSliderFrame();}},{key:"clearDrag",value:function(){this.drag={startX:0,endX:0,startY:0,letItGo:null,preventClick:this.drag.preventClick};}},{key:"touchstartHandler",value:function(e){-1!==["TEXTAREA","OPTION","INPUT","SELECT"].indexOf(e.target.nodeName)||(e.stopPropagation(),this.pointerDown=!0,this.drag.startX=e.touches[0].pageX,this.drag.startY=e.touches[0].pageY);}},{key:"touchendHandler",value:function(e){e.stopPropagation(),this.pointerDown=!1,this.enableTransition(),this.drag.endX&&this.updateAfterDrag(),this.clearDrag();}},{key:"touchmoveHandler",value:function(e){if(e.stopPropagation(),null===this.drag.letItGo&&(this.drag.letItGo=Math.abs(this.drag.startY-e.touches[0].pageY)<Math.abs(this.drag.startX-e.touches[0].pageX)),this.pointerDown&&this.drag.letItGo){e.preventDefault(),this.drag.endX=e.touches[0].pageX,this.sliderFrame.style.webkitTransition="all 0ms "+this.config.easing,this.sliderFrame.style.transition="all 0ms "+this.config.easing;var t=this.config.loop?this.currentSlide+this.perPage:this.currentSlide,i=t*(this.selectorWidth/this.perPage),r=this.drag.endX-this.drag.startX,n=this.config.rtl?i+r:i-r;this.sliderFrame.style[this.transformProperty]="translate3d("+(this.config.rtl?1:-1)*n+"px, 0, 0)";}}},{key:"mousedownHandler",value:function(e){-1!==["TEXTAREA","OPTION","INPUT","SELECT"].indexOf(e.target.nodeName)||(e.preventDefault(),e.stopPropagation(),this.pointerDown=!0,this.drag.startX=e.pageX);}},{key:"mouseupHandler",value:function(e){e.stopPropagation(),this.pointerDown=!1,this.selector.style.cursor="-webkit-grab",this.enableTransition(),this.drag.endX&&this.updateAfterDrag(),this.clearDrag();}},{key:"mousemoveHandler",value:function(e){if(e.preventDefault(),this.pointerDown){"A"===e.target.nodeName&&(this.drag.preventClick=!0),this.drag.endX=e.pageX,this.selector.style.cursor="-webkit-grabbing",this.sliderFrame.style.webkitTransition="all 0ms "+this.config.easing,this.sliderFrame.style.transition="all 0ms "+this.config.easing;var t=this.config.loop?this.currentSlide+this.perPage:this.currentSlide,i=t*(this.selectorWidth/this.perPage),r=this.drag.endX-this.drag.startX,n=this.config.rtl?i+r:i-r;this.sliderFrame.style[this.transformProperty]="translate3d("+(this.config.rtl?1:-1)*n+"px, 0, 0)";}}},{key:"mouseleaveHandler",value:function(e){this.pointerDown&&(this.pointerDown=!1,this.selector.style.cursor="-webkit-grab",this.drag.endX=e.pageX,this.drag.preventClick=!1,this.enableTransition(),this.updateAfterDrag(),this.clearDrag());}},{key:"clickHandler",value:function(e){this.drag.preventClick&&e.preventDefault(),this.drag.preventClick=!1;}},{key:"remove",value:function(e,t){if(e<0||e>=this.innerElements.length)throw new Error("Item to remove doesn't exist 😭");var i=e<this.currentSlide,r=this.currentSlide+this.perPage-1===e;(i||r)&&this.currentSlide--,this.innerElements.splice(e,1),this.buildSliderFrame(),t&&t.call(this);}},{key:"insert",value:function(e,t,i){if(t<0||t>this.innerElements.length+1)throw new Error("Unable to inset it at this index 😭");if(-1!==this.innerElements.indexOf(e))throw new Error("The same item in a carousel? Really? Nope 😭");var r=t<=this.currentSlide>0&&this.innerElements.length;this.currentSlide=r?this.currentSlide+1:this.currentSlide,this.innerElements.splice(t,0,e),this.buildSliderFrame(),i&&i.call(this);}},{key:"prepend",value:function(e,t){this.insert(e,0),t&&t.call(this);}},{key:"append",value:function(e,t){this.insert(e,this.innerElements.length+1),t&&t.call(this);}},{key:"destroy",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0],t=arguments[1];if(this.detachEvents(),this.selector.style.cursor="auto",e){for(var i=document.createDocumentFragment(),r=0;r<this.innerElements.length;r++)i.appendChild(this.innerElements[r]);this.selector.innerHTML="",this.selector.appendChild(i),this.selector.removeAttribute("style");}t&&t.call(this);}}],[{key:"mergeSettings",value:function(e){var t={selector:".siema",duration:200,easing:"ease-out",perPage:1,startIndex:0,draggable:!0,multipleDrag:!0,threshold:20,loop:!1,rtl:!1,onInit:function(){},onChange:function(){}},i=e;for(var r in i)t[r]=i[r];return t}},{key:"webkitOrNot",value:function(){return "string"==typeof document.documentElement.style.transform?"transform":"WebkitTransform"}}]),e}();t.default=l,e.exports=t.default;}])});
 
 
 
 var Siema = module.exports;
 
-const matchIconName = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const exports = {};
+Object.defineProperty(exports, '__esModule', { value: true });
+
+const matchName = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const iconDefaults = Object.freeze({
+  left: 0,
+  top: 0,
+  width: 16,
+  height: 16,
+  rotate: 0,
+  vFlip: false,
+  hFlip: false
+});
+function fullIcon(data) {
+  return { ...iconDefaults, ...data };
+}
+
 const stringToIcon = (value, validate, allowSimpleName, provider = "") => {
   const colonSeparated = value.split(":");
   if (value.slice(0, 1) === "@") {
@@ -753,12 +740,11 @@ const stringToIcon = (value, validate, allowSimpleName, provider = "") => {
     const name2 = colonSeparated.pop();
     const prefix = colonSeparated.pop();
     const result = {
-      // Allow provider without '@': "provider:prefix:name"
       provider: colonSeparated.length > 0 ? colonSeparated[0] : provider,
       prefix,
       name: name2
     };
-    return validate && !validateIconName(result) ? null : result;
+    return validate && !validateIcon(result) ? null : result;
   }
   const name = colonSeparated[0];
   const dashSeparated = name.split("-");
@@ -768,7 +754,7 @@ const stringToIcon = (value, validate, allowSimpleName, provider = "") => {
       prefix: dashSeparated.shift(),
       name: dashSeparated.join("-")
     };
-    return validate && !validateIconName(result) ? null : result;
+    return validate && !validateIcon(result) ? null : result;
   }
   if (allowSimpleName && provider === "") {
     const result = {
@@ -776,111 +762,87 @@ const stringToIcon = (value, validate, allowSimpleName, provider = "") => {
       prefix: "",
       name
     };
-    return validate && !validateIconName(result, allowSimpleName) ? null : result;
+    return validate && !validateIcon(result, allowSimpleName) ? null : result;
   }
   return null;
 };
-const validateIconName = (icon, allowSimpleName) => {
+const validateIcon = (icon, allowSimpleName) => {
   if (!icon) {
     return false;
   }
-  return !!// Check prefix: cannot be empty, unless allowSimpleName is enabled
-  // Check name: cannot be empty
-  ((allowSimpleName && icon.prefix === "" || !!icon.prefix) && !!icon.name);
+  return !!((icon.provider === "" || icon.provider.match(matchName)) && (allowSimpleName && icon.prefix === "" || icon.prefix.match(matchName)) && icon.name.match(matchName));
 };
 
-const defaultIconDimensions = Object.freeze(
-  {
-    left: 0,
-    top: 0,
-    width: 16,
-    height: 16
-  }
-);
-const defaultIconTransformations = Object.freeze({
-  rotate: 0,
-  vFlip: false,
-  hFlip: false
-});
-const defaultIconProps = Object.freeze({
-  ...defaultIconDimensions,
-  ...defaultIconTransformations
-});
-const defaultExtendedIconProps = Object.freeze({
-  ...defaultIconProps,
-  body: "",
-  hidden: false
-});
-
-function mergeIconTransformations(obj1, obj2) {
-  const result = {};
-  if (!obj1.hFlip !== !obj2.hFlip) {
-    result.hFlip = true;
-  }
-  if (!obj1.vFlip !== !obj2.vFlip) {
-    result.vFlip = true;
-  }
-  const rotate = ((obj1.rotate || 0) + (obj2.rotate || 0)) % 4;
-  if (rotate) {
-    result.rotate = rotate;
-  }
-  return result;
-}
-
-function mergeIconData(parent, child) {
-  const result = mergeIconTransformations(parent, child);
-  for (const key in defaultExtendedIconProps) {
-    if (key in defaultIconTransformations) {
-      if (key in parent && !(key in result)) {
-        result[key] = defaultIconTransformations[key];
+function mergeIconData(icon, alias) {
+  const result = { ...icon };
+  for (const key in iconDefaults) {
+    const prop = key;
+    if (alias[prop] !== void 0) {
+      const value = alias[prop];
+      if (result[prop] === void 0) {
+        result[prop] = value;
+        continue;
       }
-    } else if (key in child) {
-      result[key] = child[key];
-    } else if (key in parent) {
-      result[key] = parent[key];
+      switch (prop) {
+        case "rotate":
+          result[prop] = (result[prop] + value) % 4;
+          break;
+        case "hFlip":
+        case "vFlip":
+          result[prop] = value !== result[prop];
+          break;
+        default:
+          result[prop] = value;
+      }
     }
   }
   return result;
 }
 
-function getIconsTree(data, names) {
-  const icons = data.icons;
-  const aliases = data.aliases || /* @__PURE__ */ Object.create(null);
-  const resolved = /* @__PURE__ */ Object.create(null);
-  function resolve(name) {
-    if (icons[name]) {
-      return resolved[name] = [];
+function getIconData$1(data, name, full = false) {
+  function getIcon(name2, iteration) {
+    if (data.icons[name2] !== void 0) {
+      return Object.assign({}, data.icons[name2]);
     }
-    if (!(name in resolved)) {
-      resolved[name] = null;
-      const parent = aliases[name] && aliases[name].parent;
-      const value = parent && resolve(parent);
-      if (value) {
-        resolved[name] = [parent].concat(value);
+    if (iteration > 5) {
+      return null;
+    }
+    const aliases = data.aliases;
+    if (aliases && aliases[name2] !== void 0) {
+      const item = aliases[name2];
+      const result2 = getIcon(item.parent, iteration + 1);
+      if (result2) {
+        return mergeIconData(result2, item);
+      }
+      return result2;
+    }
+    const chars = data.chars;
+    if (!iteration && chars && chars[name2] !== void 0) {
+      return getIcon(chars[name2], iteration + 1);
+    }
+    return null;
+  }
+  const result = getIcon(name, 0);
+  if (result) {
+    for (const key in iconDefaults) {
+      if (result[key] === void 0 && data[key] !== void 0) {
+        result[key] = data[key];
       }
     }
-    return resolved[name];
   }
-  (Object.keys(icons).concat(Object.keys(aliases))).forEach(resolve);
-  return resolved;
+  return result && full ? fullIcon(result) : result;
 }
 
-function internalGetIconData(data, name, tree) {
-  const icons = data.icons;
-  const aliases = data.aliases || /* @__PURE__ */ Object.create(null);
-  let currentProps = {};
-  function parse(name2) {
-    currentProps = mergeIconData(
-      icons[name2] || aliases[name2],
-      currentProps
-    );
+function isVariation(item) {
+  for (const key in iconDefaults) {
+    if (item[key] !== void 0) {
+      return true;
+    }
   }
-  parse(name);
-  tree.forEach(parse);
-  return mergeIconData(data, currentProps);
+  return false;
 }
-
-function parseIconSet(data, callback) {
+function parseIconSet(data, callback, options) {
+  options = options || {};
   const names = [];
   if (typeof data !== "object" || typeof data.icons !== "object") {
     return names;
@@ -891,30 +853,38 @@ function parseIconSet(data, callback) {
       names.push(name);
     });
   }
-  const tree = getIconsTree(data);
-  for (const name in tree) {
-    const item = tree[name];
-    if (item) {
-      callback(name, internalGetIconData(data, name, item));
+  const icons = data.icons;
+  Object.keys(icons).forEach((name) => {
+    const iconData = getIconData$1(data, name, true);
+    if (iconData) {
+      callback(name, iconData);
       names.push(name);
     }
+  });
+  const parseAliases = options.aliases || "all";
+  if (parseAliases !== "none" && typeof data.aliases === "object") {
+    const aliases = data.aliases;
+    Object.keys(aliases).forEach((name) => {
+      if (parseAliases === "variations" && isVariation(aliases[name])) {
+        return;
+      }
+      const iconData = getIconData$1(data, name, true);
+      if (iconData) {
+        callback(name, iconData);
+        names.push(name);
+      }
+    });
   }
   return names;
 }
 
-const optionalPropertyDefaults = {
-  provider: "",
-  aliases: {},
-  not_found: {},
-  ...defaultIconDimensions
+const optionalProperties = {
+  provider: "string",
+  aliases: "object",
+  not_found: "object"
 };
-function checkOptionalProps(item, defaults) {
-  for (const prop in defaults) {
-    if (prop in item && typeof item[prop] !== typeof defaults[prop]) {
-      return false;
-    }
-  }
-  return true;
+for (const prop in iconDefaults) {
+  optionalProperties[prop] = typeof iconDefaults[prop];
 }
 function quicklyValidateIconSet(obj) {
   if (typeof obj !== "object" || obj === null) {
@@ -924,77 +894,129 @@ function quicklyValidateIconSet(obj) {
   if (typeof data.prefix !== "string" || !obj.icons || typeof obj.icons !== "object") {
     return null;
   }
-  if (!checkOptionalProps(obj, optionalPropertyDefaults)) {
-    return null;
+  for (const prop in optionalProperties) {
+    if (obj[prop] !== void 0 && typeof obj[prop] !== optionalProperties[prop]) {
+      return null;
+    }
   }
   const icons = data.icons;
   for (const name in icons) {
     const icon = icons[name];
-    if (
-      // Name cannot be empty
-      !name || // Must have body
-      typeof icon.body !== "string" || // Check other props
-      !checkOptionalProps(
-        icon,
-        defaultExtendedIconProps
-      )
-    ) {
+    if (!name.match(matchName) || typeof icon.body !== "string") {
       return null;
     }
+    for (const prop in iconDefaults) {
+      if (icon[prop] !== void 0 && typeof icon[prop] !== typeof iconDefaults[prop]) {
+        return null;
+      }
+    }
   }
-  const aliases = data.aliases || /* @__PURE__ */ Object.create(null);
-  for (const name in aliases) {
-    const icon = aliases[name];
-    const parent = icon.parent;
-    if (
-      // Name cannot be empty
-      !name || // Parent must be set and point to existing icon
-      typeof parent !== "string" || !icons[parent] && !aliases[parent] || // Check other props
-      !checkOptionalProps(
-        icon,
-        defaultExtendedIconProps
-      )
-    ) {
-      return null;
+  const aliases = data.aliases;
+  if (aliases) {
+    for (const name in aliases) {
+      const icon = aliases[name];
+      const parent = icon.parent;
+      if (!name.match(matchName) || typeof parent !== "string" || !icons[parent] && !aliases[parent]) {
+        return null;
+      }
+      for (const prop in iconDefaults) {
+        if (icon[prop] !== void 0 && typeof icon[prop] !== typeof iconDefaults[prop]) {
+          return null;
+        }
+      }
     }
   }
   return data;
 }
 
-const dataStorage = /* @__PURE__ */ Object.create(null);
+const storageVersion = 1;
+let storage$1 = /* @__PURE__ */ Object.create(null);
+try {
+  const w = window || self;
+  if (w && w._iconifyStorage.version === storageVersion) {
+    storage$1 = w._iconifyStorage.storage;
+  }
+} catch (err) {
+}
+function shareStorage() {
+  try {
+    const w = window || self;
+    if (w && !w._iconifyStorage) {
+      w._iconifyStorage = {
+        version: storageVersion,
+        storage: storage$1
+      };
+    }
+  } catch (err) {
+  }
+}
 function newStorage(provider, prefix) {
   return {
     provider,
     prefix,
     icons: /* @__PURE__ */ Object.create(null),
-    missing: /* @__PURE__ */ new Set()
+    missing: /* @__PURE__ */ Object.create(null)
   };
 }
 function getStorage(provider, prefix) {
-  const providerStorage = dataStorage[provider] || (dataStorage[provider] = /* @__PURE__ */ Object.create(null));
-  return providerStorage[prefix] || (providerStorage[prefix] = newStorage(provider, prefix));
+  if (storage$1[provider] === void 0) {
+    storage$1[provider] = /* @__PURE__ */ Object.create(null);
+  }
+  const providerStorage = storage$1[provider];
+  if (providerStorage[prefix] === void 0) {
+    providerStorage[prefix] = newStorage(provider, prefix);
+  }
+  return providerStorage[prefix];
 }
-function addIconSet(storage, data) {
+function addIconSet(storage2, data) {
   if (!quicklyValidateIconSet(data)) {
     return [];
   }
+  const t = Date.now();
   return parseIconSet(data, (name, icon) => {
     if (icon) {
-      storage.icons[name] = icon;
+      storage2.icons[name] = icon;
     } else {
-      storage.missing.add(name);
+      storage2.missing[name] = t;
     }
   });
 }
-function addIconToStorage(storage, name, icon) {
+function addIconToStorage(storage2, name, icon) {
   try {
     if (typeof icon.body === "string") {
-      storage.icons[name] = { ...icon };
+      storage2.icons[name] = Object.freeze(fullIcon(icon));
       return true;
     }
   } catch (err) {
   }
   return false;
+}
+function getIconFromStorage(storage2, name) {
+  const value = storage2.icons[name];
+  return value === void 0 ? null : value;
+}
+function listIcons(provider, prefix) {
+  let allIcons = [];
+  let providers;
+  if (typeof provider === "string") {
+    providers = [provider];
+  } else {
+    providers = Object.keys(storage$1);
+  }
+  providers.forEach((provider2) => {
+    let prefixes;
+    if (typeof provider2 === "string" && typeof prefix === "string") {
+      prefixes = [prefix];
+    } else {
+      prefixes = storage$1[provider2] === void 0 ? [] : Object.keys(storage$1[provider2]);
+    }
+    prefixes.forEach((prefix2) => {
+      const storage2 = getStorage(provider2, prefix2);
+      const icons = Object.keys(storage2.icons).map((name) => (provider2 !== "" ? "@" + provider2 + ":" : "") + prefix2 + ":" + name);
+      allIcons = allIcons.concat(icons);
+    });
+  });
+  return allIcons;
 }
 
 let simpleNames = false;
@@ -1006,11 +1028,7 @@ function allowSimpleNames(allow) {
 }
 function getIconData(name) {
   const icon = typeof name === "string" ? stringToIcon(name, true, simpleNames) : name;
-  if (icon) {
-    const storage = getStorage(icon.provider, icon.prefix);
-    const iconName = icon.name;
-    return storage.icons[iconName] || (storage.missing.has(iconName) ? null : void 0);
-  }
+  return icon ? getIconFromStorage(getStorage(icon.provider, icon.prefix), icon.name) : null;
 }
 function addIcon(name, data) {
   const icon = stringToIcon(name, true, simpleNames);
@@ -1018,54 +1036,99 @@ function addIcon(name, data) {
     return false;
   }
   const storage = getStorage(icon.provider, icon.prefix);
-  if (data) {
-    return addIconToStorage(storage, icon.name, data);
-  } else {
-    storage.missing.add(icon.name);
-    return true;
-  }
+  return addIconToStorage(storage, icon.name, data);
 }
 function addCollection(data, provider) {
   if (typeof data !== "object") {
     return false;
   }
   if (typeof provider !== "string") {
-    provider = data.provider || "";
+    provider = typeof data.provider === "string" ? data.provider : "";
   }
-  if (simpleNames && !provider && !data.prefix) {
+  if (simpleNames && provider === "" && (typeof data.prefix !== "string" || data.prefix === "")) {
     let added = false;
     if (quicklyValidateIconSet(data)) {
       data.prefix = "";
       parseIconSet(data, (name, icon) => {
-        if (addIcon(name, icon)) {
+        if (icon && addIcon(name, icon)) {
           added = true;
         }
       });
     }
     return added;
   }
-  const prefix = data.prefix;
-  if (!validateIconName({
+  if (typeof data.prefix !== "string" || !validateIcon({
     provider,
-    prefix,
+    prefix: data.prefix,
     name: "a"
   })) {
     return false;
   }
-  const storage = getStorage(provider, prefix);
+  const storage = getStorage(provider, data.prefix);
   return !!addIconSet(storage, data);
 }
+function iconExists(name) {
+  return getIconData(name) !== null;
+}
+function getIcon(name) {
+  const result = getIconData(name);
+  return result ? { ...result } : null;
+}
 
-const defaultIconSizeCustomisations = Object.freeze({
+const defaults = Object.freeze({
+  inline: false,
   width: null,
-  height: null
+  height: null,
+  hAlign: "center",
+  vAlign: "middle",
+  slice: false,
+  hFlip: false,
+  vFlip: false,
+  rotate: 0
 });
-const defaultIconCustomisations = Object.freeze({
-  // Dimensions
-  ...defaultIconSizeCustomisations,
-  // Transformations
-  ...defaultIconTransformations
-});
+function mergeCustomisations(defaults2, item) {
+  const result = {};
+  for (const key in defaults2) {
+    const attr = key;
+    result[attr] = defaults2[attr];
+    if (item[attr] === void 0) {
+      continue;
+    }
+    const value = item[attr];
+    switch (attr) {
+      case "inline":
+      case "slice":
+        if (typeof value === "boolean") {
+          result[attr] = value;
+        }
+        break;
+      case "hFlip":
+      case "vFlip":
+        if (value === true) {
+          result[attr] = !result[attr];
+        }
+        break;
+      case "hAlign":
+      case "vAlign":
+        if (typeof value === "string" && value !== "") {
+          result[attr] = value;
+        }
+        break;
+      case "width":
+      case "height":
+        if (typeof value === "string" && value !== "" || typeof value === "number" && value || value === null) {
+          result[attr] = value;
+        }
+        break;
+      case "rotate":
+        if (typeof value === "number") {
+          result[attr] += value;
+        }
+        break;
+    }
+  }
+  return result;
+}
 
 const unitsSplit = /(-?[0-9.]*[0-9]+[0-9.]*)/g;
 const unitsTest = /^-?[0-9.]*[0-9]+[0-9.]*$/g;
@@ -1073,7 +1136,7 @@ function calculateSize(size, ratio, precision) {
   if (ratio === 1) {
     return size;
   }
-  precision = precision || 100;
+  precision = precision === void 0 ? 100 : precision;
   if (typeof size === "number") {
     return Math.ceil(size * ratio * precision) / precision;
   }
@@ -1106,53 +1169,40 @@ function calculateSize(size, ratio, precision) {
   }
 }
 
-function splitSVGDefs(content, tag = "defs") {
-  let defs = "";
-  const index = content.indexOf("<" + tag);
-  while (index >= 0) {
-    const start = content.indexOf(">", index);
-    const end = content.indexOf("</" + tag);
-    if (start === -1 || end === -1) {
+function preserveAspectRatio(props) {
+  let result = "";
+  switch (props.hAlign) {
+    case "left":
+      result += "xMin";
       break;
-    }
-    const endEnd = content.indexOf(">", end);
-    if (endEnd === -1) {
+    case "right":
+      result += "xMax";
       break;
-    }
-    defs += content.slice(start + 1, end).trim();
-    content = content.slice(0, index).trim() + content.slice(endEnd + 1);
+    default:
+      result += "xMid";
   }
-  return {
-    defs,
-    content
-  };
+  switch (props.vAlign) {
+    case "top":
+      result += "YMin";
+      break;
+    case "bottom":
+      result += "YMax";
+      break;
+    default:
+      result += "YMid";
+  }
+  result += props.slice ? " slice" : " meet";
+  return result;
 }
-function mergeDefsAndContent(defs, content) {
-  return defs ? "<defs>" + defs + "</defs>" + content : content;
-}
-function wrapSVGContent(body, start, end) {
-  const split = splitSVGDefs(body);
-  return mergeDefsAndContent(split.defs, start + split.content + end);
-}
-
-const isUnsetKeyword = (value) => value === "unset" || value === "undefined" || value === "none";
 function iconToSVG(icon, customisations) {
-  const fullIcon = {
-    ...defaultIconProps,
-    ...icon
-  };
-  const fullCustomisations = {
-    ...defaultIconCustomisations,
-    ...customisations
-  };
   const box = {
-    left: fullIcon.left,
-    top: fullIcon.top,
-    width: fullIcon.width,
-    height: fullIcon.height
+    left: icon.left,
+    top: icon.top,
+    width: icon.width,
+    height: icon.height
   };
-  let body = fullIcon.body;
-  [fullIcon, fullCustomisations].forEach((props) => {
+  let body = icon.body;
+  [icon, customisations].forEach((props) => {
     const transformations = [];
     const hFlip = props.hFlip;
     const vFlip = props.vFlip;
@@ -1161,16 +1211,12 @@ function iconToSVG(icon, customisations) {
       if (vFlip) {
         rotation += 2;
       } else {
-        transformations.push(
-          "translate(" + (box.width + box.left).toString() + " " + (0 - box.top).toString() + ")"
-        );
+        transformations.push("translate(" + (box.width + box.left).toString() + " " + (0 - box.top).toString() + ")");
         transformations.push("scale(-1 1)");
         box.top = box.left = 0;
       }
     } else if (vFlip) {
-      transformations.push(
-        "translate(" + (0 - box.left).toString() + " " + (box.height + box.top).toString() + ")"
-      );
+      transformations.push("translate(" + (0 - box.left).toString() + " " + (box.height + box.top).toString() + ")");
       transformations.push("scale(1 -1)");
       box.top = box.left = 0;
     }
@@ -1182,24 +1228,18 @@ function iconToSVG(icon, customisations) {
     switch (rotation) {
       case 1:
         tempValue = box.height / 2 + box.top;
-        transformations.unshift(
-          "rotate(90 " + tempValue.toString() + " " + tempValue.toString() + ")"
-        );
+        transformations.unshift("rotate(90 " + tempValue.toString() + " " + tempValue.toString() + ")");
         break;
       case 2:
-        transformations.unshift(
-          "rotate(180 " + (box.width / 2 + box.left).toString() + " " + (box.height / 2 + box.top).toString() + ")"
-        );
+        transformations.unshift("rotate(180 " + (box.width / 2 + box.left).toString() + " " + (box.height / 2 + box.top).toString() + ")");
         break;
       case 3:
         tempValue = box.width / 2 + box.left;
-        transformations.unshift(
-          "rotate(-90 " + tempValue.toString() + " " + tempValue.toString() + ")"
-        );
+        transformations.unshift("rotate(-90 " + tempValue.toString() + " " + tempValue.toString() + ")");
         break;
     }
     if (rotation % 2 === 1) {
-      if (box.left !== box.top) {
+      if (box.left !== 0 || box.top !== 0) {
         tempValue = box.left;
         box.left = box.top;
         box.top = tempValue;
@@ -1211,41 +1251,48 @@ function iconToSVG(icon, customisations) {
       }
     }
     if (transformations.length) {
-      body = wrapSVGContent(
-        body,
-        '<g transform="' + transformations.join(" ") + '">',
-        "</g>"
-      );
+      body = '<g transform="' + transformations.join(" ") + '">' + body + "</g>";
     }
   });
-  const customisationsWidth = fullCustomisations.width;
-  const customisationsHeight = fullCustomisations.height;
-  const boxWidth = box.width;
-  const boxHeight = box.height;
-  let width;
-  let height;
-  if (customisationsWidth === null) {
-    height = customisationsHeight === null ? "1em" : customisationsHeight === "auto" ? boxHeight : customisationsHeight;
-    width = calculateSize(height, boxWidth / boxHeight);
+  let width, height;
+  if (customisations.width === null && customisations.height === null) {
+    height = "1em";
+    width = calculateSize(height, box.width / box.height);
+  } else if (customisations.width !== null && customisations.height !== null) {
+    width = customisations.width;
+    height = customisations.height;
+  } else if (customisations.height !== null) {
+    height = customisations.height;
+    width = calculateSize(height, box.width / box.height);
   } else {
-    width = customisationsWidth === "auto" ? boxWidth : customisationsWidth;
-    height = customisationsHeight === null ? calculateSize(width, boxHeight / boxWidth) : customisationsHeight === "auto" ? boxHeight : customisationsHeight;
+    width = customisations.width;
+    height = calculateSize(width, box.height / box.width);
   }
-  const attributes = {};
-  const setAttr = (prop, value) => {
-    if (!isUnsetKeyword(value)) {
-      attributes[prop] = value.toString();
-    }
-  };
-  setAttr("width", width);
-  setAttr("height", height);
-  const viewBox = [box.left, box.top, boxWidth, boxHeight];
-  attributes.viewBox = viewBox.join(" ");
-  return {
-    attributes,
-    viewBox,
+  if (width === "auto") {
+    width = box.width;
+  }
+  if (height === "auto") {
+    height = box.height;
+  }
+  width = typeof width === "string" ? width : width.toString() + "";
+  height = typeof height === "string" ? height : height.toString() + "";
+  const result = {
+    attributes: {
+      width,
+      height,
+      preserveAspectRatio: preserveAspectRatio(customisations),
+      viewBox: box.left.toString() + " " + box.top.toString() + " " + box.width.toString() + " " + box.height.toString()
+    },
     body
   };
+  if (customisations.inline) {
+    result.inline = true;
+  }
+  return result;
+}
+
+function buildIcon(icon, customisations) {
+  return iconToSVG(fullIcon(icon), customisations ? mergeCustomisations(defaults, customisations) : defaults);
 }
 
 const regex = /\sid="(\S+)"/g;
@@ -1260,18 +1307,11 @@ function replaceIDs(body, prefix = randomPrefix) {
   if (!ids.length) {
     return body;
   }
-  const suffix = "suffix" + (Math.random() * 16777216 | Date.now()).toString(16);
   ids.forEach((id) => {
     const newID = typeof prefix === "function" ? prefix(id) : prefix + (counter++).toString();
     const escapedID = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    body = body.replace(
-      // Allowed characters before id: [#;"]
-      // Allowed characters after id: [)"], .[a-z]
-      new RegExp('([#;"])(' + escapedID + ')([")]|\\.[a-z])', "g"),
-      "$1" + newID + suffix + "$3"
-    );
+    body = body.replace(new RegExp('([#;"])(' + escapedID + ')([")]|\\.[a-z])', "g"), "$1" + newID + "$3");
   });
-  body = body.replace(new RegExp(suffix, "g"), "");
   return body;
 }
 
@@ -1294,21 +1334,13 @@ function createAPIConfig(source) {
     }
   }
   const result = {
-    // API hosts
     resources,
-    // Root path
-    path: source.path || "/",
-    // URL length limit
-    maxURL: source.maxURL || 500,
-    // Timeout before next host is used.
-    rotate: source.rotate || 750,
-    // Timeout before failing query.
-    timeout: source.timeout || 5e3,
-    // Randomise default API end point.
+    path: source.path === void 0 ? "/" : source.path,
+    maxURL: source.maxURL ? source.maxURL : 500,
+    rotate: source.rotate ? source.rotate : 750,
+    timeout: source.timeout ? source.timeout : 5e3,
     random: source.random === true,
-    // Start index
-    index: source.index || 0,
-    // Receive data after time out (used if time out kicks in first, then API module sends data anyway).
+    index: source.index ? source.index : 0,
     dataAfterTimeout: source.dataAfterTimeout !== false
   };
   return result;
@@ -1344,7 +1376,39 @@ function addAPIProvider(provider, customConfig) {
 function getAPIConfig(provider) {
   return configStorage[provider];
 }
+function listAPIProviders() {
+  return Object.keys(configStorage);
+}
 
+const mergeParams = (base, params) => {
+  let result = base, hasParams = result.indexOf("?") !== -1;
+  function paramToString(value) {
+    switch (typeof value) {
+      case "boolean":
+        return value ? "true" : "false";
+      case "number":
+        return encodeURIComponent(value);
+      case "string":
+        return encodeURIComponent(value);
+      default:
+        throw new Error("Invalid parameter");
+    }
+  }
+  Object.keys(params).forEach((key) => {
+    let value;
+    try {
+      value = paramToString(params[key]);
+    } catch (err) {
+      return;
+    }
+    result += (hasParams ? "&" : "?") + encodeURIComponent(key) + "=" + value;
+    hasParams = true;
+  });
+  return result;
+};
+
+const maxLengthCache = {};
+const pathCache = {};
 const detectFetch = () => {
   let callback;
   try {
@@ -1354,8 +1418,15 @@ const detectFetch = () => {
     }
   } catch (err) {
   }
+  return null;
 };
 let fetchModule = detectFetch();
+function setFetch(fetch2) {
+  fetchModule = fetch2;
+}
+function getFetch() {
+  return fetchModule;
+}
 function calculateMaxLength(provider, prefix) {
   const config = getAPIConfig(provider);
   if (!config) {
@@ -1370,9 +1441,14 @@ function calculateMaxLength(provider, prefix) {
       const host = item;
       maxHostLength = Math.max(maxHostLength, host.length);
     });
-    const url = prefix + ".json?icons=";
+    const url = mergeParams(prefix + ".json", {
+      icons: ""
+    });
     result = config.maxURL - maxHostLength - config.path.length - url.length;
   }
+  const cacheKey = provider + ":" + prefix;
+  pathCache[provider] = config.path;
+  maxLengthCache[cacheKey] = result;
   return result;
 }
 function shouldAbort(status) {
@@ -1380,7 +1456,10 @@ function shouldAbort(status) {
 }
 const prepare = (provider, prefix, icons) => {
   const results = [];
-  const maxLength = calculateMaxLength(provider, prefix);
+  let maxLength = maxLengthCache[prefix];
+  if (maxLength === void 0) {
+    maxLength = calculateMaxLength(provider, prefix);
+  }
   const type = "icons";
   let item = {
     type,
@@ -1408,10 +1487,14 @@ const prepare = (provider, prefix, icons) => {
 };
 function getPath(provider) {
   if (typeof provider === "string") {
-    const config = getAPIConfig(provider);
-    if (config) {
-      return config.path;
+    if (pathCache[provider] === void 0) {
+      const config = getAPIConfig(provider);
+      if (!config) {
+        return "/";
+      }
+      pathCache[provider] = config.path;
     }
+    return pathCache[provider];
   }
   return "/";
 }
@@ -1426,10 +1509,9 @@ const send = (host, params, callback) => {
       const prefix = params.prefix;
       const icons = params.icons;
       const iconsList = icons.join(",");
-      const urlParams = new URLSearchParams({
+      path += mergeParams(prefix + ".json", {
         icons: iconsList
       });
-      path += prefix + ".json?" + urlParams.toString();
       break;
     }
     case "custom": {
@@ -1455,11 +1537,7 @@ const send = (host, params, callback) => {
   }).then((data) => {
     if (typeof data !== "object" || data === null) {
       setTimeout(() => {
-        if (data === 404) {
-          callback("abort", data);
-        } else {
-          callback("next", defaultError);
-        }
+        callback("next", defaultError);
       });
       return;
     }
@@ -1504,12 +1582,18 @@ function sortIcons(icons) {
     const provider = icon.provider;
     const prefix = icon.prefix;
     const name = icon.name;
-    const providerStorage = storage[provider] || (storage[provider] = /* @__PURE__ */ Object.create(null));
-    const localStorage = providerStorage[prefix] || (providerStorage[prefix] = getStorage(provider, prefix));
+    if (storage[provider] === void 0) {
+      storage[provider] = /* @__PURE__ */ Object.create(null);
+    }
+    const providerStorage = storage[provider];
+    if (providerStorage[prefix] === void 0) {
+      providerStorage[prefix] = getStorage(provider, prefix);
+    }
+    const localStorage = providerStorage[prefix];
     let list;
-    if (name in localStorage.icons) {
+    if (localStorage.icons[name] !== void 0) {
       list = result.loaded;
-    } else if (prefix === "" || localStorage.missing.has(name)) {
+    } else if (prefix === "" || localStorage.missing[name] !== void 0) {
       list = result.missing;
     } else {
       list = result.pending;
@@ -1524,26 +1608,40 @@ function sortIcons(icons) {
   return result;
 }
 
-function removeCallback(storages, id) {
-  storages.forEach((storage) => {
-    const items = storage.loaderCallbacks;
+const callbacks = /* @__PURE__ */ Object.create(null);
+const pendingUpdates = /* @__PURE__ */ Object.create(null);
+function removeCallback(sources, id) {
+  sources.forEach((source) => {
+    const provider = source.provider;
+    if (callbacks[provider] === void 0) {
+      return;
+    }
+    const providerCallbacks = callbacks[provider];
+    const prefix = source.prefix;
+    const items = providerCallbacks[prefix];
     if (items) {
-      storage.loaderCallbacks = items.filter((row) => row.id !== id);
+      providerCallbacks[prefix] = items.filter((row) => row.id !== id);
     }
   });
 }
-function updateCallbacks(storage) {
-  if (!storage.pendingCallbacksFlag) {
-    storage.pendingCallbacksFlag = true;
+function updateCallbacks(provider, prefix) {
+  if (pendingUpdates[provider] === void 0) {
+    pendingUpdates[provider] = /* @__PURE__ */ Object.create(null);
+  }
+  const providerPendingUpdates = pendingUpdates[provider];
+  if (!providerPendingUpdates[prefix]) {
+    providerPendingUpdates[prefix] = true;
     setTimeout(() => {
-      storage.pendingCallbacksFlag = false;
-      const items = storage.loaderCallbacks ? storage.loaderCallbacks.slice(0) : [];
+      providerPendingUpdates[prefix] = false;
+      if (callbacks[provider] === void 0 || callbacks[provider][prefix] === void 0) {
+        return;
+      }
+      const items = callbacks[provider][prefix].slice(0);
       if (!items.length) {
         return;
       }
+      const storage = getStorage(provider, prefix);
       let hasPending = false;
-      const provider = storage.provider;
-      const prefix = storage.prefix;
       items.forEach((item) => {
         const icons = item.icons;
         const oldLength = icons.pending.length;
@@ -1552,13 +1650,13 @@ function updateCallbacks(storage) {
             return true;
           }
           const name = icon.name;
-          if (storage.icons[name]) {
+          if (storage.icons[name] !== void 0) {
             icons.loaded.push({
               provider,
               prefix,
               name
             });
-          } else if (storage.missing.has(name)) {
+          } else if (storage.missing[name] !== void 0) {
             icons.missing.push({
               provider,
               prefix,
@@ -1572,14 +1670,14 @@ function updateCallbacks(storage) {
         });
         if (icons.pending.length !== oldLength) {
           if (!hasPending) {
-            removeCallback([storage], item.id);
+            removeCallback([
+              {
+                provider,
+                prefix
+              }
+            ], item.id);
           }
-          item.callback(
-            icons.loaded.slice(0),
-            icons.missing.slice(0),
-            icons.pending.slice(0),
-            item.abort
-          );
+          item.callback(icons.loaded.slice(0), icons.missing.slice(0), icons.pending.slice(0), item.abort);
         }
       });
     });
@@ -1598,8 +1696,17 @@ function storeCallback(callback, icons, pendingSources) {
     callback,
     abort
   };
-  pendingSources.forEach((storage) => {
-    (storage.loaderCallbacks || (storage.loaderCallbacks = [])).push(item);
+  pendingSources.forEach((source) => {
+    const provider = source.provider;
+    const prefix = source.prefix;
+    if (callbacks[provider] === void 0) {
+      callbacks[provider] = /* @__PURE__ */ Object.create(null);
+    }
+    const providerCallbacks = callbacks[provider];
+    if (providerCallbacks[prefix] === void 0) {
+      providerCallbacks[prefix] = [];
+    }
+    providerCallbacks[prefix].push(item);
   });
   return abort;
 }
@@ -1607,9 +1714,13 @@ function storeCallback(callback, icons, pendingSources) {
 function listToIcons(list, validate = true, simpleNames = false) {
   const result = [];
   list.forEach((item) => {
-    const icon = typeof item === "string" ? stringToIcon(item, validate, simpleNames) : item;
-    if (icon) {
-      result.push(icon);
+    const icon = typeof item === "string" ? stringToIcon(item, false, simpleNames) : item;
+    if (!validate || validateIcon(icon, simpleNames)) {
+      result.push({
+        provider: icon.provider,
+        prefix: icon.prefix,
+        name: icon.name
+      });
     }
   });
   return result;
@@ -1783,34 +1894,42 @@ function sendQuery(config, payload, query, done) {
 }
 
 // src/index.ts
+function setConfig(config) {
+  if (typeof config !== "object" || typeof config.resources !== "object" || !(config.resources instanceof Array) || !config.resources.length) {
+    throw new Error("Invalid Reduncancy configuration");
+  }
+  const newConfig = /* @__PURE__ */ Object.create(null);
+  let key;
+  for (key in defaultConfig) {
+    if (config[key] !== void 0) {
+      newConfig[key] = config[key];
+    } else {
+      newConfig[key] = defaultConfig[key];
+    }
+  }
+  return newConfig;
+}
 function initRedundancy(cfg) {
-  const config = {
-    ...defaultConfig,
-    ...cfg
-  };
+  const config = setConfig(cfg);
   let queries = [];
   function cleanup() {
     queries = queries.filter((item) => item().status === "pending");
   }
   function query(payload, queryCallback, doneCallback) {
-    const query2 = sendQuery(
-      config,
-      payload,
-      queryCallback,
-      (data, error) => {
-        cleanup();
-        if (doneCallback) {
-          doneCallback(data, error);
-        }
+    const query2 = sendQuery(config, payload, queryCallback, (data, error) => {
+      cleanup();
+      if (doneCallback) {
+        doneCallback(data, error);
       }
-    );
+    });
     queries.push(query2);
     return query2;
   }
   function find(callback) {
-    return queries.find((value) => {
+    const result = queries.find((value) => {
       return callback(value);
-    }) || null;
+    });
+    return result !== void 0 ? result : null;
   }
   const instance = {
     query,
@@ -1828,7 +1947,7 @@ function emptyCallback$1() {
 }
 const redundancyCache = /* @__PURE__ */ Object.create(null);
 function getRedundancyCache(provider) {
-  if (!redundancyCache[provider]) {
+  if (redundancyCache[provider] === void 0) {
     const config = getAPIConfig(provider);
     if (!config) {
       return;
@@ -1874,122 +1993,95 @@ function sendAPIQuery(target, query, callback) {
   return redundancy.query(query, send, callback)().abort;
 }
 
+const cache = {};
+
 function emptyCallback() {
 }
-function loadedNewIcons(storage) {
-  if (!storage.iconsLoaderFlag) {
-    storage.iconsLoaderFlag = true;
+const pendingIcons = /* @__PURE__ */ Object.create(null);
+const iconsToLoad = /* @__PURE__ */ Object.create(null);
+const loaderFlags = /* @__PURE__ */ Object.create(null);
+const queueFlags = /* @__PURE__ */ Object.create(null);
+function loadedNewIcons(provider, prefix) {
+  if (loaderFlags[provider] === void 0) {
+    loaderFlags[provider] = /* @__PURE__ */ Object.create(null);
+  }
+  const providerLoaderFlags = loaderFlags[provider];
+  if (!providerLoaderFlags[prefix]) {
+    providerLoaderFlags[prefix] = true;
     setTimeout(() => {
-      storage.iconsLoaderFlag = false;
-      updateCallbacks(storage);
+      providerLoaderFlags[prefix] = false;
+      updateCallbacks(provider, prefix);
     });
   }
 }
-function checkIconNamesForAPI(icons) {
-  const valid = [];
-  const invalid = [];
-  icons.forEach((name) => {
-    (name.match(matchIconName) ? valid : invalid).push(name);
-  });
-  return {
-    valid,
-    invalid
-  };
-}
-function parseLoaderResponse(storage, icons, data) {
-  function checkMissing() {
-    const pending = storage.pendingIcons;
-    icons.forEach((name) => {
-      if (pending) {
-        pending.delete(name);
-      }
-      if (!storage.icons[name]) {
-        storage.missing.add(name);
-      }
-    });
-  }
-  if (data && typeof data === "object") {
-    try {
-      const parsed = addIconSet(storage, data);
-      if (!parsed.length) {
-        checkMissing();
-        return;
-      }
-    } catch (err) {
-      console.error(err);
+const errorsCache = /* @__PURE__ */ Object.create(null);
+function loadNewIcons(provider, prefix, icons) {
+  function err() {
+    const key = (provider === "" ? "" : "@" + provider + ":") + prefix;
+    const time = Math.floor(Date.now() / 6e4);
+    if (errorsCache[key] < time) {
+      errorsCache[key] = time;
+      console.error('Unable to retrieve icons for "' + key + '" because API is not configured properly.');
     }
   }
-  checkMissing();
-  loadedNewIcons(storage);
-}
-function parsePossiblyAsyncResponse(response, callback) {
-  if (response instanceof Promise) {
-    response.then((data) => {
-      callback(data);
-    }).catch(() => {
-      callback(null);
-    });
-  } else {
-    callback(response);
+  if (iconsToLoad[provider] === void 0) {
+    iconsToLoad[provider] = /* @__PURE__ */ Object.create(null);
   }
-}
-function loadNewIcons(storage, icons) {
-  if (!storage.iconsToLoad) {
-    storage.iconsToLoad = icons;
-  } else {
-    storage.iconsToLoad = storage.iconsToLoad.concat(icons).sort();
+  const providerIconsToLoad = iconsToLoad[provider];
+  if (queueFlags[provider] === void 0) {
+    queueFlags[provider] = /* @__PURE__ */ Object.create(null);
   }
-  if (!storage.iconsQueueFlag) {
-    storage.iconsQueueFlag = true;
+  const providerQueueFlags = queueFlags[provider];
+  if (pendingIcons[provider] === void 0) {
+    pendingIcons[provider] = /* @__PURE__ */ Object.create(null);
+  }
+  const providerPendingIcons = pendingIcons[provider];
+  if (providerIconsToLoad[prefix] === void 0) {
+    providerIconsToLoad[prefix] = icons;
+  } else {
+    providerIconsToLoad[prefix] = providerIconsToLoad[prefix].concat(icons).sort();
+  }
+  if (!providerQueueFlags[prefix]) {
+    providerQueueFlags[prefix] = true;
     setTimeout(() => {
-      storage.iconsQueueFlag = false;
-      const { provider, prefix } = storage;
-      const icons2 = storage.iconsToLoad;
-      delete storage.iconsToLoad;
-      if (!icons2 || !icons2.length) {
-        return;
-      }
-      const customIconLoader = storage.loadIcon;
-      if (storage.loadIcons && (icons2.length > 1 || !customIconLoader)) {
-        parsePossiblyAsyncResponse(
-          storage.loadIcons(icons2, prefix, provider),
-          (data) => {
-            parseLoaderResponse(storage, icons2, data);
-          }
-        );
-        return;
-      }
-      if (customIconLoader) {
-        icons2.forEach((name) => {
-          const response = customIconLoader(name, prefix, provider);
-          parsePossiblyAsyncResponse(response, (data) => {
-            const iconSet = data ? {
-              prefix,
-              icons: {
-                [name]: data
-              }
-            } : null;
-            parseLoaderResponse(storage, [name], iconSet);
-          });
-        });
-        return;
-      }
-      const { valid, invalid } = checkIconNamesForAPI(icons2);
-      if (invalid.length) {
-        parseLoaderResponse(storage, invalid, null);
-      }
-      if (!valid.length) {
-        return;
-      }
-      const api = prefix.match(matchIconName) ? getAPIModule(provider) : null;
+      providerQueueFlags[prefix] = false;
+      const icons2 = providerIconsToLoad[prefix];
+      delete providerIconsToLoad[prefix];
+      const api = getAPIModule(provider);
       if (!api) {
-        parseLoaderResponse(storage, valid, null);
+        err();
         return;
       }
-      const params = api.prepare(provider, prefix, valid);
+      const params = api.prepare(provider, prefix, icons2);
       params.forEach((item) => {
-        sendAPIQuery(provider, item, (data) => {
-          parseLoaderResponse(storage, item.icons, data);
+        sendAPIQuery(provider, item, (data, error) => {
+          const storage = getStorage(provider, prefix);
+          if (typeof data !== "object") {
+            if (error !== 404) {
+              return;
+            }
+            const t = Date.now();
+            item.icons.forEach((name) => {
+              storage.missing[name] = t;
+            });
+          } else {
+            try {
+              const parsed = addIconSet(storage, data);
+              if (!parsed.length) {
+                return;
+              }
+              const pending = providerPendingIcons[prefix];
+              parsed.forEach((name) => {
+                delete pending[name];
+              });
+              if (cache.store) {
+                cache.store(provider, data);
+              }
+            } catch (err2) {
+              console.error(err2);
+            }
+          }
+          loadedNewIcons(provider, prefix);
         });
       });
     });
@@ -2003,12 +2095,7 @@ const loadIcons = (icons, callback) => {
     if (callback) {
       setTimeout(() => {
         if (callCallback) {
-          callback(
-            sortedIcons.loaded,
-            sortedIcons.missing,
-            sortedIcons.pending,
-            emptyCallback
-          );
+          callback(sortedIcons.loaded, sortedIcons.missing, sortedIcons.pending, emptyCallback);
         }
       });
     }
@@ -2020,52 +2107,251 @@ const loadIcons = (icons, callback) => {
   const sources = [];
   let lastProvider, lastPrefix;
   sortedIcons.pending.forEach((icon) => {
-    const { provider, prefix } = icon;
+    const provider = icon.provider;
+    const prefix = icon.prefix;
     if (prefix === lastPrefix && provider === lastProvider) {
       return;
     }
     lastProvider = provider;
     lastPrefix = prefix;
-    sources.push(getStorage(provider, prefix));
-    const providerNewIcons = newIcons[provider] || (newIcons[provider] = /* @__PURE__ */ Object.create(null));
-    if (!providerNewIcons[prefix]) {
+    sources.push({
+      provider,
+      prefix
+    });
+    if (pendingIcons[provider] === void 0) {
+      pendingIcons[provider] = /* @__PURE__ */ Object.create(null);
+    }
+    const providerPendingIcons = pendingIcons[provider];
+    if (providerPendingIcons[prefix] === void 0) {
+      providerPendingIcons[prefix] = /* @__PURE__ */ Object.create(null);
+    }
+    if (newIcons[provider] === void 0) {
+      newIcons[provider] = /* @__PURE__ */ Object.create(null);
+    }
+    const providerNewIcons = newIcons[provider];
+    if (providerNewIcons[prefix] === void 0) {
       providerNewIcons[prefix] = [];
     }
   });
+  const time = Date.now();
   sortedIcons.pending.forEach((icon) => {
-    const { provider, prefix, name } = icon;
-    const storage = getStorage(provider, prefix);
-    const pendingQueue = storage.pendingIcons || (storage.pendingIcons = /* @__PURE__ */ new Set());
-    if (!pendingQueue.has(name)) {
-      pendingQueue.add(name);
+    const provider = icon.provider;
+    const prefix = icon.prefix;
+    const name = icon.name;
+    const pendingQueue = pendingIcons[provider][prefix];
+    if (pendingQueue[name] === void 0) {
+      pendingQueue[name] = time;
       newIcons[provider][prefix].push(name);
     }
   });
-  sources.forEach((storage) => {
-    const list = newIcons[storage.provider][storage.prefix];
-    if (list.length) {
-      loadNewIcons(storage, list);
+  sources.forEach((source) => {
+    const provider = source.provider;
+    const prefix = source.prefix;
+    if (newIcons[provider][prefix].length) {
+      loadNewIcons(provider, prefix, newIcons[provider][prefix]);
     }
   });
   return callback ? storeCallback(callback, sortedIcons, sources) : emptyCallback;
 };
-
-function mergeCustomisations(defaults, item) {
-  const result = {
-    ...defaults
-  };
-  for (const key in item) {
-    const value = item[key];
-    const valueType = typeof value;
-    if (key in defaultIconSizeCustomisations) {
-      if (value === null || value && (valueType === "string" || valueType === "number")) {
-        result[key] = value;
+const loadIcon = (icon) => {
+  return new Promise((fulfill, reject) => {
+    const iconObj = typeof icon === "string" ? stringToIcon(icon) : icon;
+    loadIcons([iconObj || icon], (loaded) => {
+      if (loaded.length && iconObj) {
+        const storage = getStorage(iconObj.provider, iconObj.prefix);
+        const data = getIconFromStorage(storage, iconObj.name);
+        if (data) {
+          fulfill(data);
+          return;
+        }
       }
-    } else if (valueType === typeof result[key]) {
-      result[key] = key === "rotate" ? value % 4 : value;
+      reject(icon);
+    });
+  });
+};
+
+const cacheVersion = "iconify2";
+const cachePrefix = "iconify";
+const countKey = cachePrefix + "-count";
+const versionKey = cachePrefix + "-version";
+const hour = 36e5;
+const cacheExpiration = 168;
+const config = {
+  local: true,
+  session: true
+};
+let loaded = false;
+const count = {
+  local: 0,
+  session: 0
+};
+const emptyList = {
+  local: [],
+  session: []
+};
+let _window = typeof window === "undefined" ? {} : window;
+function getGlobal(key) {
+  const attr = key + "Storage";
+  try {
+    if (_window && _window[attr] && typeof _window[attr].length === "number") {
+      return _window[attr];
+    }
+  } catch (err) {
+  }
+  config[key] = false;
+  return null;
+}
+function setCount(storage, key, value) {
+  try {
+    storage.setItem(countKey, value.toString());
+    count[key] = value;
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+function getCount(storage) {
+  const count2 = storage.getItem(countKey);
+  if (count2) {
+    const total = parseInt(count2);
+    return total ? total : 0;
+  }
+  return 0;
+}
+function initCache(storage, key) {
+  try {
+    storage.setItem(versionKey, cacheVersion);
+  } catch (err) {
+  }
+  setCount(storage, key, 0);
+}
+function destroyCache(storage) {
+  try {
+    const total = getCount(storage);
+    for (let i = 0; i < total; i++) {
+      storage.removeItem(cachePrefix + i.toString());
+    }
+  } catch (err) {
+  }
+}
+const loadCache = () => {
+  if (loaded) {
+    return;
+  }
+  loaded = true;
+  const minTime = Math.floor(Date.now() / hour) - cacheExpiration;
+  function load(key) {
+    const func = getGlobal(key);
+    if (!func) {
+      return;
+    }
+    const getItem = (index) => {
+      const name = cachePrefix + index.toString();
+      const item = func.getItem(name);
+      if (typeof item !== "string") {
+        return false;
+      }
+      let valid = true;
+      try {
+        const data = JSON.parse(item);
+        if (typeof data !== "object" || typeof data.cached !== "number" || data.cached < minTime || typeof data.provider !== "string" || typeof data.data !== "object" || typeof data.data.prefix !== "string") {
+          valid = false;
+        } else {
+          const provider = data.provider;
+          const prefix = data.data.prefix;
+          const storage = getStorage(provider, prefix);
+          valid = addIconSet(storage, data.data).length > 0;
+        }
+      } catch (err) {
+        valid = false;
+      }
+      if (!valid) {
+        func.removeItem(name);
+      }
+      return valid;
+    };
+    try {
+      const version = func.getItem(versionKey);
+      if (version !== cacheVersion) {
+        if (version) {
+          destroyCache(func);
+        }
+        initCache(func, key);
+        return;
+      }
+      let total = getCount(func);
+      for (let i = total - 1; i >= 0; i--) {
+        if (!getItem(i)) {
+          if (i === total - 1) {
+            total--;
+          } else {
+            emptyList[key].push(i);
+          }
+        }
+      }
+      setCount(func, key, total);
+    } catch (err) {
     }
   }
-  return result;
+  for (const key in config) {
+    load(key);
+  }
+};
+const storeCache = (provider, data) => {
+  if (!loaded) {
+    loadCache();
+  }
+  function store(key) {
+    if (!config[key]) {
+      return false;
+    }
+    const func = getGlobal(key);
+    if (!func) {
+      return false;
+    }
+    let index = emptyList[key].shift();
+    if (index === void 0) {
+      index = count[key];
+      if (!setCount(func, key, index + 1)) {
+        return false;
+      }
+    }
+    try {
+      const item = {
+        cached: Math.floor(Date.now() / hour),
+        provider,
+        data
+      };
+      func.setItem(cachePrefix + index.toString(), JSON.stringify(item));
+    } catch (err) {
+      return false;
+    }
+    return true;
+  }
+  if (!Object.keys(data.icons).length) {
+    return;
+  }
+  if (data.not_found) {
+    data = Object.assign({}, data);
+    delete data.not_found;
+  }
+  if (!store("local")) {
+    store("session");
+  }
+};
+
+function toggleBrowserCache(storage, value) {
+  switch (storage) {
+    case "local":
+    case "session":
+      config[storage] = value;
+      break;
+    case "all":
+      for (const key in config) {
+        config[key] = value;
+      }
+      break;
+  }
 }
 
 const separator = /[\s,]+/;
@@ -2079,6 +2365,29 @@ function flipFromString(custom, flip) {
       case "vertical":
         custom.vFlip = true;
         break;
+    }
+  });
+}
+function alignmentFromString(custom, align) {
+  align.split(separator).forEach((str) => {
+    const value = str.trim();
+    switch (value) {
+      case "left":
+      case "center":
+      case "right":
+        custom.hAlign = value;
+        break;
+      case "top":
+      case "middle":
+      case "bottom":
+        custom.vAlign = value;
+        break;
+      case "slice":
+      case "crop":
+        custom.slice = true;
+        break;
+      case "meet":
+        custom.slice = false;
     }
   });
 }
@@ -2115,29 +2424,6 @@ function rotateFromString(value, defaultValue = 0) {
   return defaultValue;
 }
 
-function iconToHTML(body, attributes) {
-  let renderAttribsHTML = body.indexOf("xlink:") === -1 ? "" : ' xmlns:xlink="http://www.w3.org/1999/xlink"';
-  for (const attr in attributes) {
-    renderAttribsHTML += " " + attr + '="' + attributes[attr] + '"';
-  }
-  return '<svg xmlns="http://www.w3.org/2000/svg"' + renderAttribsHTML + ">" + body + "</svg>";
-}
-
-function encodeSVGforURL(svg) {
-  return svg.replace(/"/g, "'").replace(/%/g, "%25").replace(/#/g, "%23").replace(/</g, "%3C").replace(/>/g, "%3E").replace(/\s+/g, " ");
-}
-function svgToData(svg) {
-  return "data:image/svg+xml," + encodeSVGforURL(svg);
-}
-function svgToURL(svg) {
-  return 'url("' + svgToData(svg) + '")';
-}
-
-const defaultExtendedIconCustomisations = {
-    ...defaultIconCustomisations,
-    inline: false,
-};
-
 /**
  * Default SVG attributes
  */
@@ -2148,41 +2434,6 @@ const svgDefaults = {
     'role': 'img',
 };
 /**
- * Style modes
- */
-const commonProps = {
-    display: 'inline-block',
-};
-const monotoneProps = {
-    'background-color': 'currentColor',
-};
-const coloredProps = {
-    'background-color': 'transparent',
-};
-// Dynamically add common props to variables above
-const propsToAdd = {
-    image: 'var(--svg)',
-    repeat: 'no-repeat',
-    size: '100% 100%',
-};
-const propsToAddTo = {
-    '-webkit-mask': monotoneProps,
-    'mask': monotoneProps,
-    'background': coloredProps,
-};
-for (const prefix in propsToAddTo) {
-    const list = propsToAddTo[prefix];
-    for (const prop in propsToAdd) {
-        list[prefix + '-' + prop] = propsToAdd[prop];
-    }
-}
-/**
- * Fix size: add 'px' to numbers
- */
-function fixSize(value) {
-    return value + (value.match(/^[-0-9.]+$/) ? 'px' : '');
-}
-/**
  * Generate icon from properties
  */
 function render(
@@ -2190,13 +2441,8 @@ function render(
 icon, 
 // Properties
 props) {
-    const customisations = mergeCustomisations(defaultExtendedIconCustomisations, props);
-    // Check mode
-    const mode = props.mode || 'svg';
-    const componentProps = (mode === 'svg' ? { ...svgDefaults } : {});
-    if (icon.body.indexOf('xlink:') === -1) {
-        delete componentProps['xmlns:xlink'];
-    }
+    const customisations = mergeCustomisations(defaults, props);
+    const componentProps = { ...svgDefaults };
     // Create style if missing
     let style = typeof props.style === 'string' ? props.style : '';
     // Get element properties
@@ -2210,8 +2456,6 @@ props) {
             case 'icon':
             case 'style':
             case 'onLoad':
-            case 'mode':
-            case 'ssr':
                 break;
             // Boolean attributes
             case 'inline':
@@ -2224,6 +2468,12 @@ props) {
             case 'flip':
                 if (typeof value === 'string') {
                     flipFromString(customisations, value);
+                }
+                break;
+            // Alignment as string
+            case 'align':
+                if (typeof value === 'string') {
+                    alignmentFromString(customisations, value);
                 }
                 break;
             // Color: copy to style, add extra ';' in case style is missing it
@@ -2259,73 +2509,51 @@ props) {
                     break;
                 }
                 // Copy missing property if it does not exist in customisations
-                if (defaultExtendedIconCustomisations[key] === void 0) {
+                if (defaults[key] === void 0) {
                     componentProps[key] = value;
                 }
         }
     }
     // Generate icon
     const item = iconToSVG(icon, customisations);
-    const renderAttribs = item.attributes;
-    // Inline display
-    if (customisations.inline) {
+    // Add icon stuff
+    for (let key in item.attributes) {
+        componentProps[key] =
+            item.attributes[key];
+    }
+    if (item.inline) {
         // Style overrides it
         style = 'vertical-align: -0.125em; ' + style;
     }
-    if (mode === 'svg') {
-        // Add icon stuff
-        Object.assign(componentProps, renderAttribs);
-        // Style
-        if (style !== '') {
-            componentProps.style = style;
-        }
-        // Counter for ids based on "id" property to render icons consistently on server and client
-        let localCounter = 0;
-        let id = props.id;
-        if (typeof id === 'string') {
-            // Convert '-' to '_' to avoid errors in animations
-            id = id.replace(/-/g, '_');
-        }
-        // Generate HTML
-        return {
-            svg: true,
-            attributes: componentProps,
-            body: replaceIDs(item.body, id ? () => id + 'ID' + localCounter++ : 'iconifySvelte'),
-        };
+    // Style
+    if (style !== '') {
+        componentProps.style = style;
     }
-    // Render <span> with style
-    const { body, width, height } = icon;
-    const useMask = mode === 'mask' ||
-        (mode === 'bg' ? false : body.indexOf('currentColor') !== -1);
-    // Generate SVG
-    const html = iconToHTML(body, {
-        ...renderAttribs,
-        width: width + '',
-        height: height + '',
-    });
-    // Generate style
-    const url = svgToURL(html);
-    const styles = {
-        '--svg': url,
-    };
-    const size = (prop) => {
-        const value = renderAttribs[prop];
-        if (value) {
-            styles[prop] = fixSize(value);
-        }
-    };
-    size('width');
-    size('height');
-    Object.assign(styles, commonProps, useMask ? monotoneProps : coloredProps);
-    let customStyle = '';
-    for (const key in styles) {
-        customStyle += key + ': ' + styles[key] + ';';
+    // Counter for ids based on "id" property to render icons consistently on server and client
+    let localCounter = 0;
+    let id = props.id;
+    if (typeof id === 'string') {
+        // Convert '-' to '_' to avoid errors in animations
+        id = id.replace(/-/g, '_');
     }
-    componentProps.style = customStyle + style;
+    // Generate HTML
     return {
-        svg: false,
         attributes: componentProps,
+        body: replaceIDs(item.body, id ? () => id + 'ID' + localCounter++ : 'iconifySvelte'),
     };
+}
+
+/**
+ * Enable cache
+ */
+function enableCache(storage) {
+    toggleBrowserCache(storage, true);
+}
+/**
+ * Disable cache
+ */
+function disableCache(storage) {
+    toggleBrowserCache(storage, false);
 }
 /**
  * Initialise stuff
@@ -2338,6 +2566,9 @@ setAPIModule('', fetchAPIModule);
  * Browser stuff
  */
 if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+    // Set cache and load existing cache
+    cache.store = storeCache;
+    loadCache();
     const _window = window;
     // Load icons from global "IconifyPreload"
     if (_window.IconifyPreload !== void 0) {
@@ -2407,7 +2638,7 @@ function checkIconState(icon, state, mounted, callback, onload) {
         // Stop loading
         state.name = '';
         abortLoading();
-        return { data: { ...defaultIconProps, ...icon } };
+        return { data: fullIcon(icon) };
     }
     // Invalid icon?
     let iconName;
@@ -2418,8 +2649,8 @@ function checkIconState(icon, state, mounted, callback, onload) {
     }
     // Load icon
     const data = getIconData(iconName);
-    if (!data) {
-        // Icon data is not available
+    if (data === null) {
+        // Icon needs to be loaded
         // Do not load icon until component is mounted
         if (mounted && (!state.loading || state.loading.name !== icon)) {
             // New icon to load
@@ -2454,97 +2685,42 @@ function checkIconState(icon, state, mounted, callback, onload) {
  * Generate icon
  */
 function generateIcon(icon, props) {
-    return icon
-        ? render({
-            ...defaultIconProps,
-            ...icon,
-        }, props)
-        : null;
+    return icon ? render(icon, props) : null;
 }
+/**
+ * Internal API
+ */
+const _api = {
+    getAPIConfig,
+    setAPIModule,
+    sendAPIQuery,
+    setFetch,
+    getFetch,
+    listAPIProviders,
+    mergeParams,
+};
+
+exports._api = _api;
+exports.addAPIProvider = addAPIProvider;
+exports.addCollection = addCollection;
+exports.addIcon = addIcon;
+exports.buildIcon = buildIcon;
+exports.calculateSize = calculateSize;
+exports.checkIconState = checkIconState;
+exports.disableCache = disableCache;
+exports.enableCache = enableCache;
+exports.generateIcon = generateIcon;
+exports.getIcon = getIcon;
+exports.iconExists = iconExists;
+exports.listIcons = listIcons;
+exports.loadIcon = loadIcon;
+exports.loadIcons = loadIcons;
+exports.replaceIDs = replaceIDs;
+exports.shareStorage = shareStorage;
 
 /* generated by Svelte v3.59.1 */
 
 function create_if_block(ctx) {
-	let if_block_anchor;
-
-	function select_block_type(ctx, dirty) {
-		if (/*data*/ ctx[0].svg) return create_if_block_1;
-		return create_else_block;
-	}
-
-	let current_block_type = select_block_type(ctx);
-	let if_block = current_block_type(ctx);
-
-	return {
-		c() {
-			if_block.c();
-			if_block_anchor = empty();
-		},
-		l(nodes) {
-			if_block.l(nodes);
-			if_block_anchor = empty();
-		},
-		m(target, anchor) {
-			if_block.m(target, anchor);
-			insert_hydration(target, if_block_anchor, anchor);
-		},
-		p(ctx, dirty) {
-			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
-				if_block.p(ctx, dirty);
-			} else {
-				if_block.d(1);
-				if_block = current_block_type(ctx);
-
-				if (if_block) {
-					if_block.c();
-					if_block.m(if_block_anchor.parentNode, if_block_anchor);
-				}
-			}
-		},
-		d(detaching) {
-			if_block.d(detaching);
-			if (detaching) detach(if_block_anchor);
-		}
-	};
-}
-
-// (120:1) {:else}
-function create_else_block(ctx) {
-	let span;
-	let span_levels = [/*data*/ ctx[0].attributes];
-	let span_data = {};
-
-	for (let i = 0; i < span_levels.length; i += 1) {
-		span_data = assign(span_data, span_levels[i]);
-	}
-
-	return {
-		c() {
-			span = element("span");
-			this.h();
-		},
-		l(nodes) {
-			span = claim_element(nodes, "SPAN", {});
-			children(span).forEach(detach);
-			this.h();
-		},
-		h() {
-			set_attributes(span, span_data);
-		},
-		m(target, anchor) {
-			insert_hydration(target, span, anchor);
-		},
-		p(ctx, dirty) {
-			set_attributes(span, span_data = get_spread_update(span_levels, [dirty & /*data*/ 1 && /*data*/ ctx[0].attributes]));
-		},
-		d(detaching) {
-			if (detaching) detach(span);
-		}
-	};
-}
-
-// (116:1) {#if data.svg}
-function create_if_block_1(ctx) {
 	let svg;
 	let raw_value = /*data*/ ctx[0].body + "";
 	let svg_levels = [/*data*/ ctx[0].attributes];
@@ -2583,7 +2759,7 @@ function create_if_block_1(ctx) {
 
 function create_fragment$1(ctx) {
 	let if_block_anchor;
-	let if_block = /*data*/ ctx[0] && create_if_block(ctx);
+	let if_block = /*data*/ ctx[0] !== null && create_if_block(ctx);
 
 	return {
 		c() {
@@ -2599,7 +2775,7 @@ function create_fragment$1(ctx) {
 			insert_hydration(target, if_block_anchor, anchor);
 		},
 		p(ctx, [dirty]) {
-			if (/*data*/ ctx[0]) {
+			if (/*data*/ ctx[0] !== null) {
 				if (if_block) {
 					if_block.p(ctx, dirty);
 				} else {
@@ -2678,8 +2854,7 @@ function instance$1($$self, $$props, $$invalidate) {
 
 	$$self.$$.update = () => {
 		{
-			const isMounted = !!$$props.ssr || mounted;
-			const iconData = checkIconState($$props.icon, state, isMounted, loaded, onLoad);
+			const iconData = checkIconState($$props.icon, state, mounted, loaded, onLoad);
 			$$invalidate(0, data = iconData ? generateIcon(iconData.data, $$props) : null);
 
 			if (data && iconData.classes) {
@@ -2710,35 +2885,35 @@ let Component$1 = class Component extends SvelteComponent {
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[15] = list[i];
-	child_ctx[17] = i;
+	child_ctx[14] = list[i];
+	child_ctx[16] = i;
 	return child_ctx;
 }
 
 function get_each_context_1(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[18] = list[i].quote;
-	child_ctx[19] = list[i].name;
-	child_ctx[20] = list[i].title;
+	child_ctx[17] = list[i].quote;
+	child_ctx[18] = list[i].name;
+	child_ctx[19] = list[i].title;
 	return child_ctx;
 }
 
-// (159:6) {#each testimonials as { quote, name, title }}
+// (158:6) {#each testimonials as { quote, name, title }}
 function create_each_block_1(ctx) {
 	let li;
 	let span;
 	let icon;
 	let t0;
 	let p0;
-	let t1_value = /*quote*/ ctx[18] + "";
+	let t1_value = /*quote*/ ctx[17] + "";
 	let t1;
 	let t2;
 	let p1;
-	let t3_value = /*name*/ ctx[19] + "";
+	let t3_value = /*name*/ ctx[18] + "";
 	let t3;
 	let t4;
 	let p2;
-	let t5_value = /*title*/ ctx[20] + "";
+	let t5_value = /*title*/ ctx[19] + "";
 	let t5;
 	let t6;
 	let current;
@@ -2814,9 +2989,9 @@ function create_each_block_1(ctx) {
 			current = true;
 		},
 		p(ctx, dirty) {
-			if ((!current || dirty & /*testimonials*/ 2) && t1_value !== (t1_value = /*quote*/ ctx[18] + "")) set_data(t1, t1_value);
-			if ((!current || dirty & /*testimonials*/ 2) && t3_value !== (t3_value = /*name*/ ctx[19] + "")) set_data(t3, t3_value);
-			if ((!current || dirty & /*testimonials*/ 2) && t5_value !== (t5_value = /*title*/ ctx[20] + "")) set_data(t5, t5_value);
+			if ((!current || dirty & /*testimonials*/ 2) && t1_value !== (t1_value = /*quote*/ ctx[17] + "")) set_data(t1, t1_value);
+			if ((!current || dirty & /*testimonials*/ 2) && t3_value !== (t3_value = /*name*/ ctx[18] + "")) set_data(t3, t3_value);
+			if ((!current || dirty & /*testimonials*/ 2) && t5_value !== (t5_value = /*title*/ ctx[19] + "")) set_data(t5, t5_value);
 		},
 		i(local) {
 			if (current) return;
@@ -2834,7 +3009,7 @@ function create_each_block_1(ctx) {
 	};
 }
 
-// (178:4) {#each testimonials as _, i}
+// (177:4) {#each testimonials as _, i}
 function create_each_block(ctx) {
 	let button;
 	let icon;
@@ -2845,7 +3020,7 @@ function create_each_block(ctx) {
 	icon = new Component$1({ props: { icon: "icon-park-outline:dot" } });
 
 	function click_handler_2() {
-		return /*click_handler_2*/ ctx[11](/*i*/ ctx[17]);
+		return /*click_handler_2*/ ctx[10](/*i*/ ctx[16]);
 	}
 
 	return {
@@ -2865,7 +3040,7 @@ function create_each_block(ctx) {
 		},
 		h() {
 			attr(button, "class", "svelte-djfrq5");
-			toggle_class(button, "active", /*active_slide*/ ctx[5] === /*i*/ ctx[17]);
+			toggle_class(button, "active", /*active_slide*/ ctx[5] === /*i*/ ctx[16]);
 		},
 		m(target, anchor) {
 			insert_hydration(target, button, anchor);
@@ -2882,7 +3057,7 @@ function create_each_block(ctx) {
 			ctx = new_ctx;
 
 			if (!current || dirty & /*active_slide*/ 32) {
-				toggle_class(button, "active", /*active_slide*/ ctx[5] === /*i*/ ctx[17]);
+				toggle_class(button, "active", /*active_slide*/ ctx[5] === /*i*/ ctx[16]);
 			}
 		},
 		i(local) {
@@ -3056,7 +3231,7 @@ function create_fragment(ctx) {
 				}
 			}
 
-			/*ul_binding*/ ctx[9](ul);
+			/*ul_binding*/ ctx[8](ul);
 			append_hydration(div1, t3);
 			append_hydration(div1, button1);
 			mount_component(icon1, button1, null);
@@ -3073,8 +3248,8 @@ function create_fragment(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(button0, "click", /*click_handler*/ ctx[8]),
-					listen(button1, "click", /*click_handler_1*/ ctx[10])
+					listen(button0, "click", /*click_handler*/ ctx[7]),
+					listen(button1, "click", /*click_handler_1*/ ctx[9])
 				];
 
 				mounted = true;
@@ -3182,7 +3357,7 @@ function create_fragment(ctx) {
 			if (detaching) detach(section);
 			destroy_component(icon0);
 			destroy_each(each_blocks_1, detaching);
-			/*ul_binding*/ ctx[9](null);
+			/*ul_binding*/ ctx[8](null);
 			destroy_component(icon1);
 			destroy_each(each_blocks, detaching);
 			mounted = false;
@@ -3194,7 +3369,6 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
 	let { props } = $$props;
 	let { heading } = $$props;
-	let { superhead } = $$props;
 	let { testimonials } = $$props;
 	let slider;
 	let selector;
@@ -3242,7 +3416,6 @@ function instance($$self, $$props, $$invalidate) {
 	$$self.$$set = $$props => {
 		if ('props' in $$props) $$invalidate(6, props = $$props.props);
 		if ('heading' in $$props) $$invalidate(0, heading = $$props.heading);
-		if ('superhead' in $$props) $$invalidate(7, superhead = $$props.superhead);
 		if ('testimonials' in $$props) $$invalidate(1, testimonials = $$props.testimonials);
 	};
 
@@ -3261,7 +3434,6 @@ function instance($$self, $$props, $$invalidate) {
 		enabled,
 		active_slide,
 		props,
-		superhead,
 		click_handler,
 		ul_binding,
 		click_handler_1,
@@ -3272,13 +3444,7 @@ function instance($$self, $$props, $$invalidate) {
 class Component extends SvelteComponent {
 	constructor(options) {
 		super();
-
-		init(this, options, instance, create_fragment, safe_not_equal, {
-			props: 6,
-			heading: 0,
-			superhead: 7,
-			testimonials: 1
-		});
+		init(this, options, instance, create_fragment, safe_not_equal, { props: 6, heading: 0, testimonials: 1 });
 	}
 }
 
