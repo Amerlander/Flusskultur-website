@@ -1,0 +1,265 @@
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta name="generator" content="Primo" />
+      <!-- HEAD_svelte-aec01s_START --><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><link rel="preconnect" href="https://fonts.bunny.net"><link href="https://fonts.bunny.net/css?family=inter:100,200,300,400,500,600,700,800,900" rel="stylesheet"><link href="https://fonts.bunny.net/css?family=alegreya-sans:300,300i,400,400i,700,700i,900,900i" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/themes/light.css"><script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.4.0/dist/shoelace-autoloader.js"></script><link rel="shortcut icon" type="image/jpg" sizes="32x32" href="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1725968795429image.svg"><style>/* Reset & standardize default styles */
+@import url("https://unpkg.com/@primo-app/primo@1.3.64/reset.css") layer;
+
+/* Design tokens (apply to components) */
+:root {
+  /* Custom theme options */
+  --color-accent: #ccc;
+  --color-accent2: #999999;
+  --color-shade: #2d3339;
+
+  --inner-max-width: 800px;
+
+  /* Base values */
+  --box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  --border-radius: 2px;
+  --border-color: #e0e1e1;
+  --body-font: "Alegreya Sans", serif;
+  --heading-font: "Inter", sans-serif;
+}
+
+/* Root element (use instead of `body`) */
+#page {
+  font-family: var(--body-font);
+  color: #024150;
+  line-height: 1.5;
+  font-size: 1.125rem;
+  background: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+}
+
+/* Elements */
+.section-container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+a.link {
+  line-height: 1.3;
+  border-bottom: 2px solid var(--color-accent);
+  transform: translateY(-2px); /* move link back into place */
+  transition: var(--transition, 0.1s border);
+}
+
+a.link:hover {
+    border-color: transparent;
+  }
+
+.heading {
+  font-size: clamp(2rem, 10vw, 3rem);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.15rem;
+}
+
+.button {
+  color: white;
+  background: var(--color-accent, rebeccapurple);
+  border-radius: 0;
+  padding: 1px 24px;
+  transition: var(--transition, 0.1s box-shadow);
+  border: 0; /* reset */
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.button:hover {
+    box-shadow: 0 0 0 2px var(--color-accent, rebeccapurple);
+  }
+
+.button.inverted {
+    background: transparent;
+    color: var(--color-accent, rebeccapurple);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+    /* Add these styles to your global stylesheet, which is used across all site pages. You only need to do this once. All elements in the library derive their variables and base styles from this central sheet, simplifying site-wide edits. For instance, if you want to modify how your h2's appear across the site, you just update it once in the global styles, and the changes apply everywhere. */
+    --primary: #ff6a3e;
+    --primaryLight: #ffba43;
+    --secondary: #ffba43;
+    --secondaryLight: #ffba43;
+    --headerColor: #1a1a1a;
+    --bodyTextColor: #4e4b66;
+    --bodyTextColorWhite: #fafbfc;
+    /* 13px - 16px */
+    --topperFontSize: clamp(0.8125rem, 1.6vw, 1rem);
+    /* 31px - 49px */
+    --headerFontSize: clamp(1.9375rem, 3.9vw, 3.0625rem);
+    --bodyFontSize: 1rem;
+    /* 60px - 100px top and bottom */
+    --sectionPadding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+*, *:before, *:after {
+    /* prevents padding from affecting height and width */
+    box-sizing: border-box;
+}
+.cs-topper {
+    font-size: var(--topperFontSize);
+    line-height: 1.2em;
+    text-transform: uppercase;
+    text-align: inherit;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.cs-title {
+    font-size: var(--headerFontSize);
+    font-weight: 900;
+    line-height: 1.2em;
+    text-align: inherit;
+    max-width: 43.75rem;
+    margin: 0 0 1rem 0;
+    color: var(--headerColor);
+    position: relative;
+}
+
+.cs-text {
+    font-size: var(--bodyFontSize);
+    line-height: 1.5em;
+    text-align: inherit;
+    width: 100%;
+    max-width: 40.625rem;
+    margin: 0;
+    color: var(--bodyTextColor);
+}
+                            
+</style><!-- HEAD_svelte-aec01s_END -->
+      <style>.section-container.svelte-p3sbrw{display:grid;gap:1rem;place-items:center}.heading.svelte-p3sbrw{margin-bottom:2rem}img.svelte-p3sbrw{width:100%;border-radius:var(--border-radius)}
+.section-container.svelte-1rprab5.svelte-1rprab5{padding-block:6rem;display:grid;gap:1rem}.section-container.svelte-1rprab5 .heading.svelte-1rprab5{margin-left:0}
+.section-container.svelte-17uonwm{max-width:var(--inner-max-width,800px);padding:4rem 2rem}.content.svelte-17uonwm img{width:100%;margin:2rem 0;box-shadow:var(--box-shadow);border-radius:var(--border-radius)}.content.svelte-17uonwm p{padding:0.25rem 0;line-height:1.5;font-family:var(--body-font);font-weight:400;margin-bottom:1rem;color:#024150}.content.svelte-17uonwm a{text-decoration:underline}.content.svelte-17uonwm h1{font-size:clamp(1.75rem, 10vw, 2.25rem);font-weight:600;letter-spacing:-0.08rem;margin-bottom:1rem;line-height:1.1}.content.svelte-17uonwm h2{font-size:clamp(1.5rem, 10vw, 2.125rem);font-weight:600;margin-bottom:1rem;letter-spacing:-0.06rem;line-height:1.1}.content.svelte-17uonwm h3{font-size:clamp(1.25rem, 10vw, 1.75rem);font-weight:600;margin-bottom:0.5rem;letter-spacing:-0.05rem;line-height:1.1}.content.svelte-17uonwm ul{list-style:disc;padding:0.25rem 0;padding-left:1.25rem}.content.svelte-17uonwm ol{list-style:decimal;padding-left:1.25rem;margin-bottom:2rem}.content.svelte-17uonwm blockquote{padding:2rem;box-shadow:var(--box-shadow);border-radius:var(--border-radius)}
+.slider.svelte-14lwkxz{position:relative;width:100%;height:auto;display:flex;justify-content:center;align-items:center}.section-container.svelte-14lwkxz{position:absolute;width:100%;display:flex;justify-content:center;align-items:center;overflow:hidden;opacity:0;transition:opacity 1s ease-in-out}.section-container.active.svelte-14lwkxz{opacity:1}feature.svelte-14lwkxz{display:flex;justify-content:center;align-items:center;width:100%}.image.svelte-14lwkxz{width:100%;height:auto;border-radius:var(--border-radius)}.controls.svelte-14lwkxz{position:absolute;top:50%;width:100%;display:flex;justify-content:space-between;transform:translateY(-50%)}.button.svelte-14lwkxz{background:rgba(0, 0, 0, 0.5);color:white;border:none;padding:10px 20px;font-size:1.5rem;cursor:pointer;transition:background 0.3s ease}.button.svelte-14lwkxz:hover{background:rgba(0, 0, 0, 0.8)}
+.section-container.svelte-17uonwm{max-width:var(--inner-max-width,800px);padding:4rem 2rem}.content.svelte-17uonwm img{width:100%;margin:2rem 0;box-shadow:var(--box-shadow);border-radius:var(--border-radius)}.content.svelte-17uonwm p{padding:0.25rem 0;line-height:1.5;font-family:var(--body-font);font-weight:400;margin-bottom:1rem;color:#024150}.content.svelte-17uonwm a{text-decoration:underline}.content.svelte-17uonwm h1{font-size:clamp(1.75rem, 10vw, 2.25rem);font-weight:600;letter-spacing:-0.08rem;margin-bottom:1rem;line-height:1.1}.content.svelte-17uonwm h2{font-size:clamp(1.5rem, 10vw, 2.125rem);font-weight:600;margin-bottom:1rem;letter-spacing:-0.06rem;line-height:1.1}.content.svelte-17uonwm h3{font-size:clamp(1.25rem, 10vw, 1.75rem);font-weight:600;margin-bottom:0.5rem;letter-spacing:-0.05rem;line-height:1.1}.content.svelte-17uonwm ul{list-style:disc;padding:0.25rem 0;padding-left:1.25rem}.content.svelte-17uonwm ol{list-style:decimal;padding-left:1.25rem;margin-bottom:2rem}.content.svelte-17uonwm blockquote{padding:2rem;box-shadow:var(--box-shadow);border-radius:var(--border-radius)}
+.section-container.svelte-is93z9.svelte-is93z9{max-width:1400px}.heading.svelte-is93z9.svelte-is93z9{text-align:center;margin-bottom:3rem}ul.cards.svelte-is93z9.svelte-is93z9{display:grid;place-items:center;gap:1rem}ul.cards.svelte-is93z9 li.svelte-is93z9{max-width:400px;padding:1rem 2rem}ul.cards.svelte-is93z9 li figure.svelte-is93z9{padding:0 2rem}ul.cards.svelte-is93z9 li figure img.svelte-is93z9{margin-bottom:2rem;width:100%;border-radius:var(--border-radius)}ul.cards.svelte-is93z9 li .info .details.svelte-is93z9{display:grid;text-align:center;margin-bottom:1rem}ul.cards.svelte-is93z9 li .info .details span.name.svelte-is93z9{font-weight:600;margin-bottom:0.25rem}ul.cards.svelte-is93z9 li .info .details span.title.svelte-is93z9{font-size:1rem}ul.cards.svelte-is93z9 li .info .social.svelte-is93z9{display:flex;justify-content:center;gap:1.5rem;font-size:1.5rem;color:var(--color-accent, rebeccapurple)}ul.cards.svelte-is93z9 li .info .social a.svelte-is93z9{transition:var(--transition, 0.1s transform)}ul.cards.svelte-is93z9 li .info .social a.svelte-is93z9:hover{transform:scale(1.1)}@media(min-width: 600px){ul.cards.svelte-is93z9.svelte-is93z9{grid-template-columns:1fr 1fr
+}}@media(min-width: 1000px){ul.cards.svelte-is93z9.svelte-is93z9{grid-template-columns:1fr 1fr 1fr
+}}</style>
+    </head>
+    <body id="page">
+       
+<div class="section" id="section-0c210f61"><header class="section-container svelte-p3sbrw"><span class="superhead svelte-p3sbrw">Brandenburg 3–4. Mai, 2025</span>
+  <h1 class="heading svelte-p3sbrw">Tag des offenen Ateliers</h1>
+  <img src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/17466496750001_bild_sergej_horovitz.jpg" alt="" class="svelte-p3sbrw"></header></div> 
+<div class="section" id="section-f73ae001"><aside class="section-container svelte-1rprab5"><h3 class="heading svelte-1rprab5"><!-- HTML_TAG_START --><p>"Das wird heute nicht mehr zu toppen sein."</p><!-- HTML_TAG_END --></h3>
+  <span class="attribution">-Besucher der offenen Ateliers in Brandenburg</span></aside></div> 
+<div class="section" id="section-5f1d09a9"><div class="section"><div class="section-container content svelte-17uonwm"><!-- HTML_TAG_START --><h1>Tag der Offenen Ateliers und Gärten in Stüdenitz-Schönermark</h1><p>Der <strong>Tag der Offenen Ateliers und Gärten</strong> in Stüdenitz-Schönermark, veranstaltet vom <strong>Flusskultur e.V.</strong> und dem <strong>Stüdyhaus</strong> im Rahmen ihres Projekts <strong>"Provinzsphäre"</strong>, <strong>war ein voller Erfolg!</strong></p><p>Die Veranstaltung <strong>zog</strong> an dem Wochenende des <strong>3. und 4. Mai 2025</strong> rund <strong>180 Besucher*innen</strong> an und <strong>überraschte</strong> mit einer beeindruckenden Vielfalt an Gästen. Es <strong>kamen</strong> nicht nur Kunstinteressierte aus Berlin und Potsdam, sondern auch ausnahmslos aus allen umliegenden Dörfern, was die hohe regionale und überregionale Bedeutung des Events <strong>unterstrich</strong>. Das Publikum <strong>setzte sich</strong> aus allen Altersgruppen <strong>zusammen</strong> und <strong>genoss</strong> die inspirierende Atmosphäre.</p><p>Die Veranstaltung <strong>schuf</strong> eine einzigartige <strong>Synergie</strong> durch die zeitliche Zusammenlegung des Tags der Offenen Ateliers und des Tags der Offenen Gärten. Lokale und überregionale Künstler <strong>präsentierten</strong> gemeinsam mit engagierten Stüdenitzerinnen und Stüdenitzern unter dem Motto <strong>"Kunst, Kultur, Altes Kunsthandwerk"</strong> die Vielfalt ihres kreativen Schaffens in einem historischen Ambiente.</p><blockquote><p>Some interesting quote info</p></blockquote><!-- HTML_TAG_END --></div></div></div> 
+<div class="section" id="section-36de18b8"><div class="slider svelte-14lwkxz" style="height: 0px;"><div class="section-container active svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649576000SH-20250503-9187.jpg" alt="Foto von Sergej Horovitz">
+          <p>Foto von Sergej Horovitz</p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/17466498810002_bild_sergej_horovitz.jpg" alt="Nachwuchkünstler wird verewigt, Foto von Sergej Horovitz">
+          <p>Nachwuchkünstler wird verewigt, Foto von Sergej Horovitz</p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/17466495850003_bild_sergej_horovitz.jpg" alt="Foto von Sergej Horovitz">
+          <p>Foto von Sergej Horovitz</p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649582000SH-20250503-9227.jpg" alt="Foto von Sergej Horovitz">
+          <p>Foto von Sergej Horovitz</p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649722000SH-20250503-9264.jpg" alt="Foto von Sergej Horovitz">
+          <p>Foto von Sergej Horovitz</p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649782000SH-20250503-9298.jpg" alt="Foto von Sergej Horovitz">
+          <p>Foto von Sergej Horovitz</p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="" alt="">
+          <p></p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="" alt="">
+          <p></p>
+        </div></feature>
+    </div><div class="section-container  svelte-14lwkxz"><feature class="svelte-14lwkxz"><div><img class="image svelte-14lwkxz" src="" alt="">
+          <p></p>
+        </div></feature>
+    </div>
+
+  <div class="controls svelte-14lwkxz"><button class="button svelte-14lwkxz">&lt;</button>
+    <button class="button svelte-14lwkxz">&gt;</button></div></div></div> 
+<div class="section" id="section-703e6a65"><div class="section"><div class="section-container content svelte-17uonwm"><!-- HTML_TAG_START --><h3>Höhepunkte und Künstlerische Beteiligung</h3><p></p><ul><li><p><strong>Offenes Atelier (Kyritzer Str. 41-43):</strong> Das historische Stüdyhaus <strong>fungierte</strong> als Hauptort für Kunst und Kultur.</p><ul><li><p><strong>Künstler:</strong> Unter anderem <strong>stellten</strong> hier <strong>Stefan Bassir</strong> (Bildhauer, bildender Künstler aus Berlin, der mit Holz, Metall und Beton-Papiergemischen arbeitet) und <strong>Klaus Schulte</strong> (Maler aus Barenthin, bekannt für seine intensive Auseinandersetzung mit Realismus und radikaler Expressivität) ihre Werke <strong>aus</strong>.</p></li><li><p><strong>Programm 3. Mai:</strong> Am Abend <strong>fanden</strong> Lesungen <strong>statt</strong>, darunter <strong>"Gedanken eines Goldfischs"</strong> von Claudia Brüggemann (18:30 Uhr) und Texte der Roten Dichterinnen (17:00-18:30 Uhr).</p></li><li><p><strong>Programm 4. Mai:</strong> Nach der Öffnung <strong>gab</strong> es Café, Kuchen und Informationen zu den Aktivitäten des Flusskultur e.V. Höhepunkt <strong>war</strong> der <strong>Maltisch mit Malspielen für Familien</strong>, der von 15:00 bis 18:00 Uhr <strong>großen Anklang fand</strong>.</p></li></ul></li><li><p><strong>Tag des Offenen Gartens (Kyritzer Str. 7):</strong> Die Kooperation mit der <strong>Kreativ Manufaktur &amp; dem Kombucha-Studio</strong> von Elke &amp; Peter Semler <strong>ermöglichte</strong> Einblicke in eine 2000 m² große, grüne Oase mit altem Baumbestand.</p></li><li><p><strong>Atelier Anita Ehlert (Kyritzer Str. 6a):</strong> Das persönliche Atelier der Künstlerin <strong>stand</strong> ebenfalls zur Besichtigung <strong>offen</strong> und <strong>rundete</strong> das kreative Angebot <strong>ab</strong>.</p></li></ul><p>Die <strong>Offene Kirche Stüdenitz</strong> <strong>lud</strong> an beiden Tagen von 14:00 bis 17:00 Uhr zum Verweilen und Genießen der Atmosphäre <strong>ein</strong>.</p><p>Das Projekt "Provinzsphäre" <strong>hatte</strong> mit dieser gelungenen Veranstaltung sein Ziel <strong>erreicht</strong>, kreative Akteur*innen zu vernetzen und Kunst sowie Kultur als festen Bestandteil des gesellschaftlichen Lebens in der Region zu etablieren.</p><blockquote><p>Some interesting quote info</p></blockquote><!-- HTML_TAG_END --></div></div></div> 
+<div class="section" id="section-6ef1e00a"><section class="section-container svelte-is93z9"><h2 class="heading svelte-is93z9">Gefördert</h2>
+  <ul class="cards svelte-is93z9"><li class="svelte-is93z9"><figure class="svelte-is93z9"><img alt="" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1692700792870logo-MWFK.jpg" class="svelte-is93z9">
+        </figure>
+      <div class="info"><div class="details svelte-is93z9"><span class="name svelte-is93z9"> Die Veranstaltung wurde gefördert durch das Ministerium für Wissenschaft, Forschung und Kultur des Landes Brandenburg (MWFK).</span>
+          <span class="title svelte-is93z9">Editor</span></div>
+        <div class="social svelte-is93z9"><a href="/" aria-label="amet" class="svelte-is93z9"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="iconify iconify--mdi"><!-- HTML_TAG_START --><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.2 4.2 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.52 8.52 0 0 1-5.33 1.84q-.51 0-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23"/><!-- HTML_TAG_END --></svg> 
+            </a><a href="/" aria-label="aliqua" class="svelte-is93z9"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" class="iconify iconify--mdi"><!-- HTML_TAG_START --><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.2 4.2 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.52 8.52 0 0 1-5.33 1.84q-.51 0-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23"/><!-- HTML_TAG_END --></svg> 
+            </a>
+        </div></div>
+    </li><li class="svelte-is93z9"><figure class="svelte-is93z9"><img alt="Koordiniert durch die Plattform kulturelle Bildung. " src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1692700755311BKG_PKB_Logo_Kombi.png" class="svelte-is93z9">
+        </figure>
+      <div class="info"><div class="details svelte-is93z9"><span class="name svelte-is93z9">Koordiniert durch die Plattform kulturelle Bildung Brandenburg.
+
+</span>
+          <span class="title svelte-is93z9">
+</span></div>
+        <div class="social svelte-is93z9"><a href="/" aria-label="quis" class="svelte-is93z9"> 
+            </a><a href="/" aria-label="occaecat" class="svelte-is93z9"> 
+            </a>
+        </div></div>
+    </li><li class="svelte-is93z9"><figure class="svelte-is93z9"><img alt="" src="https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1692704796091logo_rot.svg" class="svelte-is93z9">
+        </figure>
+      <div class="info"><div class="details svelte-is93z9"><span class="name svelte-is93z9">Wir wurden unterstützt von der Sparkasse OPR .</span>
+          <span class="title svelte-is93z9"></span></div>
+        <div class="social svelte-is93z9">
+        </div></div>
+    </li></ul></section></div> 
+
+      <script type="module">
+      import('/_symbols/b328d8b8-b018-4472-ab5e-f977bf14b5bd.js')
+      .then(({default:App}) => {
+        
+            new App({
+              target: document.querySelector('#section-36de18b8'),
+              hydrate: true,
+              props: {"images":[{"image":{"alt":"Foto von Sergej Horovitz","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649576000SH-20250503-9187.jpg"}},{"image":{"alt":"Nachwuchkünstler wird verewigt, Foto von Sergej Horovitz","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/17466498810002_bild_sergej_horovitz.jpg"}},{"image":{"alt":"Foto von Sergej Horovitz","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/17466495850003_bild_sergej_horovitz.jpg"}},{"image":{"alt":"Foto von Sergej Horovitz","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649582000SH-20250503-9227.jpg"}},{"image":{"alt":"Foto von Sergej Horovitz","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649722000SH-20250503-9264.jpg"}},{"image":{"alt":"Foto von Sergej Horovitz","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1746649782000SH-20250503-9298.jpg"}},{"image":{"alt":"","src":"","url":"","size":null}},{"image":{"alt":"","src":"","url":"","size":null}},{"image":{"alt":"","src":"","url":"","size":null}}]}
+            })
+          
+      })
+      .catch(e => console.error(e))
+    
+
+      import('/_symbols/bb5af148-95db-41c3-983b-ef4e1f512a6d.js')
+      .then(({default:App}) => {
+        
+            new App({
+              target: document.querySelector('#section-6ef1e00a'),
+              hydrate: true,
+              props: {"heading":"Gefördert","people":[{"name":" Die Veranstaltung wurde gefördert durch das Ministerium für Wissenschaft, Forschung und Kultur des Landes Brandenburg (MWFK).","image":{"alt":"","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1692700792870logo-MWFK.jpg"},"title":"Editor","social_links":[{"icon":"mdi:twitter","link":{"url":"/","label":"amet"}},{"icon":"mdi:twitter","link":{"url":"/","label":"aliqua"}}]},{"name":"Koordiniert durch die Plattform kulturelle Bildung Brandenburg.\n\n","image":{"alt":"Koordiniert durch die Plattform kulturelle Bildung. ","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1692700755311BKG_PKB_Logo_Kombi.png"},"title":"\n","social_links":[{"icon":"Laboris magna et","link":{"url":"/","label":"quis"}},{"icon":"Magna officia commodo","link":{"url":"/","label":"occaecat"}}]},{"name":"Wir wurden unterstützt von der Sparkasse OPR .","image":{"alt":"","url":"https://tanuzmuthkdjjvacddyn.supabase.co/storage/v1/object/public/images/17a22e08-857b-4dd1-80d2-37c28a5d68f9/1692704796091logo_rot.svg"},"title":"","social_links":[]}]}
+            })
+          
+      })
+      .catch(e => console.error(e))
+    </script>
+    </body>
+  </html>
+  
