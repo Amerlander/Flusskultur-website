@@ -574,7 +574,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (89:2) {#each images as { image }
+// (94:2) {#each images as { image }
 function create_each_block(ctx) {
 	let div1;
 	let feature;
@@ -608,7 +608,7 @@ function create_each_block(ctx) {
 			var div0_nodes = children(div0);
 			img = claim_element(div0_nodes, "IMG", { class: true, src: true, alt: true });
 			t0 = claim_space(div0_nodes);
-			p = claim_element(div0_nodes, "P", {});
+			p = claim_element(div0_nodes, "P", { class: true });
 			var p_nodes = children(p);
 			t1 = claim_text(p_nodes, t1_value);
 			p_nodes.forEach(detach);
@@ -618,14 +618,15 @@ function create_each_block(ctx) {
 			this.h();
 		},
 		h() {
-			attr(img, "class", "image svelte-14lwkxz");
+			attr(img, "class", "image svelte-f1lpgj");
 			if (!src_url_equal(img.src, img_src_value = /*image*/ ctx[6].url)) attr(img, "src", img_src_value);
 			attr(img, "alt", img_alt_value = /*image*/ ctx[6].alt);
-			attr(feature, "class", "svelte-14lwkxz");
+			attr(p, "class", "svelte-f1lpgj");
+			attr(feature, "class", "svelte-f1lpgj");
 
 			attr(div1, "class", div1_class_value = "section-container " + (/*index*/ ctx[8] === /*currentIndex*/ ctx[1]
 			? 'active'
-			: '') + " svelte-14lwkxz");
+			: '') + " svelte-f1lpgj");
 		},
 		m(target, anchor) {
 			insert_hydration(target, div1, anchor);
@@ -649,7 +650,7 @@ function create_each_block(ctx) {
 
 			if (dirty & /*currentIndex*/ 2 && div1_class_value !== (div1_class_value = "section-container " + (/*index*/ ctx[8] === /*currentIndex*/ ctx[1]
 			? 'active'
-			: '') + " svelte-14lwkxz")) {
+			: '') + " svelte-f1lpgj")) {
 				attr(div1, "class", div1_class_value);
 			}
 		},
@@ -719,10 +720,10 @@ function create_fragment(ctx) {
 			this.h();
 		},
 		h() {
-			attr(button0, "class", "button svelte-14lwkxz");
-			attr(button1, "class", "button svelte-14lwkxz");
-			attr(div0, "class", "controls svelte-14lwkxz");
-			attr(div1, "class", "slider svelte-14lwkxz");
+			attr(button0, "class", "button svelte-f1lpgj");
+			attr(button1, "class", "button svelte-f1lpgj");
+			attr(div0, "class", "controls svelte-f1lpgj");
+			attr(div1, "class", "slider svelte-f1lpgj");
 			set_style(div1, "height", /*imageHeight*/ ctx[2] + "px");
 		},
 		m(target, anchor) {
