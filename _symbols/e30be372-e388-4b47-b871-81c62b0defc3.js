@@ -1,4 +1,4 @@
-// Hero with form - Updated November 19, 2025
+// Hero with form - Updated December 8, 2025
 function noop() { }
 function run(fn) {
     return fn();
