@@ -1,4 +1,4 @@
-// Calendar - Updated December 8, 2025
+// Calendar - Updated April 2, 2026
 function noop() { }
 function run(fn) {
     return fn();

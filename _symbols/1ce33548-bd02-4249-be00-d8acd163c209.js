@@ -1,4 +1,4 @@
-// Gallery - Updated December 8, 2025
+// Gallery - Updated April 2, 2026
 function noop() { }
 function run(fn) {
     return fn();
